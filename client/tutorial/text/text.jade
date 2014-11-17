@@ -1,0 +1,47 @@
+template(name='text')
+  a.bookmark(id='textBk')
+  .section
+    h1 text Binding
+    p The text binding causes the html element to display the text returned by the given function/property.
+    .row
+      input.pull-left(type='text', placeholder='Type something...', data-bind="value: message")
+      div.pull-left(data-bind="text: message")
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#text-jade", data-toggle="tab") Jade
+      li
+        a(href="#text-html", data-toggle="tab") Html
+    div.tab-content
+      div#text-jade.tab-pane.fade.active.in
+        pre.
+          template(name='text')
+            input(type='text', placeholder='Type something...', data-bind="value: message")
+            <b>div</b>(data-bind="<b>text: message</b>")
+      div#text-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;text&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: message&quot;/&gt;
+            &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#text-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#text-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#text-coffee.tab-pane.fade.active.in
+        pre.
+          Template.text.rendered = ->
+            new ViewModel(
+              <b>message</b>: 'Can it be true?'
+            ).bind @
+      div#text-js.tab-pane.fade
+        pre.
+          Template.text.rendered = function() {
+            return new ViewModel({
+              message: 'Can it be true?'
+            }).bind(this);
+          };

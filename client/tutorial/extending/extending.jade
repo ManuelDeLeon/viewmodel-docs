@@ -1,0 +1,50 @@
+template(name='extending')
+  a.bookmark(id='extendingBk')
+  .section
+    h1 Custom Bindings
+    p You can add your own custom bind by calling the ViewModel.addBind method.
+    p When you add a bind you get an object with the following properties:
+    pre.
+      <b>vm</b>: The viewmodel associated with the html element
+      <b>element</b>: Html element with the binding
+        With &lt;input type=&quot;text&quot; data-bind=&quot;value: name&quot; /&gt;, the element property will hold a reference to the input.
+      <b>elementBind</b>: The whole bind object of the element. This is useful if you need to check other bindings on the element
+        With &lt;input type=&quot;text&quot; data-bind=&quot;value: name, returnKey: submit&quot; /&gt;, the elementBind property will be the following object:
+          {
+            value: 'name',
+            returnKey: 'submit'
+          }
+      <b>bindName</b>: The name of the current bind that it's being worked on. You usually know the name of the bind because you have to specify the name of the bind when you add a new one.
+      <b>property</b>: This is the same as calling `elementBind[bindName]`.
+      <b>container</b>: The template or element bound to the view model. View models are usually bound to Meteor templates but they can also be bound to JQuery elements.
+      <b>autorun</b>: The template's autorun (if bound to a meteor template), otherwise a regular Deps.autorun.
+        When the vm is <b>bound to a Meteor template</b>: The autorun is stopped automatically when the template is destroyed.
+        When the vm is <b>bound to a JQuery element</b>: The autorun is stopped when you call viewmodel.dispose()
+    p In the following example we add a custom bind that will fade the text when you click the button.
+    .row
+      button.btn.pull-left(data-bind="click: toggleFade") Fade Text
+      div.pull-left(data-bind="fade: textFade")
+        |   Fade this text by pressing the button
+
+  .section
+    h2 Code
+    h3 .jade
+    pre.
+      template(name='extending')
+        button(data-bind="click: toggleFade") Fade Text
+        div(<b>data-bind="fade: textFade"</b>)
+          | Fade this text by pressing the button
+    h3 .coffee
+    pre.
+      <b>ViewModel.addBind 'fade', (p) -></b>
+        p.autorun ->
+          &#105;f p.vm[p.property]()
+            p.element.fadeIn()
+          else
+            p.element.fadeOut()
+
+      Template.extending.rendered = ->
+        new ViewModel(
+          textFade: true
+          toggleFade: -> @textFade !@textFade()
+        ).bind @

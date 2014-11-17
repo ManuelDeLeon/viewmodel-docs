@@ -1,0 +1,19 @@
+template(name='tojs')
+  a.bookmark(id='tojsBk')
+  .section
+    h1 .toJS Method
+    p This method returns a plain javascript object with the values of the viewmodel properties. It will not include function results.
+    pre.
+      plainObject = viewmodel.toJS()
+    p You can get a full object with the results of the functions by passing a true parameter.
+    pre.
+      fullObject = viewmodel.toJS(true)
+    h2 Example
+    pre.
+      vm = new ViewModel
+        first: 'John'
+        last: 'Doe'
+        full: -> @first() + ' ' + @last()
+
+      vm.toJS() # { first: 'John', last: 'Doe' }
+      vm.toJS(true) # { first: 'John', last: 'Doe', full: 'John Doe' }

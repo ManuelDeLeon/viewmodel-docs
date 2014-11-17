@@ -1,0 +1,47 @@
+template(name='value')
+  a.bookmark(id='valueBk')
+  .section
+    h1 value Binding
+    p The value binding links the associated DOM element’s value with a property on your view model. This is typically useful with form elements such as input, select and textarea.
+    .row
+      input.pull-left(type='text', placeholder='Type something...', data-bind="value: message")
+      div.pull-left(data-bind="text: message")
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#value-jade", data-toggle="tab") Jade
+      li
+        a(href="#value-html", data-toggle="tab") Html
+    div.tab-content
+      div#value-jade.tab-pane.fade.active.in
+        pre.
+          template(name='value')
+            <b>input</b>(type='text', placeholder='Type something...', data-bind="<b>value: message</b>")
+            div(data-bind="text: message")
+      div#value-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;value&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: message&quot;/&gt;
+            &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#value-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#value-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#value-coffee.tab-pane.fade.active.in
+        pre.
+          Template.value.rendered = ->
+            new ViewModel(
+              <b>message</b>: 'I can catch anything.'
+            ).bind @
+      div#value-js.tab-pane.fade
+        pre.
+          Template.value.rendered = function() {
+            return new ViewModel({
+              message: 'I can catch anything.'
+            }).bind(this);
+          };

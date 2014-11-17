@@ -1,0 +1,47 @@
+template(name='html')
+  a.bookmark(id='htmlBk')
+  .section
+    h1 html Binding
+    p The html binding causes the html element to display the html returned by the given function/property.
+    .row
+      input.pull-left(type='text', placeholder='Type some html...', data-bind="value: innerHTML")
+      div.pull-left(data-bind="html: innerHTML")
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#html-jade", data-toggle="tab") Jade
+      li
+        a(href="#html-html", data-toggle="tab") Html
+    div.tab-content
+      div#html-jade.tab-pane.fade.active.in
+        pre.
+          template(name='html')
+            input(type='text', placeholder='Type something...', data-bind="value: innerHTML")
+            <b>div</b>(data-bind="<b>html: innerHTML</b>")
+      div#html-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;html&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: innerHTML&quot;/&gt;
+            &lt;div data-bind=&quot;html: innerHTML&quot;&gt;&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#html-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#html-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#html-coffee.tab-pane.fade.active.in
+        pre.
+          Template.html.rendered = ->
+            new ViewModel(
+              <b>innerHTML</b>: '&lt;i&gt;Italic!&lt;/i&gt;'
+            ).bind @
+      div#html-js.tab-pane.fade
+        pre.
+          Template.html.rendered = function() {
+            return new ViewModel({
+              innerHTML: '<i>Italic!</i>'
+            }).bind(this);
+          };

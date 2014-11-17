@@ -1,0 +1,88 @@
+template(name='header')
+  #top-header.navbar.navbar-fixed-top
+    .navbar-inner
+      .container(style='width: auto;')
+        a.brand(href='#problemBk') ViewModel
+        ul.nav(role='navigation')
+          li.dropdown
+            a#drop1.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+              | Examples
+              b.caret
+            ul.dropdown-menu(role='menu')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#loginBoxBk') Login Box
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#leaderboardBk') Leaderboard
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#contactsBk') Contacts
+
+          li.dropdown
+            a#drop2.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+              | Bindings
+              b.caret
+            ul.dropdown-menu(role='menu')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#valueBk') value
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#returnKeyBk') returnKey
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#delayBk') delay
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#textBk') text
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#htmlBk') html
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#classSingleBk') class - single
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#classMultipleBk') class - multiple
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#styleSingleBk') style - single
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#styleMultipleBk') style - multiple
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#styleObjectBk') style - object
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#attrBk') attr
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#checkedBk') checked
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#eventsBk') events
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#hoverBk') hover
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#focusedBk') focused
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#enabledBk') enabled / disabled
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#visibleBk') visible / if
+
+          li.dropdown
+            a#drop2.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+              | Misc
+              b.caret
+            ul.dropdown-menu(role='menu')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#bindBk') .bind
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#extendBk') .extend
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#tojsBk') .toJS
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#fromjsBk') .fromJS
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#resetBk') .reset
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#disposeBk') .dispose
+              li.divider(role='presentation')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#reactivityBk') Reactivity
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#sessionBk') Hot Code Pushes
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#extendingBk') Custom Bindings
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#reactiveArraysBk') Reactive Arrays
+
+        ul.nav.pull-right(role='navigation')
+          li
+            a(href='mailto:manueldeleon@gmail.com') Feedback

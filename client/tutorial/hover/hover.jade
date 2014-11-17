@@ -1,0 +1,44 @@
+template(name='hover')
+  a.bookmark(id='hoverBk')
+  .section
+    h1 hover Binding
+    p It sets the bound property to true when the mouse is over the element and false when it's not.
+    .row
+      button.btn.pull-left(data-bind="hover: mouseIsOver, class: { btn-primary: mouseIsOver }") The Button (tm)
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#hover-jade", data-toggle="tab") Jade
+      li
+        a(href="#hover-html", data-toggle="tab") Html
+    div.tab-content
+      div#hover-jade.tab-pane.fade.active.in
+        pre.
+          template(name='hover')
+            button(data-bind="<b>hover: mouseIsOver</b>, class: { btn-primary: mouseIsOver }") The Button (tm)
+      div#hover-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;hover&quot;&gt;
+            &lt;button data-bind=&quot;hover: mouseIsOver, class: { btn-primary: mouseIsOver }&quot;&gt;The Button (tm)&lt;/button&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#hover-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#hover-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#hover-coffee.tab-pane.fade.active.in
+        pre.
+          Template.hover.rendered = ->
+            new ViewModel(
+              <b>mouseIsOver</b>: false
+            ).bind @
+      div#hover-js.tab-pane.fade
+        pre.
+          Template.hover.rendered = function() {
+            return new ViewModel({
+              mouseIsOver: false
+            }).bind(this);
+          };

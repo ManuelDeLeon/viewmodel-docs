@@ -1,0 +1,14 @@
+template(name='reactiveArrays')
+  a.bookmark(id='reactiveArraysBk')
+  .section
+    h1 Reactive Arrays
+    p A wrapper around arrays to make them reactive.
+    pre.
+      ra = new ReactiveArray()
+      ra = new ReactiveArray([1,2])
+      ra = new ReactiveArray(1, 2)
+
+    ul
+      each arr
+        li #{this}
+        li #{new Date()}

@@ -1,0 +1,149 @@
+template(name='loginBox')
+  a.bookmark(id='loginBoxBk')
+  #loginBox
+    .section
+      h1 Login Box Example
+
+      | First Name:
+      input(type='text', data-bind="value: first, focused: firstFocus")
+      br
+      | Last Name:
+      input(type='text', data-bind="value: last")
+
+      div(data-bind='text: greeting')
+      a.btn.btn-primary(data-bind="enabled: canEnter, hover: showError") Enter Site
+      span.text-error(data-bind='text: errorText')
+    .section
+      h2 Code
+      ul.nav.nav-pills
+        li.active
+          a(href="#loginBox-jade", data-toggle="tab") Jade
+        li
+          a(href="#loginBox-html", data-toggle="tab") Html
+      div.tab-content
+        div#loginBox-jade.tab-pane.fade.active.in
+          pre.
+            <b>template(name='loginBox')</b>
+              | First Name:
+              <b>input</b>(type='text', data-bind="<b>value: first</b>")
+              br
+              | Last Name:
+              <b>input</b>(type='text', data-bind="<b>value: last</b>")
+              <b>div</b>(data-bind='<b>text: greeting</b>')
+              <b>a</b>.btn-primary(data-bind="<b>enabled: canEnter, hover: showError</b>") Enter Site
+              <b>span</b>.text-error(data-bind='<b>text: errorText</b>')
+        div#loginBox-html.tab-pane.fade
+          pre.
+            &lt;template name=&quot;loginBox&quot;&gt;
+              First Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: first&quot;/&gt;
+              &lt;br/&gt;
+              Last Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: last&quot;/&gt;
+              &lt;div data-bind=&quot;text: greeting&quot;&gt;&lt;/div&gt;
+              &lt;a data-bind=&quot;enabled: canEnter, hover: showError&quot; class=&quot;btn-primary&quot;&gt;Enter Site&lt;/a&gt;
+              &lt;span data-bind=&quot;text: errorText&quot; class=&quot;text-error&quot;&gt;&lt;/span&gt;
+            &lt;/template&gt;
+
+      ul.nav.nav-pills
+        li.active
+          a(href="#loginBox-coffee", data-toggle="tab") Coffeescript
+        li
+          a(href="#loginBox-js", data-toggle="tab") Javascript
+      div.tab-content
+        div#loginBox-coffee.tab-pane.fade.active.in
+          pre.
+            Template.<b>loginBox.rendered</b> = ->
+              new ViewModel(
+                <b>first</b>: ''
+                <b>last</b>: ''
+                <b>greeting</b>: -> "Hello #{@first()} #{@last()}"
+                <b>canEnter</b>: -> !!@first() and !!@last()
+                <b>showError</b>: false
+                <b>errorText</b>: ->
+                  return '' if @canEnter() or not @showError()
+                  "Please enter your first and last name"
+              ).bind @
+        div#loginBox-js.tab-pane.fade
+          pre.
+            Template.loginBox.rendered = function() {
+              return new ViewModel({
+                first: &#39;&#39;,
+                last: &#39;&#39;,
+                greeting: function() {
+                  return &quot;Hello &quot; + (this.first()) + &quot; &quot; + (this.last());
+                },
+                canEnter: function() {
+                  return !!this.first() &amp;&amp; !!this.last();
+                },
+                showError: false,
+                errorText: function() {
+                  &#105;f (this.canEnter() || !this.showError()) {
+                    return &#39;&#39;;
+                  }
+                  return &quot;Please enter your first and last name&quot;;
+                }
+              }).bind(this);
+            };
+      h2 What's going on...
+        h3 Binding first/last name values to their input boxes
+        pre.
+          template(name='loginBox')
+            ...
+            input(type='text', <b>data-bind="value: first"</b>)
+            ...
+        pre.
+          Template.loginBox.rendered = ->
+            new ViewModel(
+              <b>first: ''</b>
+              ...
+        p Here we're binding the value of the input/text element to the property 'first' of the viewmodel.
+        p The result is that the viewmodel object will be kept in sync with the input box. If you change the value in the texbox then the value of the viewmodel's 'first' property will also change and vice versa.
+        h3 The greeting message
+        pre.
+          template(name='loginBox')
+            ...
+            div(<b>data-bind='text: greeting'</b>)
+            ...
+        pre.
+          Template.loginBox.rendered = ->
+            new ViewModel(
+              ...
+              <b>greeting: -> "Hello #{@first()} #{@last()}"</b>
+              ...
+        p The greeting property of the viewmodel returns the string "Hello firstName lastName". This is a reactive method so its output changes as first and last change.
+        p We then bind the output of the greeting property to the text contents of the div element. The effect is that as you type into the first/last input boxes, their value is transmitted to the first/last properties in the viewmodel, the greeting property is in turn updated with the new value, and finally the div's contents get updated with the new value of greeting.
+        h3 The button
+        pre.
+          template(name='loginBox')
+            ...
+            a.btn-primary(data-bind="<b>enabled: canEnter, hover: showError</b>") Enter Site
+            ...
+        pre.
+          Template.loginBox.rendered = ->
+            new ViewModel(
+              ...
+              <b>canEnter: -> !!@first() and !!@last()</b>
+              <b>showError: false</b>
+              ...
+        p The button's enabled/disabled state is bound to the canEnter property. In turn canEnter returns true if the viewmodel has both a first and a last name. The button is only enabled when canEnter returns true.
+        p The hover bind sets the bound property to true when the mouse is over the element. It sets the property to false when it's not. We use this to tell the errorText function if it should return the error text.
+        h3 The error text
+        pre.
+          template(name='loginBox')
+            ...
+            span.text-error(data-bind='<b>text: errorText</b>')
+        pre.
+          Template.loginBox.rendered = ->
+            new ViewModel(
+              ...
+              <b>errorText</b>: ->
+                return '' if @canEnter() or not @showError()
+                "Please enter your first and last name"
+              ...
+        p Here we bind the span's text to the output of the errorText function. It will return an empty string if either first or last is empty or showError is false. As a reminder, showError is true if the mouse is over the button.
+        h3 Binding the html to the viewmodel
+        pre.
+          Template.loginBox.rendered = ->
+            new ViewModel(
+              ...
+            )<b>.bind @</b>
+        p The last step is to bind the html elements with the data-bind attribute to their corresponding properties in the viewmodel.

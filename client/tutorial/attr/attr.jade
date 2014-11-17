@@ -1,0 +1,45 @@
+template(name='attr')
+  a.bookmark(id='attrBk')
+  .section
+    h1 attr Binding
+    p The attr binding provides a generic way to set the value of any attribute for the associated DOM element. This is useful, for example, when you need to set the title attribute of an element, the src of an img tag, or the href of a link based on values in your view model, with the attribute value being updated automatically whenever the corresponding model property changes.
+    pre data-bind='attr: { name: value }'
+    .row
+      input.pull-left(type='text', data-bind="value: titleValue, attr: { title: titleValue }")
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#attr-jade", data-toggle="tab") Jade
+      li
+        a(href="#attr-html", data-toggle="tab") Html
+    div.tab-content
+      div#attr-jade.tab-pane.fade.active.in
+        pre.
+          template(name='attr')
+            input(type='text', data-bind="value: titleValue, <b>attr: { title: titleValue }</b>")
+      div#attr-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;attr&quot;&gt;
+            &lt;input type=&quot;text&quot; data-bind=&quot;value: titleValue, attr: { title: titleValue }&quot;/&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#attr-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#attr-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#attr-coffee.tab-pane.fade.active.in
+        pre.
+          Template.attr.rendered = ->
+            new ViewModel(
+              titleValue: 'The Tile!'
+            ).bind @
+      div#attr-js.tab-pane.fade
+        pre.
+          Template.attr.rendered = function() {
+            return new ViewModel({
+              titleValue: 'The Tile!'
+            }).bind(this);
+          };

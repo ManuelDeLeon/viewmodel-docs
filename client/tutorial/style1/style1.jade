@@ -1,0 +1,54 @@
+template(name='style1')
+  a.bookmark(id='styleSingleBk')
+  .section
+    h1 style Binding - single
+    p The style binding causes the html element to have the style propety returned by the given function/property.
+    pre data-bind='style: { property: propertyValue }'
+    .row
+      input.pull-left(type='text', placeholder="Text color", data-bind="value: textColor")
+      div.pull-left(data-bind="style: { color: textColor }")
+        | My color is:
+        span(data-bind='text: textColor')
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#style1-jade", data-toggle="tab") Jade
+      li
+        a(href="#style1-html", data-toggle="tab") Html
+    div.tab-content
+      div#style1-jade.tab-pane.fade.active.in
+        pre.
+          template(name='style1')
+            input(type='text', placeholder="Text color", data-bind="value: textColor")
+            <b>div</b>(data-bind="<b>style: { color: textColor }</b>")
+              | My color is:
+              span(data-bind='text: textColor')
+      div#style1-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;style1&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Text color&quot; data-bind=&quot;value: textColor&quot;/&gt;
+            &lt;div data-bind=&quot;style: { color: textColor }&quot;&gt;
+              My color is: &lt;span data-bind=&quot;text: textColor&quot;&gt;&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#style1-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#style1-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#style1-coffee.tab-pane.fade.active.in
+        pre.
+          Template.style1.rendered = ->
+            new ViewModel(
+              <b>textColor</b>: 'blue'
+            ).bind @
+      div#style1-js.tab-pane.fade
+        pre.
+          Template.style1.rendered = function() {
+            return new ViewModel({
+              textColor: 'blue'
+            }).bind(this);
+          };

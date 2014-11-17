@@ -1,0 +1,262 @@
+template(name='contacts')
+  a.bookmark(id='contactsBk')
+  #contacts.section
+    h1 Contacts Example
+    .row.row-contacts
+      .span12
+        each contactList
+          +contact
+    hr
+    form.form-horizontal
+      .control-group
+        label.control-label Name:
+        input(type='text' data-bind="value: name")
+      .control-group
+        label.control-label Number:
+        input(type='text' data-bind="value: number")
+      .control-group
+        .controls
+          a.btn.btn-primary(data-bind="click: addContact, enabled: canAddContact, hover: hoveringAddContact") Add Contact
+    label
+      | &nbsp;
+      span.text-error(data-bind="text: errorText")
+
+    .section
+      h2 Code
+      ul.nav.nav-pills
+        li.active
+          a(href="#contacts-jade", data-toggle="tab") Jade
+        li
+          a(href="#contacts-html", data-toggle="tab") Html
+      div.tab-content
+        div#contacts-jade.tab-pane.fade.active.in
+          pre.
+            <b>template(name='contacts')</b>
+              #contacts
+                h1 Contacts Example
+                <b>&#101;ach contactList</b>
+                  <b>&#43;contact</b>
+                hr
+                form
+                  .control-group
+                    label Name:
+                    <b>input</b>(type='text' data-bind="<b>value: name</b>")
+                  .control-group
+                    label Number:
+                    <b>input</b>(type='text' data-bind="<b>value: number</b>")
+                  .control-group
+                    <b>a</b>.btn-primary(data-bind="<b>click: addContact, enabled: canAddContact, hover: tryAdd</b>") Add Contact
+                label
+                  <b>span</b>.text-error(data-bind="<b>text: errorText</b>")
+
+            <b>template(name='contact')</b>
+              .row(data-bind="<b>hover: showControls</b>")
+                <b>div</b>(data-bind="<b>if: editMode</b>")
+                  .contact-single
+                    <b>input</b>(type='text', data-bind="<b>value: name</b>")
+                    <b>input</b>(type='text', data-bind="<b>value: number, focused: numberFocus</b>")
+                  .contact-controls
+                    <b>button</b>.btn-primary(data-bind="<b>click: update, enabled: canUpdate</b>") Update
+                    <b>button</b>.btn(data-bind="<b>click: cancel</b>") Cancel
+                  .contact-controls
+                    <b>span</b>.text-error(data-bind="<b>if: !canUpdate</b>") Name and Number are required
+                <b>div</b>(data-bind="<b>if: !editMode</b>")
+                  .contact-single
+                    <b>span</b>(data-bind="<b>text: contact.name</b>")
+                    <b>span</b>(data-bind="<b>text: contact.number</b>")
+                  .contact-controls(data-bind="<b>if: showControls</b>")
+                    <b>button</b>.btn-info(data-bind="<b>click: edit</b>") Edit
+                    <b>button</b>.btn-danger(data-bind="<b>click: delete</b>") Delete
+        div#contacts-html.tab-pane.fade
+          pre.
+            &lt;template name=&quot;contacts&quot;&gt;
+              &lt;div id=&quot;contacts&quot;&gt;
+                &lt;h1&gt;Contacts Example&lt;/h1&gt;
+                &#123;{#each contactList}&#125;
+                  &#123;{&gt; contact}&#125;
+                &#123;{/each}&#125;
+                &lt;hr/&gt;
+                &lt;form&gt;
+                  &lt;div class=&quot;control-group&quot;&gt;
+                    &lt;label&gt;Number:&lt;/label&gt;
+                    &lt;input type=&quot;text&quot; data-bind=&quot;value: name&quot;/&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;control-group&quot;&gt;
+                    &lt;label&gt;Number:&lt;/label&gt;
+                    &lt;input type=&quot;text&quot; data-bind=&quot;value: name&quot;/&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;control-group&quot;&gt;
+                    &lt;a class=&quot;btn-primary&quot; data-bind=&quot;click: addContact, enabled: canAddContact, hover: tryAdd&quot;&gt;Add&lt;/a&gt;
+                  &lt;/div&gt;
+                &lt;/form&gt;
+                &lt;label&gt;&lt;span data-bind=&quot;text: errorText&quot; class=&quot;text-error&quot;&gt;&lt;/span&gt;&lt;/label&gt;
+              &lt;/div&gt;
+            &lt;/template&gt;
+
+            &lt;template name=&quot;contact&quot;&gt;
+              &lt;div data-bind=&quot;hover: showControls&quot; class=&quot;row&quot;&gt;
+                &lt;div data-bind=&quot;if: editMode&quot;&gt;
+                  &lt;div class=&quot;contact-single&quot;&gt;
+                    &lt;input type=&quot;text&quot; data-bind=&quot;value: name&quot;/&gt;
+                    &lt;input type=&quot;text&quot; data-bind=&quot;value: number, focused: numberFocus&quot;/&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;contact-controls&quot;&gt;
+                    &lt;button data-bind=&quot;click: update, enabled: canUpdate&quot; class=&quot;btn-primary&quot;&gt;Update&lt;/button&gt;
+                    &lt;button data-bind=&quot;click: cancel&quot; class=&quot;btn&quot;&gt;Cancel&lt;/button&gt;
+                  &lt;/div&gt;
+                  &lt;div class=&quot;contact-controls&quot;&gt;&lt;span data-bind=&quot;if: !canUpdate&quot; class=&quot;text-error&quot;&gt;Name and Number are required&lt;/span&gt;&lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div data-bind=&quot;if: !editMode&quot;&gt;
+                  &lt;div class=&quot;contact-single&quot;&gt;&lt;span data-bind=&quot;text: contact.name&quot;&gt;&lt;/span&gt;&lt;span data-bind=&quot;text: contact.number&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+                  &lt;div data-bind=&quot;if: showControls&quot; class=&quot;contact-controls&quot;&gt;
+                    &lt;button data-bind=&quot;click: edit&quot; class=&quot;btn-info&quot;&gt;Edit&lt;/button&gt;
+                    &lt;button data-bind=&quot;click: delete&quot; class=&quot;btn-danger&quot;&gt;Delete&lt;/button&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/template&gt;
+
+      ul.nav.nav-pills
+        li.active
+          a(href="#contacts-coffee", data-toggle="tab") Coffeescript
+        li
+          a(href="#contacts-js", data-toggle="tab") Javascript
+      div.tab-content
+        div#contacts-coffee.tab-pane.fade.active.in
+          pre.
+            Template.<b>contacts.helpers</b>
+              <b>contactList</b>: -> Contacts.find()
+
+            Template.<b>contacts.rendered</b> = ->
+              new ViewModel(
+                <b>name</b>: ''
+                <b>number</b>: ''
+                <b>canAddContact</b>: -> !!@name() and !!@number() and Contacts.find().count() &lt;= 10
+                <b>addContact</b>: ->
+                  &#105;f @canAddContact()
+                    Contacts.insert { name: @name(), number: @number() }
+                    @name ''
+                    @number ''
+                <b>tryAdd</b>: false
+                <b>errorText</b>: ->
+                  &#105;f @tryAdd() and not @canAddContact()
+                    &#105;f Contacts.find().count() >= 10
+                      "Can't have more than 10 contacts"
+                    else
+                      "Name and Number are required"
+                  else
+                    ''
+              ).bind @
+
+            Template.<b>contact.rendered</b> = ->
+              new ViewModel(this.data).extend(
+                <b>contact</b>: -> Contacts.findOne @_id()
+                <b>delete</b>: -> Contacts.remove @_id()
+                <b>editMode</b>: false
+                <b>numberFocus</b>: false
+                <b>edit</b>: ->
+                  @name @contact().name
+                  @number @contact().number
+                  @editMode true
+                  @numberFocus true
+                <b>showControls</b>: false
+                <b>cancel</b>: -> @editMode false
+                <b>canUpdate</b>: -> !!@name() and !!@number()
+                <b>update</b>: ->
+                  Contacts.update @_id(), { $set: { name: @name(), number: @number() } }
+                  @editMode false
+              ).bind @
+        div#contacts-js.tab-pane.fade
+          pre.
+            Template.contacts.helpers({
+              contactList: function() {
+                return Contacts.find();
+              }
+            });
+
+            Template.contacts.rendered = function() {
+              return new ViewModel({
+                name: &#39;&#39;,
+                number: &#39;&#39;,
+                canAddContact: function() {
+                  return !!this.name() &amp;&amp; !!this.number() &amp;&amp; Contacts.find().count() &lt;= 10;
+                },
+                addContact: function() {
+                  &#105;f (this.canAddContact()) {
+                    Contacts.insert({
+                    name: this.name(),
+                      number: this.number()
+                    });
+                    this.name(&#39;&#39;);
+                    return this.number(&#39;&#39;);
+                  }
+                },
+                tryAdd: false,
+                errorText: function() {
+                  &#105;f (this.tryAdd() &amp;&amp; !this.canAddContact()) {
+                    &#105;f (Contacts.find().count() &gt;= 10) {
+                      return &quot;Can&#39;t have more than 10 contacts&quot;;
+                    } else {
+                      return &quot;Name and Number are required&quot;;
+                    }
+                  } else {
+                    return &#39;&#39;;
+                  }
+                }
+              }).bind(this);
+            };
+
+            Template.contact.rendered = function() {
+              return new ViewModel(this.data).extend({
+                contact: function() {
+                  return Contacts.findOne(this._id());
+                },
+                &quot;delete&quot;: function() {
+                  return Contacts.remove(this._id());
+                },
+                editMode: false,
+                numberFocus: false,
+                edit: function() {
+                  this.name(this.contact().name);
+                  this.number(this.contact().number);
+                  this.editMode(true);
+                  return this.numberFocus(true);
+                },
+                showControls: false,
+                cancel: function() {
+                  return this.editMode(false);
+                },
+                canUpdate: function() {
+                  return !!this.name() &amp;&amp; !!this.number();
+                },
+                update: function() {
+                  Contacts.update(this._id(), {
+                    $set: {
+                      name: this.name(),
+                      number: this.number()
+                    }
+                  });
+                  return this.editMode(false);
+                }
+              }).bind(this);
+            };
+
+
+template(name='contact')
+  .row.contact-row(data-bind="hover: showControls")
+    .span12(data-bind="if: editMode")
+      .contact-single.pull-left
+        input.pull-left(type='text', data-bind="value: name")
+        input.pull-right(type='text', data-bind="value: number, focused: numberFocus")
+      .contact-controls.pull-left
+        button.btn-primary.btn-mini(data-bind="click: update, enabled: canUpdate") Update
+        button.btn.btn-mini(data-bind="click: cancel") Cancel
+      .contact-controls.pull-left
+        span.edit-error.text-error(data-bind="if: !canUpdate") Name and Number are required
+    .span12(data-bind="if: !editMode")
+      .contact-single.pull-left
+        span.pull-left(data-bind="text: contact.name")
+        span.pull-right(data-bind="text: contact.number")
+      .contact-controls.pull-left(data-bind="if: showControls")
+        button.btn-info.btn-mini(data-bind="click: edit") Edit
+        button.btn-danger.btn-mini(data-bind="click: delete") Delete

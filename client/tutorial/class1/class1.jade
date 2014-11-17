@@ -1,0 +1,49 @@
+template(name='class1')
+  a.bookmark(id='classMultipleBk')
+  .section
+    h1 class Binding - multiple
+    p The css binding causes the html element to have the class returned by the given function/property.
+    pre data-bind='class: propertyWithClass'
+    .row
+      input.pull-left(type='text', placeholder="Button's class", data-bind="value: buttonCss")
+      button.btn.pull-left(data-bind="class: buttonCss") The Button!
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#class1-jade", data-toggle="tab") Jade
+      li
+        a(href="#class1-html", data-toggle="tab") Html
+    div.tab-content
+      div#class1-jade.tab-pane.fade.active.in
+        pre.
+          template(name='class1')
+            input(type='text', placeholder="Button's class", data-bind="value: buttonCss")
+            <b>button</b>(data-bind="<b>class: buttonCss</b>") The Button!
+      div#class1-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;class1&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Button&#39;s class&quot; data-bind=&quot;value: buttonCss&quot;/&gt;
+            &lt;button data-bind=&quot;class: buttonCss&quot;&gt;The Button!&lt;/button&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#class1-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#class1-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#class1-coffee.tab-pane.fade.active.in
+        pre.
+          Template.class1.rendered = ->
+            new ViewModel(
+              <b>buttonCss</b>: 'btn-primary'
+            ).bind @
+      div#class1-js.tab-pane.fade
+        pre.
+          Template.class1.rendered = function() {
+            return new ViewModel({
+              buttonCss: 'btn-primary'
+            }).bind(this);
+          };
+

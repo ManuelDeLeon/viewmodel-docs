@@ -1,0 +1,46 @@
+template(name='eventsx')
+  a.bookmark(id='eventsBk')
+  .section
+    h1 Binding to JQuery events
+    p You can use any JQuery event to trigger a function in the viewmodel.
+    .row
+      button.btn.pull-left(data-bind="click: outputMessage") The Button (tm)
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#eventsx-jade", data-toggle="tab") Jade
+      li
+        a(href="#eventsx-html", data-toggle="tab") Html
+    div.tab-content
+      div#eventsx-jade.tab-pane.fade.active.in
+        pre.
+          template(name='eventsx')
+            button(data-bind="<b>click: outputMessage</b>") The Button (tm)
+      div#eventsx-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;eventsx&quot;&gt;
+            &lt;button data-bind=&quot;click: outputMessage&quot;&gt;The Button (tm)&lt;/button&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#eventsx-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#eventsx-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#eventsx-coffee.tab-pane.fade.active.in
+        pre.
+          Template.eventsx.rendered = ->
+            new ViewModel(
+              <b>outputMessage</b>: -> console.log 'You clicked The Button (tm)'
+            ).bind @
+      div#eventsx-js.tab-pane.fade
+        pre.
+          Template.eventsx.rendered = function() {
+            return new ViewModel({
+              outputMessage: function() {
+                return console.log('You clicked The Button (tm)');
+              }
+            }).bind(this);
+          };

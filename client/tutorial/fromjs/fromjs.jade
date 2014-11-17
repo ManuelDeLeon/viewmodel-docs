@@ -1,0 +1,16 @@
+template(name='fromjs')
+  a.bookmark(id='fromjsBk')
+  .section
+    h1 .fromJS Method
+    p This method loads a plain javascript object into the viewmodel. It ignores properties that are not part of the viewmodel.
+    pre.
+      viewmodel.fromJS(object)
+
+    h2 Example
+    pre.
+      vm = new ViewModel
+        first: ''
+        last: ''
+        full: -> @first() + ' ' + @last()
+
+      vm.fromJS { first: 'John', last: 'Doe' }

@@ -1,0 +1,54 @@
+template(name='style2')
+  a.bookmark(id='styleMultipleBk')
+  .section
+    h1 style Binding - multiple
+    p The style binding causes the html element to have the style propety returned by the given function/property.
+    pre data-bind='style: styleText'
+    .row
+      input.pull-left(type='text', placeholder="Text color", data-bind="value: textStyle")
+      div.pull-left(data-bind="style: textStyle")
+        | My style is:
+        span(data-bind='text: textStyle')
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#style2-jade", data-toggle="tab") Jade
+      li
+        a(href="#style2-html", data-toggle="tab") Html
+    div.tab-content
+      div#style2-jade.tab-pane.fade.active.in
+        pre.
+          template(name='style2')
+            input(type='text', placeholder="Text color", data-bind="value: textStyle")
+            <b>div</b>(data-bind="<b>style: textStyle</b>")
+              | My style is:
+              span(data-bind='text: textStyle')
+      div#style2-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;style2&quot;&gt;
+            &lt;input type=&quot;text&quot; placeholder=&quot;Text color&quot; data-bind=&quot;value: textStyle&quot;/&gt;
+            &lt;div data-bind=&quot;style: textStyle&quot;&gt;
+              My style is: &lt;span data-bind=&quot;text: textStyle&quot;&gt;&lt;/span&gt;
+            &lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#style2-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#style2-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#style2-coffee.tab-pane.fade.active.in
+        pre.
+          Template.style2.rendered = ->
+            new ViewModel(
+              <b>textStyle</b>: 'color: blue, font-weight: bold'
+            ).bind @
+      div#style2-js.tab-pane.fade
+        pre.
+          Template.style2.rendered = function() {
+            return new ViewModel({
+              textStyle: 'color: blue, font-weight: bold'
+            }).bind(this);
+          };

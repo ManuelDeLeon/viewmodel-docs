@@ -1,0 +1,69 @@
+template(name='class2')
+  a.bookmark(id='classSingleBk')
+  #class2.section
+    h1 class Binding - single
+    p The css binding causes the html element to have the class returned by the given function/property.
+    pre data-bind='class: { className: booleanProperty }'
+    .row
+      input(type='checkbox', data-bind="checked: showPrimary")
+      | Show button as primary
+    .row
+      input(type='checkbox', data-bind="checked: showLarge")
+      | Show large button
+    .row
+      button.btn(data-bind="class: { btn-primary: showPrimary, btn-large: showLarge }") The Button!
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#class2-jade", data-toggle="tab") Jade
+      li
+        a(href="#class2-html", data-toggle="tab") Html
+    div.tab-content
+      div#class2-jade.tab-pane.fade.active.in
+        pre.
+          template(name='class2')
+            .row
+              input(type='checkbox', data-bind="checked: showPrimary")
+              | Show button as primary
+            .row
+              input(type='checkbox', data-bind="checked: showLarge")
+              | Show large button
+            .row
+              <b>button</b>(data-bind="<b>class: { btn-primary: showPrimary, btn-large: showLarge }</b>") The Button!
+      div#class2-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;class2&quot;&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: showPrimary&quot;/&gt;Show button as primary
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: showLarge&quot;/&gt;Show large button
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;button data-bind=&quot;class: { btn-primary: showPrimary, btn-large: showLarge }&quot;&gt;The Button!&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/template&gt;
+
+    ul.nav.nav-pills
+      li.active
+        a(href="#class2-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#class2-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#class2-coffee.tab-pane.fade.active.in
+        pre.
+          Template.class2.rendered = ->
+            new ViewModel(
+              <b>showPrimary</b>: false
+              <b>showLarge</b>: false
+            ).bind @
+      div#class2-js.tab-pane.fade
+        pre.
+          Template.class2.rendered = function() {
+            return new ViewModel({
+              showPrimary: false,
+              showLarge: false
+            }).bind(this);
+          };

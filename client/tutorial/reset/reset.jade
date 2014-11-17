@@ -1,0 +1,18 @@
+template(name='reset')
+  a.bookmark(id='resetBk')
+  .section
+    h1 .reset Method
+    p Resets all the properties of the view model to their initial values.
+    pre.
+      viewmodel.reset()
+
+    h2 Example
+    pre.
+      vm = new ViewModel
+        name: ''
+
+      vm.name 'John Doe' # Set a value
+
+      vm.reset() # Reset values
+
+      vm.toJS() # { name: '' }

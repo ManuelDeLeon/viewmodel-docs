@@ -1,0 +1,52 @@
+template(name='returnKey')
+  a.bookmark(id='returnKeyBk')
+  .section
+    h1 returnKey Binding
+    p It runs the given function when the return key is pressed on the input element. It requires the use of the value binding on the element.
+    p The returnKey binding is unaffected by the delay binding; the function will be called immediately after the return key is pressed regardless of the delay value.
+    .row
+      input.pull-left(type='text', data-bind="value: message, returnKey: logMessage")
+      div.pull-left(data-bind="text: message")
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#returnKey-jade", data-toggle="tab") Jade
+      li
+        a(href="#returnKey-html", data-toggle="tab") Html
+    div.tab-content
+      div#returnKey-jade.tab-pane.fade.active.in
+        pre.
+          template(name='returnKey')
+            <b>input</b>(type='text', data-bind="value: message, <b>returnKey: logMessage</b>")
+            div(data-bind="text: message")
+      div#returnKey-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;returnKey&quot;&gt;
+            &lt;input type=&quot;text&quot; data-bind=&quot;value: message, returnKey: logMessage&quot;/&gt;
+            &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#returnKey-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#returnKey-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#returnKey-coffee.tab-pane.fade.active.in
+        pre.
+          Template.returnKey.rendered = ->
+            new ViewModel(
+              message: 'Can it be true?'
+              <b>logMessage</b>: -> console.log @message()
+            ).bind @
+      div#returnKey-js.tab-pane.fade
+        pre.
+          Template.returnKey.rendered = function() {
+            return new ViewModel({
+              message: 'Can it be true?',
+              logMessage: function() {
+                return console.log(this.message());
+              }
+            }).bind(this);
+          };

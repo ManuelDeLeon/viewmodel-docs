@@ -1,0 +1,54 @@
+template(name='focused')
+  a.bookmark(id='focusedBk')
+  .section
+    h1 focused Binding
+    p Two way binding. If you set the viewmodel property to true or false, the associated element will become focused or unfocused. If the user manually focuses or unfocuses the associated element, the viewmodel property will be set to true or false accordingly.
+    .row
+      input.input.pull-left(type='text', data-bind="focused: isFocused")
+      button.btn.pull-left(data-bind="click: setFocus") Focus the textbox
+      div.pull-left(data-bind="if: isFocused") The textbox has focus
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#focused-jade", data-toggle="tab") Jade
+      li
+        a(href="#focused-html", data-toggle="tab") Html
+    div.tab-content
+      div#focused-jade.tab-pane.fade.active.in
+        pre.
+          template(name='focused')
+            input(type='text', data-bind="<b>focused: isFocused</b>")
+            button(data-bind="click: setFocus") Focus the textbox
+            div(data-bind="if: isFocused") The textbox has focus
+      div#focused-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;focused&quot;&gt;
+            &lt;input type=&quot;text&quot; data-bind=&quot;focused: isFocused&quot;/&gt;
+            &lt;button data-bind=&quot;click: setFocus&quot;&gt;Focus the textbox&lt;/button&gt;
+            &lt;div data-bind=&quot;if: isFocused&quot;&gt;The textbox has focus&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#focused-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#focused-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#focused-coffee.tab-pane.fade.active.in
+        pre.
+          Template.focused.rendered = ->
+            new ViewModel(
+              <b>isFocused</b>: false
+              setFocus: -> @isFocused true
+            ).bind @
+      div#focused-js.tab-pane.fade
+        pre.
+          Template.focused.rendered = function() {
+            return new ViewModel({
+              isFocused: false,
+              setFocus: function() {
+                return this.isFocused(true);
+              }
+            }).bind(this);
+          };

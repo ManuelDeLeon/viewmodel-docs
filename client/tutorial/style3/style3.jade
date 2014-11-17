@@ -1,0 +1,53 @@
+template(name='style3')
+  a.bookmark(id='styleObjectBk')
+  #style3.section
+    h1 style Binding - object
+    p The style binding causes the html element to have the style propety returned by the given function/property.
+    pre data-bind='style: styleObject'
+    div(data-bind="style: styleObject, text: textStyle")
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#style3-jade", data-toggle="tab") Jade
+      li
+        a(href="#style3-html", data-toggle="tab") Html
+    div.tab-content
+      div#style3-jade.tab-pane.fade.active.in
+        pre.
+          template(name='style3')
+            <b>div</b>(data-bind="<b>style: styleObject</b>, text: textStyle")
+      div#style3-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;style3&quot;&gt;
+            &lt;div data-bind=&quot;style: styleObject, text: textStyle&quot;&gt;&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#style3-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#style3-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#style3-coffee.tab-pane.fade.active.in
+        pre.
+          Template.style3.rendered = ->
+            new ViewModel(
+              <b>styleObject</b>:
+                color: 'blue'
+                'font-weight': 'bold'
+              textStyle: -> 'My style is = ' + JSON.stringify @styleObject()
+            ).bind @
+      div#style3-js.tab-pane.fade
+        pre.
+          Template.style3.rendered = function() {
+            return new ViewModel({
+              styleObject: {
+                color: 'blue',
+                'font-weight': 'bold'
+              },
+              textStyle: function() {
+                return 'My style is = ' + JSON.stringify(this.styleObject());
+              }
+            }).bind(this);
+          };

@@ -1,0 +1,58 @@
+template(name='checked')
+  a.bookmark(id='checkedBk')
+  #checked.section
+    h1 checked Binding
+    p The checked binding links a checkable form control — i.e., a checkbox (input type='checkbox') or a radio button (input type='radio') — with a property on your view model.
+    p When the user checks the associated form control, this updates the value on your view model. Likewise, when you update the value in your view model, this checks or unchecks the form control on screen.
+    pre data-bind='checked: booleanProperty'
+    .row
+      input(type='checkbox', data-bind="checked: showPrimary")
+      | Show button as primary
+    .row
+      button.btn(data-bind="class: { btn-primary: showPrimary }") The Button!
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#checked-jade", data-toggle="tab") Jade
+      li
+        a(href="#checked-html", data-toggle="tab") Html
+    div.tab-content
+      div#checked-jade.tab-pane.fade.active.in
+        pre.
+          template(name='checked')
+            .row
+              input(type='checkbox', data-bind="<b>checked: showPrimary</b>")
+              | Show button as primary
+            .row
+              button(data-bind="class: { btn-primary: showPrimary }") The Button!
+      div#checked-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;checked&quot;&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: showPrimary&quot;/&gt;Show button as primary
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;button data-bind=&quot;class: { btn-primary: showPrimary }&quot;&gt;The Button!&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#checked-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#checked-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#checked-coffee.tab-pane.fade.active.in
+        pre.
+          Template.checked.rendered = ->
+            new ViewModel(
+              <b>showPrimary</b>: false
+            ).bind @
+      div#checked-js.tab-pane.fade
+        pre.
+          Template.checked.rendered = function() {
+            return new ViewModel({
+              showPrimary: false
+            }).bind(this);
+          };
