@@ -467,6 +467,32 @@ if typeof MochaWeb isnt 'undefined'
             chai.assert.isTrue vm.isChecked()
             done()
 
+      describe "checked binding radios", ->
+        inputRed = {}
+        inputBlue = {}
+        beforeEach ->
+          vm.extend
+            color: 'red'
+          inputRed = $("<input type='radio' name='color' value='red' data-bind='checked: color'>")
+          inputBlue = $("<input type='radio' name='color' value='blue' data-bind='checked: color'>")
+          template = $("<div></div>").append(inputRed).append(inputBlue)
+          vm.bind template
+        it "should set input's default value", ->
+          chai.assert.isTrue inputRed.is(':checked')
+          chai.assert.isFalse inputBlue.is(':checked')
+        it "should change input's value when vm changes", (done) ->
+          vm.color 'blue'
+          Global.delay 1, ->
+            chai.assert.isFalse inputRed.is(':checked')
+            chai.assert.isTrue inputBlue.is(':checked')
+            done()
+        it "should change vm value when input changes", (done) ->
+          inputBlue.prop('checked', true)
+          inputBlue.trigger 'change'
+          Global.delay 1, ->
+            chai.assert.equal vm.color(), 'blue'
+            done()
+
       describe "delay value binding", ->
         input = {}
         beforeEach ->

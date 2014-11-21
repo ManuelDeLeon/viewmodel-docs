@@ -1,15 +1,19 @@
-template(name='checked')
-  a.bookmark(id='checkedBk')
-  #checked.section
-    h1 checked Binding (checkboxes)
+template(name='checkedRadio')
+  a.bookmark(id='checkedRadioBk')
+  #checkedRadio.section
+    h1 checked Binding (radios)
     p The checked binding links a checkable form control — i.e., a checkbox (input type='checkbox') or a radio button (input type='radio') — with a property on your view model.
     p When the user checks the associated form control, this updates the value on your view model. Likewise, when you update the value in your view model, this checks or unchecks the form control on screen.
-    pre data-bind='checked: booleanProperty'
-    .row
-      input(type='checkbox', data-bind="checked: showPrimary")
-      | Show button as primary
-    .row
-      button.btn(data-bind="class: { btn-primary: showPrimary }") The Button!
+    pre data-bind='checked: value'
+    p Favorite color:
+    div
+      input(type="radio", name="color", value="red", data-bind="checked: color")
+      | Red
+    div
+      input(type="radio", name="color", value="blue", data-bind="checked: color")
+      | Blue
+    p Selected color:
+    p(data-bind="text: color")
 
   .section
     h2 Code

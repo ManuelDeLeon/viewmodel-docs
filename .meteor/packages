@@ -13,4 +13,5 @@ spiderable
 mquandalle:jade
 mike:mocha@0.4.4
 velocity:html-reporter@0.3.0-rc.3
+manuel:viewmodel
 

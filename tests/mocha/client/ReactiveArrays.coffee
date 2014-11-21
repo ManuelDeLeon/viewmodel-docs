@@ -23,11 +23,10 @@ if typeof MochaWeb isnt 'undefined'
         it "should be instance of Array", ->
           chai.assert.isTrue arr instanceof Array
 
-      describe "push", ->
-        it "should return the item", ->
-          ret = arr.push 'c'
-          chai.assert.equal ret, 'c'
+        it "should be instance of ReactiveArray", ->
+          chai.assert.isTrue arr instanceof ReactiveArray
 
+      describe "push", ->
         it "should add item to array", ->
           arr.push 'c'
           chai.assert.equal arr.length, 3

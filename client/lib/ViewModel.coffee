@@ -1,4 +1,4 @@
-class @ViewModel
+class @ViewModelX
   bindingToken = RegExp("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|/(?:[^/\\\\]|\\\\.)*/w*|[^\\s:,/][^,\"'{}()/:[\\]]*[^\\s,\"'{}()/:[\\]]|[^\\s]","g")
   divisionLookBehind = /[\])"'A-Za-z0-9_$]+$/
   keywordRegexLookBehind =
@@ -108,9 +108,12 @@ class @ViewModel
 
   @addBind 'checked', (p) ->
     p.autorun ->
-      p.element.prop 'checked', p.vm[p.property]() if p.element.is(':checked') isnt p.vm[p.property]()
+      if p.element.attr('type') is 'checkbox'
+        p.element.prop 'checked', p.vm[p.property]() if p.element.is(':checked') isnt p.vm[p.property]()
+      else
+        p.element.prop 'checked', p.vm[p.property]() is p.element.val() if p.element.is(':checked') isnt  (p.vm[p.property]() is p.element.val())
     p.element.bind 'change', ->
-      newValue = p.element.is(':checked')
+      newValue = if p.element.attr('type') is 'checkbox' then p.element.is(':checked') else p.element.val()
       p.vm[p.property] newValue if p.vm[p.property]() isnt newValue
 
   @addBind 'focused', (p) ->
