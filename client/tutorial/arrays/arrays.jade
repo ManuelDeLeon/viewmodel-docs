@@ -1,0 +1,45 @@
+template(name='arrays')
+  a.bookmark(id='arraysBk')
+  .section
+    h1 Arrays
+    p
+      | Arrays are automatically converted to
+      a(href="http://reactivearray.meteor.com", target="_blank") reactive arrays
+      | . This means they become reactive sources and thus you'll be notified when items are added or removed.
+
+    pre.
+      vm = new ViewModel
+        names: ['Tom', 'Dick', 'Harry']
+  #arrays
+    .section
+      +arrayList
+    .section
+      +arrayNumbers
+    .section
+      pre.
+        Prepare to be <b>bold</b>.
+
+template(name="arrayList")
+    h1 List Example
+    ul.unstyled
+      each names
+        +arrayName
+    br
+    | Name:
+    input(type="text", data-bind="value: newName")
+    a.btn.btn-primary(data-bind="click: addName") Add name to list
+
+template(name="arrayName")
+  li
+    a.btn.btn-danger.btn-mini(title="Remove this name", data-bind="click: remove") x
+    span(data-bind="text: name")
+
+template(name="arrayNumbers")
+  h1 Numbers Example
+  p(data-bind="text: numbers")
+  p
+    | Average:
+    span(data-bind="text: average")
+  | New:
+  input(type="text", data-bind="value: newNumber")
+  a.btn.btn-primary(data-bind="click: addNumber") Add number to list

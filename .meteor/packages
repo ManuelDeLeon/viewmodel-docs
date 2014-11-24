@@ -10,8 +10,8 @@ stylus
 coffeescript
 bootstrap
 spiderable
-mquandalle:jade
 mike:mocha@0.4.4
 velocity:html-reporter@0.3.0-rc.3
 manuel:viewmodel
+mquandalle:jade@=0.2.9
 

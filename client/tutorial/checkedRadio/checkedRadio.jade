@@ -6,57 +6,65 @@ template(name='checkedRadio')
     p When the user checks the associated form control, this updates the value on your view model. Likewise, when you update the value in your view model, this checks or unchecks the form control on screen.
     pre data-bind='checked: value'
     p Favorite color:
-    div
+    label.checkbox
       input(type="radio", name="color", value="red", data-bind="checked: color")
       | Red
-    div
+    label.checkbox
       input(type="radio", name="color", value="blue", data-bind="checked: color")
       | Blue
-    p Selected color:
-    p(data-bind="text: color")
+    p
+      | Selected color: 
+      span(data-bind="text: color")
 
   .section
     h2 Code
     ul.nav.nav-pills
       li.active
-        a(href="#checked-jade", data-toggle="tab") Jade
+        a(href="#checkedRadio-jade", data-toggle="tab") Jade
       li
-        a(href="#checked-html", data-toggle="tab") Html
+        a(href="#checkedRadio-html", data-toggle="tab") Html
     div.tab-content
-      div#checked-jade.tab-pane.fade.active.in
+      div#checkedRadio-jade.tab-pane.fade.active.in
         pre.
-          template(name='checked')
-            .row
-              input(type='checkbox', data-bind="<b>checked: showPrimary</b>")
-              | Show button as primary
-            .row
-              button(data-bind="class: { btn-primary: showPrimary }") The Button!
-      div#checked-html.tab-pane.fade
+          template(name='checkedRadio')
+            p Favorite color:
+            label.checkbox
+              input(type="radio", name="color", value="red", data-bind="checked: color")
+              | Red
+            div
+              input(type="radio", name="color", value="blue", data-bind="checked: color")
+              | Blue
+            p Selected color:
+            p(data-bind="text: color")
+      div#checkedRadio-html.tab-pane.fade
         pre.
-          &lt;template name=&quot;checked&quot;&gt;
-            &lt;div class=&quot;row&quot;&gt;
-              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: showPrimary&quot;/&gt;Show button as primary
+          &lt;template name=&quot;checkedRadio&quot;&gt;
+            &lt;p&gt;Favorite color:&lt;/p&gt;
+            &lt;div&gt;
+              &lt;input type=&quot;radio&quot; name=&quot;color&quot; value=&quot;red&quot; data-bind=&quot;checked: color&quot;/&gt;Red
             &lt;/div&gt;
-            &lt;div class=&quot;row&quot;&gt;
-              &lt;button data-bind=&quot;class: { btn-primary: showPrimary }&quot;&gt;The Button!&lt;/button&gt;
+            &lt;div&gt;
+              &lt;input type=&quot;radio&quot; name=&quot;color&quot; value=&quot;blue&quot; data-bind=&quot;checked: color&quot;/&gt;Blue
             &lt;/div&gt;
+            &lt;p&gt;Selected color:&lt;/p&gt;
+            &lt;p data-bind=&quot;text: color&quot;&gt;&lt;/p&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
       li.active
-        a(href="#checked-coffee", data-toggle="tab") Coffeescript
+        a(href="#checkedRadio-coffee", data-toggle="tab") Coffeescript
       li
-        a(href="#checked-js", data-toggle="tab") Javascript
+        a(href="#checkedRadio-js", data-toggle="tab") Javascript
     div.tab-content
-      div#checked-coffee.tab-pane.fade.active.in
+      div#checkedRadio-coffee.tab-pane.fade.active.in
         pre.
-          Template.checked.rendered = ->
+          Template.checkedRadio.rendered = ->
             new ViewModel(
-              <b>showPrimary</b>: false
-            ).bind @
-      div#checked-js.tab-pane.fade
+              color: 'red'
+          ).bind @
+      div#checkedRadio-js.tab-pane.fade
         pre.
-          Template.checked.rendered = function() {
+          Template.checkedRadio.rendered = function() {
             return new ViewModel({
-              showPrimary: false
+              color: 'red'
             }).bind(this);
           };
