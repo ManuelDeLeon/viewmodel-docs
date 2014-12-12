@@ -49,23 +49,23 @@ template(name='leaderboard')
       div.tab-content
         div#leaderboard-coffee.tab-pane.fade.active.in
           pre.
-            Template.leaderboard.created = ->
+            Template.<b>leaderboard.created</b> = ->
               this.vm = new ViewModel('leaderboard',
-                players: ->
+                <b>players:</b> ->
                   playerList = []
                   self = @
                   Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } } ).forEach (p) ->
-                    p.leaderboard = self
+                    <b>p.leaderboard = self</b>
                     playerList.push p
                   playerList
-                selected: null
-                addPoints: -> Players.update @selected(), { $inc: { score: 5 } }
-              ).addHelper 'players', @
+                <b>selected:</b> null
+                <b>addPoints:</b> -> Players.update @selected(), { $inc: { score: 5 } }
+              )<b>.addHelper 'players', @</b>
 
-            Template.leaderboard.rendered = ->
+            Template.<b>leaderboard.rendered</b> = ->
               this.vm.bind @
 
-            Template.player.rendered = ->
+            Template.<b>player.rendered</b> = ->
               new ViewModel(this.data).extend(
                 player: -> Players.findOne(@_id())
                 select: -> @leaderboard().selected @_id()
