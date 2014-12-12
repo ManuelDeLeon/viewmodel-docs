@@ -57,6 +57,8 @@ template(name='header')
                 a(role='menuitem', tabindex='-1', href='#enabledBk') enabled / disabled
               li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='#visibleBk') visible / if
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#optionsBk') options
 
           li.dropdown
             a#drop2.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
@@ -75,6 +77,8 @@ template(name='header')
                 a(role='menuitem', tabindex='-1', href='#resetBk') .reset
               li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='#disposeBk') .dispose
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#addHelperBk') .addHelper(s)
               li.divider(role='presentation')
               li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='#reactivityBk') Reactivity
@@ -84,6 +88,7 @@ template(name='header')
                 a(role='menuitem', tabindex='-1', href='#extendingBk') Custom Bindings
               li(role='presentation')
                 a(role='menuitem', tabindex='-1', href='#arraysBk') Arrays
+
 
         ul.nav.pull-right(role='navigation')
           li

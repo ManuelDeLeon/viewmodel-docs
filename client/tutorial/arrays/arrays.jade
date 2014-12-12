@@ -14,10 +14,11 @@ template(name='arrays')
     .section
       +arrayList
     .section
+      +arrayListCode
+    .section
       +arrayNumbers
     .section
-      pre.
-        Prepare to be <b>bold</b>.
+      +arrayNumbersCode
 
 template(name="arrayList")
     h1 List Example
@@ -43,3 +44,182 @@ template(name="arrayNumbers")
   | New:
   input(type="text", data-bind="value: newNumber")
   a.btn.btn-primary(data-bind="click: addNumber") Add number to list
+
+
+template(name="arrayListCode")
+  h2 Code
+  ul.nav.nav-pills
+    li.active
+      a(href="#arrayListCode-jade", data-toggle="tab") Jade
+    li
+      a(href="#arrayListCode-html", data-toggle="tab") Html
+  div.tab-content
+    div#arrayListCode-jade.tab-pane.fade.active.in
+      pre.
+        template(name="arrayList")
+          h1 List Example
+          ul.unstyled
+            &#101;ach <b>names</b>
+              &#43;arrayName
+          br
+          | Name:
+          input(type="text", data-bind="value: newName")
+          a.btn.btn-primary(data-bind="click: addName") Add name to list
+
+        template(name="arrayName")
+          li
+            a.btn.btn-danger.btn-mini(title="Remove this name", data-bind="click: remove") x
+            span(data-bind="text: name")
+    div#arrayListCode-html.tab-pane.fade
+      pre.
+        &lt;template name=&quot;arrayList&quot;&gt;
+          &lt;h1&gt;List Example&lt;/h1&gt;
+          &lt;ul class=&quot;unstyled&quot;&gt;
+            &#123;{#each names }}
+              &#123;{&gt; arrayName }}
+            &#123;{/each }}
+          &lt;/ul&gt;
+          &lt;br/&gt;
+          Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: newName&quot;/&gt;&lt;a data-bind=&quot;click: addName&quot; class=&quot;btn btn-primary&quot;&gt;Add name to list&lt;/a&gt;
+        &lt;/template&gt;
+
+        &lt;template name=&quot;arrayName&quot;&gt;
+          &lt;li&gt;
+            &lt;a title=&quot;Remove this name&quot; data-bind=&quot;click: remove&quot; class=&quot;btn btn-danger btn-mini&quot;&gt;x&lt;/a&gt;&lt;span data-bind=&quot;text: name&quot;&gt;&lt;/span&gt;
+          &lt;/li&gt;
+        &lt;/template&gt;
+  ul.nav.nav-pills
+    li.active
+      a(href="#arrayListCode-coffee", data-toggle="tab") Coffeescript
+    li
+      a(href="#arrayListCode-js", data-toggle="tab") Javascript
+  div.tab-content
+    div#arrayListCode-coffee.tab-pane.fade.active.in
+      pre.
+        arrayListVM = new ViewModel
+          <b>names: ['Tom', 'Dick', 'Harry']</b>
+          newName: ''
+          addName: ->
+            @names().push @newName()
+            @newName ''
+
+        Template.arrayList.rendered = ->
+          arrayListVM.bind @
+
+        Template.arrayList.helpers
+          <b>names: -> arrayListVM.names()</b>
+
+        Template.arrayName.rendered = ->
+          new ViewModel(
+            name: this.data
+            remove: -> <b>arrayListVM.names().remove</b> @name()
+          ).bind @
+    div#arrayListCode-js.tab-pane.fade
+      pre.
+        var arrayListVM = new ViewModel({
+          names: ['Tom', 'Dick', 'Harry'],
+          newName: '',
+          addName: function() {
+            this.names().push(this.newName());
+            return this.newName('');
+          }
+        });
+
+        Template.arrayList.rendered = function() {
+          return arrayListVM.bind(this);
+        };
+
+        Template.arrayList.helpers({
+          names: function() {
+            return arrayListVM.names();
+          }
+        });
+
+        Template.arrayName.rendered = function() {
+          return new ViewModel({
+            name: this.data,
+            remove: function() {
+              return arrayListVM.names().remove(this.name());
+            }
+          }).bind(this);
+        };
+        
+template(name="arrayNumbersCode")
+  h2 Code
+  ul.nav.nav-pills
+    li.active
+      a(href="#arrayNumbersCode-jade", data-toggle="tab") Jade
+    li
+      a(href="#arrayNumbersCode-html", data-toggle="tab") Html
+  div.tab-content
+    div#arrayNumbersCode-jade.tab-pane.fade.active.in
+      pre.
+        template(name="arrayNumbers")
+          h1 Numbers Example
+          p(data-bind="text: numbers")
+          p
+            | Average:
+            span(data-bind="text: average")
+          | New:
+          input(type="text", data-bind="value: newNumber")
+          a.btn.btn-primary(data-bind="click: addNumber") Add number to list
+    div#arrayNumbersCode-html.tab-pane.fade
+      pre.
+        &lt;template name=&quot;arrayNumbers&quot;&gt;
+          &lt;h1&gt;Numbers Example&lt;/h1&gt;
+          &lt;p data-bind=&quot;text: numbers&quot;&gt;&lt;/p&gt;
+          &lt;p&gt;Average:&lt;span data-bind=&quot;text: average&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+          New: &lt;input type=&quot;text&quot; data-bind=&quot;value: newNumber&quot;/&gt;&lt;a data-bind=&quot;click: addNumber&quot; class=&quot;btn btn-primary&quot;&gt;Add number to list&lt;/a&gt;
+        &lt;/template&gt;
+  ul.nav.nav-pills
+    li.active
+      a(href="#arrayNumbersCode-coffee", data-toggle="tab") Coffeescript
+    li
+      a(href="#arrayNumbersCode-js", data-toggle="tab") Javascript
+  div.tab-content
+    div#arrayNumbersCode-coffee.tab-pane.fade.active.in
+      pre.
+        Template.arrayNumbers.rendered = ->
+          new ViewModel(
+            <b>numberList: [2,3,1,9,3]</b>
+            numbers: -> <b>@numberList().toString()</b>
+            average: ->
+              length = <b>@numberList().length</b>
+              return 0 if length is 0
+              sum = 0
+              sum += n <b>for n in @numberList()</b>
+              sum / length
+            newNumber: ''
+            addNumber: ->
+              <b>@numberList().push</b> parseInt(@newNumber())
+              @newNumber ''
+          ).bind @
+    div#arrayNumbersCode-js.tab-pane.fade
+      pre.
+        Template.arrayNumbers.rendered = function() {
+          return new ViewModel({
+            numberList: [2, 3, 1, 9, 3],
+            numbers: function() {
+              return this.numberList().toString();
+            },
+            average: function() {
+              var length, n, sum, _i, _len, _ref;
+              length = this.numberList().length;
+              &#105;f (length === 0) {
+                return 0;
+              }
+              sum = 0;
+              _ref = this.numberList();
+              for (_i = 0, _len = _ref.length; _i &lt; _len; _i++) {
+                n = _ref[_i];
+                sum += n;
+              }
+              return sum / length;
+            },
+            newNumber: '',
+            addNumber: function() {
+              this.numberList().push(parseInt(this.newNumber()));
+              return this.newNumber('');
+            }
+          }).bind(this);
+        };

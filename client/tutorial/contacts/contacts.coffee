@@ -1,3 +1,6 @@
+Template.contacts.created = ->
+  Meteor.subscribe 'Contacts'
+
 Template.contacts.helpers
   contactList: -> Contacts.find()
 

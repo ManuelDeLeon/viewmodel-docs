@@ -49,56 +49,65 @@ template(name='leaderboard')
       div.tab-content
         div#leaderboard-coffee.tab-pane.fade.active.in
           pre.
-            <b>leaderboard = new ViewModel</b>
-              <b>players</b>: -> Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } } )
-              <b>selected</b>: null
-              <b>addPoints</b>: -> Players.update(@selected(), { $inc: { score: 5 } })
+            Template.leaderboard.created = ->
+              this.vm = new ViewModel('leaderboard',
+                players: ->
+                  playerList = []
+                  self = @
+                  Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } } ).forEach (p) ->
+                    p.leaderboard = self
+                    playerList.push p
+                  playerList
+                selected: null
+                addPoints: -> Players.update @selected(), { $inc: { score: 5 } }
+              ).addHelper 'players', @
 
-            Template.<b>leaderboard.helpers</b>
-              <b>players</b>: -> leaderboard.players()
+            Template.leaderboard.rendered = ->
+              this.vm.bind @
 
-            Template.<b>leaderboard.rendered</b> = ->
-              <b>leaderboard.bind @</b>
+            Template.player.rendered = ->
+              new ViewModel(this.data).extend(
+                player: -> Players.findOne(@_id())
+                select: -> @leaderboard().selected @_id()
+                isSelected: -> @leaderboard().selected() is @_id()
+                info: -> @player().score + ' ' + @player().name
+              ).bind @
 
-            Template.<b>player.rendered</b> = ->
-              <b>new ViewModel(this.data).extend(</b>
-                <b>player</b>: -> Players.findOne(@_id())
-                <b>select</b>: -> leaderboard.selected @_id()
-                <b>isSelected</b>: -> leaderboard.selected() is @_id()
-                <b>info</b>: -> @player().score + ' ' + @player().name
-              <b>).bind @</b>
         div#leaderboard-js.tab-pane.fade
           pre.
-            var leaderboard = new ViewModel({
-              players: function() {
-                return Players.find({}, {
-                  sort: {
-                    score: -1,
-                    name: 1
-                  },
-                  fields: {
-                    _id: 1
-                  }
-                });
-              },
-              selected: null,
-              addPoints: function() {
-                return Players.update(this.selected(), {
-                  $inc: {
-                    score: 5
-                  }
-                });
-              }
-            });
-
-            Template.leaderboard.helpers({
-              players: function() {
-                return leaderboard.players();
-              }
-            });
+            Template.leaderboard.created = function() {
+              return this.vm = new ViewModel('leaderboard', {
+                players: function() {
+                  var playerList, self;
+                  playerList = [];
+                  self = this;
+                  Players.find({}, {
+                    sort: {
+                      score: -1,
+                      name: 1
+                    },
+                    fields: {
+                      _id: 1
+                    }
+                  }).forEach(function(p) {
+                    p.leaderboard = self;
+                    return playerList.push(p);
+                  });
+                  return playerList;
+                },
+                selected: null,
+                addPoints: function() {
+                  return Players.update(this.selected(), {
+                    $inc: {
+                      score: 5
+                    }
+                  });
+                }
+              }).addHelper('players');
+            };
 
             Template.leaderboard.rendered = function() {
-              return leaderboard.bind(this);
+              return this.vm.bind(this);
             };
 
             Template.player.rendered = function() {
@@ -107,51 +116,64 @@ template(name='leaderboard')
                   return Players.findOne(this._id());
                 },
                 select: function() {
-                  return leaderboard.selected(this._id());
+                  return this.leaderboard().selected(this._id());
                 },
                 isSelected: function() {
-                  return leaderboard.selected() === this._id();
+                  return this.leaderboard().selected() === this._id();
                 },
                 info: function() {
-                  return this.player().score + &#39; &#39; + this.player().name;
+                  return this.player().score + ' ' + this.player().name;
                 }
               }).bind(this);
             };
 
+
       h2 What's going on...
       h3 viewmodel
       pre.
-        leaderboard = new ViewModel
-          players: -> Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } } )
-          selected: null
-          addPoints: -> Players.update(@selected(), { $inc: { score: 5 } })
-      p We declare a leaderboard variable which holds the viewmodel for the leaderboard template. We declare it outside the template because we're going to use it in both the leaderboard and player template events.
+        Template.<b>leaderboard.created</b> = ->
+          this.vm = new ViewModel('leaderboard',
+            ...
+      p We create the viewmodel for the leaderboard in the template created event and store it as a property of the instance. We also give the viewmodel a name so the state persists over hot code pushes (See Misc -> Hot Code Pushes)
+
       h3 players helper
       pre.
-        Template.leaderboard.helpers
-          players: -> leaderboard.players()
-      p We need this helper because we have to loop through the players collection and display each player template.
-      p Another option would have been to let the viewmodel add all its properties and methods as Meteor helpers. In this particular case we don't need the selected or addPoints helpers so we can just add the one helper we need. For your reference, you can add all helpers with the following line in the created event:
-      pre.
         Template.leaderboard.created = ->
-          leaderboard.addHelpers 'leaderboard'
+          this.vm = new ViewModel('leaderboard',
+            <b>players</b>: ->
+              playerList = []
+              self = @
+              Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } } ).forEach (p) ->
+                <b>p.leaderboard = self</b>
+                playerList.push p
+              playerList
+            ...
+          )<b>.addHelper 'players', @</b>
+      p We loop through the Players collection and add the leaderboard viewmodel as a property to each player. We need to do this because in this example the players need to access the leaderboard.
+      p After creating our viewmodel we add the players property as a template helper with the .addHelper method.
+      p Another option would have been to let the viewmodel add all its properties and methods as Meteor helpers. In this particular case we don't need the selected or addPoints helpers so we can just add the one helper we need. For your reference, you can add all helpers with the addHelpers method:
+      pre.
+        this.vm = new ViewModel(
+          ...
+        ).addHelpers @
       h3 binding the leaderboard template
       pre.
         Template.leaderboard.rendered = ->
-          leaderboard.bind @
-      p Here we're binding the html elements with a "data-bind" attribute to the viewmodel. It happens in the rendered event because it needs the actual html elements to be present on the page.
+          this.vm.bind @
+      p Here we're binding the html elements with a "data-bind" attribute to the viewmodel. It happens in the rendered event because it needs the actual html elements to be present on the page. As a reminder we set the vm property of the template instance in the created event.
       h3 player viewmodel
       pre.
-        Template.player.rendered = ->
+        Template.<b>player.rendered</b> = ->
           new ViewModel(this.data).extend(
             player: -> Players.findOne(@_id())
-            select: -> leaderboard.selected @_id()
-            isSelected: -> leaderboard.selected() is @_id()
+            select: -> @leaderboard().selected @_id()
+            isSelected: -> @leaderboard().selected() is @_id()
             info: -> @player().score + ' ' + @player().name
           ).bind @
-      p Here we're creating a player viewmodel for each of the players rendered. It begins by taking this.data (the context given by the #each loop in the parent/leaderboard template) and adding its properties to the player viewmodel. In this case it only has one field: _id. That's why the rest of the viewmodel can use @_id().
+      p Here we're creating a player viewmodel for each of the players rendered. It begins by taking this.data (the context given by the #each loop in the parent/leaderboard template) and adding its properties to the player viewmodel. In this case it has _id and leaderboard. That's why the rest of the viewmodel can use @_id() and @leaderboard().
       p Then we extend the viewmodel to add the properties and methods we want it to have (player, select, isSelected, and info). The player property returns a single player object taken from the Players collection. We do this so its properties are reactively updated when the database changes. Remember that findOne is the reactive function, the object's properties are not.
       p Then we bind the template's html elements with a "data-bind" attribute property to the current player viewmodel.
+      p We create the viewmodel in the template rendered event because we don't need to add any helpers to the player template. In addition, we don't give a name to the viewmodel because all properties as functions so there's no state to maintain.
 
 
 template(name='player')

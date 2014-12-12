@@ -1,0 +1,94 @@
+template(name='options')
+  a.bookmark(id='optionsBk')
+  #optionsBinding
+    .section
+      h1 options Binding
+      p The options binding controls what options should appear in a drop-down list or multi-select list. This binding can only be used with SELECT elements
+    .section
+      h2 String Array - Single Selection
+      pre &lt;select data-bind=&#39;options: array, value: property&#39;&gt;&lt;/select&gt;
+
+      p
+        select#countries(size="5", data-bind="options: countries, value: selectedCountry")
+        | Selected:
+        span(data-bind="text: selectedCountry")
+      p
+        input(type="text", data-bind="value: newCountry, returnKey: addCountry", placeholder="New Country...")
+        button.btn.btn-primary(data-bind="click: addCountry") Add Country
+      p
+        input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
+        button.btn.btn-primary(data-bind="click: selectCountry") Select Country
+
+  .section
+    h3 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#options-jade", data-toggle="tab") Jade
+      li
+        a(href="#options-html", data-toggle="tab") Html
+    div.tab-content
+      div#options-jade.tab-pane.fade.active.in
+        pre.
+          template(name='options')
+            p
+              select#countries(size="5", data-bind="options: countries, value: selectedCountry")
+              | Selected:
+              span(data-bind="text: selectedCountry")
+            p
+              input(type="text", data-bind="value: newCountry, returnKey: addCountry", placeholder="New Country...")
+              button.btn.btn-primary(data-bind="click: addCountry") Add Country
+            p
+              input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
+              button.btn.btn-primary(data-bind="click: selectCountry") Select Country
+      div#options-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;options&quot;&gt;
+            &lt;p&gt;
+              &lt;select id=&quot;countries&quot; size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountry&quot;&gt;&lt;/select&gt;
+              Selected:&lt;span data-bind=&quot;text: selectedCountry&quot;&gt;&lt;/span&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;input type=&quot;text&quot; data-bind=&quot;value: newCountry, returnKey: addCountry&quot; placeholder=&quot;New Country...&quot;/&gt;
+              &lt;button data-bind=&quot;click: addCountry&quot; class=&quot;btn btn-primary&quot;&gt;Add Country&lt;/button&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;input type=&quot;text&quot; data-bind=&quot;value: countryToSelect, returnKey: selectCountry&quot; placeholder=&quot;Country To Select...&quot;/&gt;
+              &lt;button data-bind=&quot;click: selectCountry&quot; class=&quot;btn btn-primary&quot;&gt;Select Country&lt;/button&gt;
+            &lt;/p&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#options-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#options-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#options-coffee.tab-pane.fade.active.in
+        pre.
+          Template.options.rendered = ->
+            new ViewModel(
+              countries: ['France', 'Germany', 'Spain']
+              selectedCountry: 'Germany'
+              newCountry: ''
+              addCountry: ->
+                @countries().push @newCountry()
+                @newCountry ''
+              countryToSelect: ''
+              selectCountry: -> @selectedCountry @countryToSelect()
+            ).bind @
+      div#options-js.tab-pane.fade
+        pre.
+          Template.options.rendered = function() {
+            return new ViewModel({
+              countries: ['France', 'Germany', 'Spain'],
+              selectedCountry: 'Germany',
+              newCountry: '',
+              addCountry: function() {
+                this.countries().push(this.newCountry());
+                return this.newCountry('');
+              },
+              countryToSelect: '',
+              selectCountry: function() {
+                return this.selectedCountry(this.countryToSelect());
+              }
+            }).bind(this);
+          };

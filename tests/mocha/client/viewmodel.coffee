@@ -535,3 +535,55 @@ if typeof MochaWeb isnt 'undefined'
           Global.delay 1, ->
             chai.assert.isTrue vm.enterPressed()
             done()
+
+      describe "options binding", ->
+        describe "with array", ->
+          beforeEach ->
+            vm.extend
+              countries: ['France', 'Germany', 'Spain']
+              selectedCountry: 'Germany'
+
+          it "combobox should select first value if not using the value binding", ->
+            select = $("<select data-bind='options: countries'></select>")
+            template = $("<div></div>").append(select)
+            vm.bind template
+            chai.assert.equal template.find(":selected").length, 1
+            chai.assert.equal template.find(":selected").first().val(), "France"
+
+          it "listbox should not select a value if not using the value binding", ->
+            select = $("<select size='5' data-bind='options: countries'></select>")
+            template = $("<div></div>").append(select)
+            vm.bind template
+            chai.assert.equal template.find(":selected").length, 0
+
+          describe "listbox", ->
+            it "should select a value if using the value binding", ->
+              select = $("<select size='5' data-bind='options: countries, value: selectedCountry'></select>")
+              template = $("<div></div>").append(select)
+              vm.bind template
+              chai.assert.equal template.find(":selected").length, 1
+              chai.assert.equal template.find(":selected").first().val(), "Germany"
+
+          describe "combobox", ->
+            select = {}
+            beforeEach ->
+              select = $("<select data-bind='options: countries, value: selectedCountry'></select>")
+              template = $("<div></div>").append(select)
+              vm.bind template
+
+            it "should select a value", ->
+              chai.assert.equal select.find(":selected").length, 1
+              chai.assert.equal select.find(":selected").first().val(), "Germany"
+
+            it "should update vm", (done) ->
+              select.val 'Spain'
+              select.trigger 'change'
+              Global.delay 1, ->
+                chai.assert.equal vm.selectedCountry(), 'Spain'
+                done()
+
+            it "should update UI", (done) ->
+              vm.selectedCountry 'Spain'
+              Global.delay 1, ->
+                chai.assert.equal select.val(), 'Spain'
+                done()

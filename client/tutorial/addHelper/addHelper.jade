@@ -1,0 +1,62 @@
+template(name='addHelper')
+  a.bookmark(id='addHelperBk')
+  .section
+    h1 .addHelper
+    p You can use addHelper method to add a viewmodel property as a template helper. It will then be available for you to use on a template. You must call this method on the template's created event.
+    pre.
+      viewmodel.addHelper 'property', template
+
+    h2 Example
+    p In the following example we create a viewmodel in the template created event. We then add the 'players' property as a template helper. We also store the viewmodel in the instance of the template, and then bind the properties in the rendered event.
+    pre.
+      Template.leaderboard<b>.created</b> = ->
+        <b>this.vm = </b>new ViewModel('leaderboard',
+          <b>players</b>: -> Players.find()
+          selected: null
+          addPoints: -> Players.update(@selected(), { $inc: { score: 5 } })
+        )<b>.addHelper 'players', @</b>
+
+      Template.leaderboard.rendered = ->
+        this.vm.bind @
+    pre.
+      &lt;template name=&quot;leaderboard&quot;&gt;
+        &#123;{#each <b>players</b>}}
+          &lt;p&gt;
+            Name: &#123;{name}}
+          &lt;/p&gt;
+        &#123;{/each}}
+      &lt;/template&gt;
+  .section
+    h1 .addHelpers
+    p This is the same as .addHelper but it lets you add multiple (or all) helpers at once.
+    pre.
+      # Add a single helper (same as using .addHelper)
+      viewmodel.addHelpers 'property', template
+
+      # Add two properties as template helpers
+      viewmodel.addHelpers ['property1', 'property2'], template
+
+      # Add all the properties and methods of the viewmodel as template helpers
+      viewmodel.addHelpers template
+
+    h2 Example
+    p This is the same example as before but we're adding all the properties of the viewmodel as template helpers.
+    pre.
+      Template.leaderboard.created = ->
+        this.vm = new ViewModel('leaderboard',
+          players: -> Players.find()
+          selected: null
+          addPoints: -> Players.update(@selected(), { $inc: { score: 5 } })
+        )<b>.addHelpers @</b>
+
+      Template.leaderboard.rendered = ->
+        this.vm.bind @
+    pre.
+      &lt;template name=&quot;leaderboard&quot;&gt;
+        Selected: &#123;{<b>selected</b>}}
+        &#123;{#each <b>players</b>}}
+          &lt;p&gt;
+            Name: &#123;{name}}
+          &lt;/p&gt;
+        &#123;{/each}}
+      &lt;/template&gt;
