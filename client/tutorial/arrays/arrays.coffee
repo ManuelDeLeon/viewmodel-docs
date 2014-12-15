@@ -9,14 +9,14 @@ Template.arrayList.rendered = ->
   arrayListVM.bind @
 
 Template.arrayList.helpers
-  names: -> arrayListVM.names()
+  names: ->
+    arrayListVM.names()
 
 Template.arrayName.rendered = ->
   new ViewModel(
     name: this.data
     remove: -> arrayListVM.names().remove @name()
   ).bind @
-
 
 Template.arrayNumbers.rendered = ->
   new ViewModel(

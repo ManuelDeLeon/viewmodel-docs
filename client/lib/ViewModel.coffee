@@ -1,4 +1,4 @@
-class @ViewModelX
+class @ViewModel
   bindingToken = RegExp("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|/(?:[^/\\\\]|\\\\.)*/w*|[^\\s:,/][^,\"'{}()/:[\\]]*[^\\s,\"'{}()/:[\\]]|[^\\s]","g")
   divisionLookBehind = /[\])"'A-Za-z0-9_$]+$/
   keywordRegexLookBehind =
@@ -85,7 +85,7 @@ class @ViewModelX
 
   @addBind 'value', (p) ->
     delayTime = p.elementBind['delay'] or 1
-    delayName = p.vm._id + '_' + p.bindName + "_" + p.property
+    delayName = p.vm._vm_id + '_' + p.bindName + "_" + p.property
     p.autorun (c) ->
       newValue = getProperty p.vm, p.property
       if p.element.val() isnt newValue
@@ -93,9 +93,9 @@ class @ViewModelX
 
       return if c.firstRun
       delay 750, delayName, ->
-        p.vm._delayed[p.property] newValue if p.vm._delayed[p.property]() isnt newValue
+        p.vm._vm_delayed[p.property] newValue if p.vm._vm_delayed[p.property]() isnt newValue
 
-    p.vm._addDelayedProperty p.property, p.vm[p.property](), p.vm
+    p.vm._vm_addDelayedProperty p.property, p.vm[p.property](), p.vm
     p.element.bind "cut paste keypress input change", (ev) ->
       delay delayTime, delayName, ->
         newValue = p.element.val()
@@ -166,10 +166,11 @@ class @ViewModelX
     if negate then not ret else ret
 
   @addBind 'text', (p) ->
-    p.autorun -> p.element.text getProperty p.vm, p.elementBind[p.bindName]
+    p.autorun ->
+      p.element.text getProperty p.vm, p.property
 
   @addBind 'html', (p) ->
-    p.autorun -> p.element.html getProperty p.vm, p.elementBind[p.bindName]
+    p.autorun -> p.element.html getProperty p.vm, p.property
 
   enable = (elem) ->
     if elem.is('button')
@@ -255,25 +256,26 @@ class @ViewModelX
   constructor: (p1, p2) ->
 
     templateBound = false
-    @_id = '_vm_' + (if p2 then p1 else Math.random())
+    @_vm_id = '_vm_' + (if p2 then p1 else Math.random())
 
     disposed = false
     @dispose = ->
-      Session.set @_id, undefined
+      Session.set @_vm_id, undefined
       disposed = true
+
 
     if p2
       self = this
       delay 1, ->
-        if Session.get(self._id)
-          self.fromJS Session.get(self._id), false
+        if Session.get(self._vm_id)
+          self.fromJS Session.get(self._vm_id), false
         else
-          Session.setDefault self._id, self.toJS() if not Session.get(self._id)?
+          Session.setDefault self._vm_id, self.toJS() if not Session.get(self._vm_id)?
         Tracker.autorun (c) ->
           if disposed or templateBound
             c.stop()
           else
-            Session.set self._id, self.toJS()
+            Session.set self._vm_id, self.toJS()
 
 
     obj = p2 || p1
@@ -282,7 +284,7 @@ class @ViewModelX
     initialValues = {}
     dependenciesDelayed = {}
     valuesDelayed = {}
-    @_delayed = {}
+    @_vm_delayed = {}
     properties = []
     propertiesDelayed = []
 
@@ -291,17 +293,20 @@ class @ViewModelX
       dep = dependencies[p] || (dependencies[p] = new Tracker.Dependency())
       vm[p] = (e) ->
         if isArray(e)
-          values[p] = new ReactiveArray(e, dep)
-          dep.changed()
+          values[p] = new ReactiveArray(e)
         else if arguments.length
           if values[p] isnt e
             values[p] = e
             dep.changed()
         else
           dep.depend()
-        values[p]
+
+        if values[p] instanceof ReactiveArray
+          values[p].list()
+        else
+          values[p]
       if isArray(value)
-        values[p] = new ReactiveArray(value, dep)
+        values[p] = new ReactiveArray(value)
       else
         values[p] = value
 
@@ -311,10 +316,10 @@ class @ViewModelX
         initialValues[p] = value
         addRawProperty p, value, vm, values, dependencies
 
-    @_addDelayedProperty = (p, value, vm) ->
+    @_vm_addDelayedProperty = (p, value, vm) ->
       if not valuesDelayed[p]
         propertiesDelayed.push p
-        addRawProperty p, value, vm._delayed, valuesDelayed, dependenciesDelayed
+        addRawProperty p, value, vm._vm_delayed, valuesDelayed, dependenciesDelayed
 
     addProperties = (propObj, that) ->
       for p of propObj
@@ -329,37 +334,32 @@ class @ViewModelX
 
     @bind = (template) =>
       vm = @
-      db = '[data-bind]'
-      container = {}
-      dataBoundElements = if isString(template)
+      db = '[data-bind]:not([data-ViewModel])'
+      [container, dataBoundElements] = if isString(template)
         if Template[template]
-          container = Template[template]
-          Template[template].$(db)
+          [Template[template], Template[template].$(db)]
         else
-          container = $(template)
-          $(template).find(db)
+          [$(template), $(template).find(db)]
       else if isElement(template)
-        container = $(template)
-        $(template).find(db)
+        [$(template), $(template).find(db)]
       else if template instanceof jQuery
-        container = template
-        template.find(db)
+        [template, template.find(db)]
       else
-        container = template
-        template.$(db)
+        [template, template.$(db)]
 
+      self = this
       if container?.autorun
         container.autorun (c) ->
           return if c.firstRun
           if disposed
             c.stop()
           else
-            Session.set self._id, self.toJS()
+            Session.set self._vm_id, self.toJS()
 
       dataBoundElements.each ->
         element = $(this)
         elementBind = parseBind element.data('bind')
-        element.removeAttr('data-bind')
+        element.attr "data-ViewModel", self._vm_id
         for bindName of elementBind
           bindFunc = binds[bindName] || binds.default
           bindFunc
@@ -395,7 +395,7 @@ class @ViewModelX
       else
         Template[template].helpers obj
 
-    reservedWords = ['bind', 'extend', 'addHelper', 'addHelpers', 'toJS', 'fromJS', '_addDelayedProperty', '_delayed', '_id', 'dispose', 'reset']
+    reservedWords = ['bind', 'extend', 'addHelper', 'addHelpers', 'toJS', 'fromJS', '_vm_addDelayedProperty', '_vm_delayed', '_vm_id', 'dispose', 'reset']
 
     @addHelper = (helper, template) ->
       _addHelper helper, template, @
@@ -424,7 +424,7 @@ class @ViewModelX
         for p in properties when p not in propertiesDelayed
           ret[p] = @[p]()
       for p in propertiesDelayed
-        ret[p] = this._delayed[p]()
+        ret[p] = this._vm_delayed[p]()
       ret
 
     @fromJS = (obj) =>
