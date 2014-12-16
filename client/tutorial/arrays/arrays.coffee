@@ -1,21 +1,19 @@
-arrayListVM = new ViewModel
-  names: ['Tom', 'Dick', 'Harry']
-  newName: ''
-  addName: ->
-    @names().push @newName()
-    @newName ''
+Template.arrayList.created = ->
+  this.vm = new ViewModel(
+    names: ['Tom', 'Dick', 'Harry']
+    newName: ''
+    addName: ->
+      @names().push @newName()
+      @newName ''
+  ).addHelper 'names', @
 
 Template.arrayList.rendered = ->
-  arrayListVM.bind @
-
-Template.arrayList.helpers
-  names: ->
-    arrayListVM.names()
+  this.vm.bind @
 
 Template.arrayName.rendered = ->
   new ViewModel(
     name: this.data
-    remove: -> arrayListVM.names().remove @name()
+    remove: -> @parent().names().remove @name()
   ).bind @
 
 Template.arrayNumbers.rendered = ->

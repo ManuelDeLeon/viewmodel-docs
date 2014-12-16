@@ -332,11 +332,22 @@ class @ViewModel
     if isObject(obj)
       addProperties obj, @
 
+    addParent = (vm, template) ->
+      parentView = template.view.parentView
+      t = null
+      while parentView
+        t = parentView.templateInstance() if parentView.templateInstance
+        break if t
+        parentView = parentView.parentView
+      vm.parent = -> t._vm_instance
+      template._vm_instance = vm
+
     @bind = (template) =>
       vm = @
-      db = '[data-bind]:not([data-ViewModel])'
+      db = '[data-bind]:not([data-bound])'
       [container, dataBoundElements] = if isString(template)
         if Template[template]
+          addParent vm, Template[template]
           [Template[template], Template[template].$(db)]
         else
           [$(template), $(template).find(db)]
@@ -345,9 +356,10 @@ class @ViewModel
       else if template instanceof jQuery
         [template, template.find(db)]
       else
+        addParent vm, template
         [template, template.$(db)]
 
-      self = this
+      self = @
       if container?.autorun
         container.autorun (c) ->
           return if c.firstRun
@@ -359,7 +371,7 @@ class @ViewModel
       dataBoundElements.each ->
         element = $(this)
         elementBind = parseBind element.data('bind')
-        element.attr "data-ViewModel", self._vm_id
+        element.attr "data-bound", true
         for bindName of elementBind
           bindFunc = binds[bindName] || binds.default
           bindFunc
@@ -395,7 +407,7 @@ class @ViewModel
       else
         Template[template].helpers obj
 
-    reservedWords = ['bind', 'extend', 'addHelper', 'addHelpers', 'toJS', 'fromJS', '_vm_addDelayedProperty', '_vm_delayed', '_vm_id', 'dispose', 'reset']
+    reservedWords = ['bind', 'extend', 'addHelper', 'addHelpers', 'toJS', 'fromJS', '_vm_addDelayedProperty', '_vm_delayed', '_vm_id', 'dispose', 'reset', 'parent']
 
     @addHelper = (helper, template) ->
       _addHelper helper, template, @
