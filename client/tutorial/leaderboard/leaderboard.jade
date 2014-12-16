@@ -62,8 +62,8 @@ template(name='leaderboard')
             Template.<b>player.rendered</b> = ->
               new ViewModel(this.data).extend(
                 player: -> Players.findOne(@_id())
-                select: -> @parent().selected @_id()
-                isSelected: -> @parent().selected() is @_id()
+                select: -> <b>@parent()</b>.selected @_id()
+                isSelected: -> <b>@parent()</b>.selected() is @_id()
                 info: -> @player().score + ' ' + @player().name
               ).bind @
 
