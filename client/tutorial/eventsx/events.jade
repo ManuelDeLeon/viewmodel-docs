@@ -33,13 +33,13 @@ template(name='eventsx')
         pre.
           Template.eventsx.rendered = ->
             new ViewModel(
-              <b>outputMessage</b>: -> console.log 'You clicked The Button (tm)'
+              <b>outputMessage</b>: (event) -> console.log 'You clicked The Button (tm)'
             ).bind @
       div#eventsx-js.tab-pane.fade
         pre.
           Template.eventsx.rendered = function() {
             return new ViewModel({
-              outputMessage: function() {
+              outputMessage: function(event) {
                 return console.log('You clicked The Button (tm)');
               }
             }).bind(this);
