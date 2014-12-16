@@ -27,7 +27,7 @@ less@1.0.12-rc.2
 livedata@1.0.12-rc.1
 logging@1.0.6-rc.1
 manuel:reactivearray@1.0.0
-manuel:viewmodel@1.1.6
+manuel:viewmodel@1.1.8
 meteor@1.1.4-rc.1
 meteor-platform@1.2.1-rc.1
 mike:mocha@0.4.9

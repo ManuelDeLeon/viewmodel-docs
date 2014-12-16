@@ -96,50 +96,45 @@ template(name="arrayListCode")
   div.tab-content
     div#arrayListCode-coffee.tab-pane.fade.active.in
       pre.
-        arrayListVM = new ViewModel
-          <b>names: ['Tom', 'Dick', 'Harry']</b>
-          newName: ''
-          addName: ->
-            @names().push @newName()
-            @newName ''
+        Template.arrayList.created = ->
+          this.vm = new ViewModel(
+            <b>names: ['Tom', 'Dick', 'Harry']</b>
+            newName: ''
+            addName: ->
+              @names().push @newName()
+              @newName ''
+          ).addHelper 'names', @
 
         Template.arrayList.rendered = ->
-          arrayListVM.bind @
-
-        Template.arrayList.helpers
-          <b>names: -> arrayListVM.names()</b>
+          this.vm.bind @
 
         Template.arrayName.rendered = ->
           new ViewModel(
             name: this.data
-            remove: -> <b>arrayListVM.names().remove</b> @name()
+            remove: -> <b>@parent().names().remove</b> @name()
           ).bind @
     div#arrayListCode-js.tab-pane.fade
       pre.
-        var arrayListVM = new ViewModel({
-          names: ['Tom', 'Dick', 'Harry'],
-          newName: '',
-          addName: function() {
-            this.names().push(this.newName());
-            return this.newName('');
-          }
-        });
-
-        Template.arrayList.rendered = function() {
-          return arrayListVM.bind(this);
+        Template.arrayList.created = function() {
+          return this.vm = new ViewModel({
+            names: ['Tom', 'Dick', 'Harry'],
+            newName: '',
+            addName: function() {
+              this.names().push(this.newName());
+              return this.newName('');
+            }
+          }).addHelper('names', this);
         };
 
-        Template.arrayList.helpers({
-          names: function() {
-            return arrayListVM.names();
-          }
-        });
+        Template.arrayList.rendered = function() {
+          return this.vm.bind(this);
+        };
 
         Template.arrayName.rendered = function() {
           return new ViewModel({
             name: this.data,
             remove: function() {
-              return arrayListVM.names().remove(this.name());
+              return this.parent().names().remove(this.name());
             }
           }).bind(this);
         };
