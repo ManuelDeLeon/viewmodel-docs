@@ -537,7 +537,12 @@ if typeof MochaWeb isnt 'undefined'
             done()
 
       describe "options binding", ->
-        describe "with array", ->
+        it "should throw error when bound to div", ->
+          select = $("<div data-bind='options: countries'></div>")
+          template = $("<div></div>").append(select)
+          chai.assert.throws((-> vm.bind template), Error)
+
+        describe "with array - single selection", ->
           beforeEach ->
             vm.extend
               countries: ['France', 'Germany', 'Spain']
@@ -550,19 +555,52 @@ if typeof MochaWeb isnt 'undefined'
             chai.assert.equal template.find(":selected").length, 1
             chai.assert.equal template.find(":selected").first().val(), "France"
 
-          it "listbox should not select a value if not using the value binding", ->
+          it "listbox (size) should not select a value if not using the value binding", ->
             select = $("<select size='5' data-bind='options: countries'></select>")
             template = $("<div></div>").append(select)
             vm.bind template
             chai.assert.equal template.find(":selected").length, 0
 
-          describe "listbox", ->
-            it "should select a value if using the value binding", ->
-              select = $("<select size='5' data-bind='options: countries, value: selectedCountry'></select>")
+          it "listbox (multiple) should not select a value if not using the value binding", ->
+            select = $("<select multiple data-bind='options: countries'></select>")
+            template = $("<div></div>").append(select)
+            vm.bind template
+            chai.assert.equal template.find(":selected").length, 0
+
+          describe "listbox - single", ->
+            select = {}
+            template = {}
+
+            it "throws error value points to an array", ->
+              vm.extend
+                selectedCountries: ['France', 'Germany', 'Spain']
+              select = $("<select size='5' data-bind='options: countries, value: selectedCountries'></select>")
               template = $("<div></div>").append(select)
-              vm.bind template
-              chai.assert.equal template.find(":selected").length, 1
-              chai.assert.equal template.find(":selected").first().val(), "Germany"
+              chai.assert.throws (-> vm.bind template), Error
+
+            describe "normal", ->
+              beforeEach ->
+                select = $("<select size='5' data-bind='options: countries, value: selectedCountry'></select>")
+                template = $("<div></div>").append(select)
+                vm.bind template
+
+              it "should select a value", ->
+                chai.assert.equal template.find(":selected").length, 1
+                chai.assert.equal template.find(":selected").first().val(), "Germany"
+
+              it "should update vm", (done) ->
+                select.val 'Spain'
+                select.trigger 'change'
+                Global.delay 1, ->
+                  chai.assert.equal vm.selectedCountry(), 'Spain'
+                  done()
+
+              it "should update UI", (done) ->
+                vm.selectedCountry 'Spain'
+                Global.delay 1, ->
+                  chai.assert.equal select.val(), 'Spain'
+                  done()
+
 
           describe "combobox", ->
             select = {}
@@ -587,3 +625,34 @@ if typeof MochaWeb isnt 'undefined'
               Global.delay 1, ->
                 chai.assert.equal select.val(), 'Spain'
                 done()
+
+            it "throws error value points to an array", ->
+              vm.extend
+                selectedCountries: ['France', 'Germany', 'Spain']
+              select = $("<select data-bind='options: countries, value: selectedCountries'></select>")
+              template = $("<div></div>").append(select)
+              chai.assert.throws (-> vm.bind template), Error
+
+
+        describe "with array - multiple selection", ->
+          beforeEach ->
+            vm.extend
+              countries: ['France', 'Germany', 'Spain']
+              selectedCountries: ['Germany', 'Spain']
+              badSelect: 'Germany'
+
+          it "throws error value doesn't point to an array", ->
+            select = $("<select multiple data-bind='options: countries, value: badSelect'></select>")
+            template = $("<div></div>").append(select)
+            chai.assert.throws (-> vm.bind template), Error
+
+          describe "with multiple attribute", ->
+            select = {}
+            beforeEach ->
+              select = $("<select multiple data-bind='options: countries, value: selectedCountry'></select>")
+              template = $("<div></div>").append(select)
+              vm.bind template
+            xit "notifies when selection changes", ->
+            xit "should update vm", (done) ->
+            xit "should update UI", (done) ->
+

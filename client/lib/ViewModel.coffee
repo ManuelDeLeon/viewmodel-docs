@@ -1,4 +1,4 @@
-class @ViewModelX
+class @ViewModel
   bindingToken = RegExp("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|/(?:[^/\\\\]|\\\\.)*/w*|[^\\s:,/][^,\"'{}()/:[\\]]*[^\\s,\"'{}()/:[\\]]|[^\\s]","g")
   divisionLookBehind = /[\])"'A-Za-z0-9_$]+$/
   keywordRegexLookBehind =
@@ -107,6 +107,17 @@ class @ViewModelX
         ev.preventDefault()
 
   @addBind 'options', (p) ->
+    if not p.element.is "select"
+      throw new Error "The options bind can only be used with SELECT elements."
+    if p.elementBind['value']
+      value = getProperty p.vm, p.elementBind['value']
+      if isArray value
+        if not p.element.prop('multiple')
+          throw new Error "Can't use an array value for single selection options."
+      else
+        if p.element.prop('multiple')
+          throw new Error "Must use an array value for multiple selection options."
+
     p.autorun ->
       arr = p.vm[p.property]().array()
       p.element.find('option').remove()

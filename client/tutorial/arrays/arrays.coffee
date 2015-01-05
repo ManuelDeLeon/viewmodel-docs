@@ -20,12 +20,7 @@ Template.arrayNumbers.rendered = ->
   new ViewModel(
     numberList: [2,3,1,9,3]
     numbers: -> @numberList().toString()
-    average: ->
-      length = @numberList().length
-      return 0 if length is 0
-      sum = 0
-      sum += n for n in @numberList()
-      sum / length
+    sum: -> @numberList().reduce((t,s) -> t + s)
     newNumber: ''
     addNumber: ->
       @numberList().push parseInt(@newNumber())

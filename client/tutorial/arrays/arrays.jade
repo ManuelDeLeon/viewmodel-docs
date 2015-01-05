@@ -39,8 +39,8 @@ template(name="arrayNumbers")
   h1 Numbers Example
   p(data-bind="text: numbers")
   p
-    | Average:
-    span(data-bind="text: average")
+    | Sum:
+    span(data-bind="text: sum")
   | New:
   input(type="text", data-bind="value: newNumber")
   a.btn.btn-primary(data-bind="click: addNumber") Add number to list
@@ -153,8 +153,8 @@ template(name="arrayNumbersCode")
           h1 Numbers Example
           p(data-bind="text: numbers")
           p
-            | Average:
-            span(data-bind="text: average")
+            | Sum:
+            span(data-bind="text: sum")
           | New:
           input(type="text", data-bind="value: newNumber")
           a.btn.btn-primary(data-bind="click: addNumber") Add number to list
@@ -163,7 +163,7 @@ template(name="arrayNumbersCode")
         &lt;template name=&quot;arrayNumbers&quot;&gt;
           &lt;h1&gt;Numbers Example&lt;/h1&gt;
           &lt;p data-bind=&quot;text: numbers&quot;&gt;&lt;/p&gt;
-          &lt;p&gt;Average:&lt;span data-bind=&quot;text: average&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+          &lt;p&gt;Sum:&lt;span data-bind=&quot;text: sum&quot;&gt;&lt;/span&gt;&lt;/p&gt;
           New: &lt;input type=&quot;text&quot; data-bind=&quot;value: newNumber&quot;/&gt;&lt;a data-bind=&quot;click: addNumber&quot; class=&quot;btn btn-primary&quot;&gt;Add number to list&lt;/a&gt;
         &lt;/template&gt;
   ul.nav.nav-pills
@@ -178,12 +178,7 @@ template(name="arrayNumbersCode")
           new ViewModel(
             <b>numberList: [2,3,1,9,3]</b>
             numbers: -> <b>@numberList().toString()</b>
-            average: ->
-              length = <b>@numberList().length</b>
-              return 0 if length is 0
-              sum = 0
-              sum += n <b>for n in @numberList()</b>
-              sum / length
+            sum: -> @numberList().reduce((t,s) -> t + s)
             newNumber: ''
             addNumber: ->
               <b>@numberList().push</b> parseInt(@newNumber())
@@ -198,18 +193,7 @@ template(name="arrayNumbersCode")
               return this.numberList().toString();
             },
             average: function() {
-              var length, n, sum, _i, _len, _ref;
-              length = this.numberList().length;
-              &#105;f (length === 0) {
-                return 0;
-              }
-              sum = 0;
-              _ref = this.numberList();
-              for (_i = 0, _len = _ref.length; _i &lt; _len; _i++) {
-                n = _ref[_i];
-                sum += n;
-              }
-              return sum / length;
+              this.numberList().reduce(function(t, s) { return t + s; });
             },
             newNumber: '',
             addNumber: function() {
