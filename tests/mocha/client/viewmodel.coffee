@@ -6,8 +6,9 @@ if typeof MochaWeb isnt 'undefined'
         return false if obj1[p] isnt obj2[p]
       true
 
-    assert = (vm, actual, expected) ->
-      Global.delay 1, -> chai.assert.equal vm.enterPressed(), true
+    arraysAreEqual = (a, b) ->
+      a.length is b.length and a.every (elem, i) -> elem is b[i]
+
     describe "ViewModel", ->
       vm = {}
       beforeEach ->
@@ -542,6 +543,17 @@ if typeof MochaWeb isnt 'undefined'
           template = $("<div></div>").append(select)
           chai.assert.throws((-> vm.bind template), Error)
 
+        it "should convert quotes in options values", ->
+          select = $("<select data-bind='options: countries'></select>")
+          template = $("<div></div>").append(select)
+          vm.extend
+            countries: ['"', "'", "&quot;"]
+          vm.bind template
+          options = select.find("option")
+          chai.assert.equal options[0].value, '"'
+          chai.assert.equal options[1].value, "'"
+          chai.assert.equal options[2].value, "&quot;"
+
         describe "with array - single selection", ->
           beforeEach ->
             vm.extend
@@ -649,10 +661,43 @@ if typeof MochaWeb isnt 'undefined'
           describe "with multiple attribute", ->
             select = {}
             beforeEach ->
-              select = $("<select multiple data-bind='options: countries, value: selectedCountry'></select>")
+              select = $("<select multiple data-bind='options: countries, value: selectedCountries'></select>")
               template = $("<div></div>").append(select)
               vm.bind template
             xit "notifies when selection changes", ->
-            xit "should update vm", (done) ->
-            xit "should update UI", (done) ->
+              Tracker.autorun (c) ->
+                arr = vm.selectedCountries()
+                if not c.firstRun
+                  chai.assert.equal arr[0], 'Spain'
+                  c.stop()
+                  done()
 
+              select.val ['Spain']
+              select.trigger 'change'
+
+            xit "should update vm", (done) ->
+              select.val ['France', 'Germany']
+              select.trigger 'change'
+              Global.delay 1, ->
+                chai.assert.equal vm.selectedCountries().length, 2
+                chai.assert.equal vm.selectedCountries()[0], 'France'
+                chai.assert.equal vm.selectedCountries()[1], 'Germany'
+                done()
+
+            xit "should update UI passing an array", (done) ->
+              vm.selectedCountries ['France', 'Germany']
+              Global.delay 1, ->
+                chai.assert.equal select.val(), ['France', 'Germany']
+                done()
+
+            it "should update UI pushing an element", (done) ->
+              vm.selectedCountries().push 'France'
+              Global.delay 1, ->
+                chai.assert.isTrue arraysAreEqual(select.val(), ['France', 'Germany', 'Spain'])
+                done()
+
+            it "should select the default values", ->
+              selected = select.find(":selected")
+              chai.assert.equal selected.length, 2
+              chai.assert.equal selected[0].value, 'Germany'
+              chai.assert.equal selected[1].value, 'Spain'

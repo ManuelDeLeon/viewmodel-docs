@@ -5,10 +5,6 @@ Template.contacts.helpers
   contactList: -> Contacts.find()
 
 Template.contacts.rendered = ->
-  firstNode = $(this.firstNode)
-  console.log firstNode.attr('data-id')
-#  firstNode.attr 'data-id', Math.random()
-#  console.log firstNode.attr('data-id')
   new ViewModel(
     name: ''
     number: ''
@@ -30,7 +26,6 @@ Template.contacts.rendered = ->
   ).bind @
 
 Template.contact.rendered = ->
-
   new ViewModel(this.data).extend(
     contact: -> Contacts.findOne @_id()
     delete: -> Contacts.remove @_id()

@@ -1,4 +1,4 @@
-Template.options.rendered = ->
+Template.stringArraySingle.rendered = ->
   new ViewModel(
     countries: ['France', 'Germany', 'Spain']
     selectedCountry: 'Germany'

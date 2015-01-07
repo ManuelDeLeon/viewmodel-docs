@@ -14,6 +14,11 @@ if typeof MochaWeb isnt 'undefined'
           arr: ['a', 'b']
         arr = vm.arr()
 
+      it ".toJS should output Array", ->
+        obj = vm.toJS()
+        chai.assert.isTrue obj.arr instanceof Array
+        chai.assert.isFalse obj.arr instanceof ReactiveArray
+
       describe "New ViewModel", ->
         it "should have array values", ->
           chai.assert.equal arr.length, 2
