@@ -68,7 +68,7 @@ template(name="stringArrayMultiple")
                 @newCountry ''
               countryToSelect: ''
               selectCountry: ->
-                if @countryToSelect() not in @selectedCountries()
+                &#105;f @countryToSelect() not in @selectedCountries()
                   @selectedCountries().push @countryToSelect()
             ).bind @
       div#stringArrayMultiple-js.tab-pane.fade
@@ -85,7 +85,7 @@ template(name="stringArrayMultiple")
               countryToSelect: '',
               selectCountry: function() {
                 var _ref;
-                if (_ref = this.countryToSelect(), [].indexOf.call(this.selectedCountries(), _ref) < 0) {
+                &#105;f (_ref = this.countryToSelect(), [].indexOf.call(this.selectedCountries(), _ref) < 0) {
                   return this.selectedCountries().push(this.countryToSelect());
                 }
               }
