@@ -192,13 +192,13 @@ class @ViewModel
     p.autorun -> p.element.html getProperty p.vm, p.property
 
   enable = (elem) ->
-    if elem.is('button')
+    if elem.is('button') or elem.is('input')
       elem.removeAttr('disabled')
     else
       elem.removeClass('disabled')
 
   disable = (elem) ->
-    if elem.is('button')
+    if elem.is('button') or elem.is('input')
       elem.attr('disabled', 'disabled')
     else
       elem.addClass('disabled')
@@ -457,8 +457,12 @@ class @ViewModel
       ret
 
     @fromJS = (obj) =>
-      for p of values when obj[p]
-        values[p] = obj[p]
+      for p of values when typeof obj[p] isnt "undefined"
+        value = obj[p]
+        if value instanceof Array
+          values[p] = new ReactiveArray(value)
+        else
+          values[p] = value
 
       for p of values
         dependencies[p].changed()

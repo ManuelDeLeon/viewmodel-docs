@@ -52,6 +52,13 @@ if typeof MochaWeb isnt 'undefined'
             age: 21
             message: 'Name: John - Age: 21'
 
+        it "should output Array", ->
+          vm.extend
+            arr: ['a', 'b']
+          obj = vm.toJS()
+          chai.assert.isTrue obj.arr instanceof Array
+          chai.assert.isFalse obj.arr instanceof ReactiveArray
+
       describe "fromJS", ->
         it "should load all values", ->
           vm.fromJS
@@ -67,6 +74,18 @@ if typeof MochaWeb isnt 'undefined'
           chai.assert.equal vm.name(), 'Doe'
           chai.assert.equal vm.age(), 21
 
+        it "should load falsy values", ->
+          vm.extend
+            last: 'Doe'
+
+          vm.fromJS
+            name: ''
+            age: 0
+            last: null
+          chai.assert.equal vm.name(), ''
+          chai.assert.equal vm.age(), 0
+          chai.assert.equal vm.last(), null
+
         it "should load from object with more values", ->
           vm.fromJS
             name: 'Doe'
@@ -76,6 +95,15 @@ if typeof MochaWeb isnt 'undefined'
           chai.assert.equal vm.name(), 'Doe'
           chai.assert.equal vm.age(), 31
           chai.assert.equal vm.message(), 'Name: Doe - Age: 31'
+
+        it "should convert Array to ReactiveArray", ->
+          vm.extend
+            arr: ['a', 'b']
+          vm.fromJS
+            arr: ['c']
+          chai.assert.isTrue vm.arr() instanceof ReactiveArray
+          chai.assert.equal vm.arr().length, 1
+          chai.assert.equal vm.arr()[0], 'c'
 
       describe "returnKey binding", ->
         input = {}
@@ -380,7 +408,7 @@ if typeof MochaWeb isnt 'undefined'
             chai.assert.isFalse vm.over()
             done()
 
-      describe "enabled binding", ->
+      describe "enabled binding - button", ->
         button = {}
         beforeEach ->
           button = $("<button data-bind='enabled: isEnabled'>")
@@ -391,13 +419,53 @@ if typeof MochaWeb isnt 'undefined'
         it "should have default value", ->
           chai.assert.isFalse vm.isEnabled()
           chai.assert.isTrue button.is(":disabled")
+          chai.assert.isFalse button.hasClass("disabled")
         it "should change with vm change", (done) ->
           vm.isEnabled true
           Global.delay 1, ->
             chai.assert.isFalse button.is(":disabled")
+            chai.assert.isFalse button.hasClass("disabled")
             done()
 
-      describe "disabled binding", ->
+      describe "enabled binding - input", ->
+        input = {}
+        beforeEach ->
+          input = $("<input data-bind='enabled: isEnabled'>")
+          template = $("<div></div>").append(input)
+          vm.extend
+            isEnabled: false
+          vm.bind template
+        it "should have default value", ->
+          chai.assert.isFalse vm.isEnabled()
+          chai.assert.isTrue input.is(":disabled")
+          chai.assert.isFalse input.hasClass("disabled")
+        it "should change with vm change", (done) ->
+          vm.isEnabled true
+          Global.delay 1, ->
+            chai.assert.isFalse input.is(":disabled")
+            chai.assert.isFalse input.hasClass("disabled")
+            done()
+
+      describe "enabled binding - div", ->
+        div = {}
+        beforeEach ->
+          div = $("<div data-bind='enabled: isEnabled'><div>")
+          template = $("<div></div>").append(div)
+          vm.extend
+            isEnabled: false
+          vm.bind template
+        it "should have default value", ->
+          chai.assert.isFalse vm.isEnabled()
+          chai.assert.isFalse div.is(":disabled")
+          chai.assert.isTrue div.hasClass("disabled")
+        it "should change with vm change", (done) ->
+          vm.isEnabled true
+          Global.delay 1, ->
+            chai.assert.isFalse div.is(":disabled")
+            chai.assert.isFalse div.hasClass("disabled")
+            done()
+            
+      describe "disabled binding - button", ->
         button = {}
         beforeEach ->
           button = $("<button data-bind='disabled: isDisabled'>")
@@ -408,10 +476,50 @@ if typeof MochaWeb isnt 'undefined'
         it "should have default value", ->
           chai.assert.isFalse vm.isDisabled()
           chai.assert.isFalse button.is(":disabled")
+          chai.assert.isFalse button.hasClass("disabled")
         it "should change with vm change", (done) ->
           vm.isDisabled true
           Global.delay 1, ->
             chai.assert.isTrue button.is(":disabled")
+            chai.assert.isFalse button.hasClass("disabled")
+            done()
+
+      describe "disabled binding - input", ->
+        input = {}
+        beforeEach ->
+          input = $("<input data-bind='disabled: isDisabled'>")
+          template = $("<div></div>").append(input)
+          vm.extend
+            isDisabled: false
+          vm.bind template
+        it "should have default value", ->
+          chai.assert.isFalse vm.isDisabled()
+          chai.assert.isFalse input.is(":disabled")
+          chai.assert.isFalse input.hasClass("disabled")
+        it "should change with vm change", (done) ->
+          vm.isDisabled true
+          Global.delay 1, ->
+            chai.assert.isTrue input.is(":disabled")
+            chai.assert.isFalse input.hasClass("disabled")
+            done()
+
+      describe "disabled binding - div", ->
+        div = {}
+        beforeEach ->
+          div = $("<div data-bind='disabled: isDisabled'></div>")
+          template = $("<div></div>").append(div)
+          vm.extend
+            isDisabled: false
+          vm.bind template
+        it "should have default value", ->
+          chai.assert.isFalse vm.isDisabled()
+          chai.assert.isUndefined div.attr("disabled")
+          chai.assert.isFalse div.hasClass("disabled")
+        it "should change with vm change", (done) ->
+          vm.isDisabled true
+          Global.delay 1, ->
+            chai.assert.isUndefined div.attr("disabled")
+            chai.assert.isTrue div.hasClass("disabled")
             done()
 
       describe "visible binding", ->
@@ -684,10 +792,10 @@ if typeof MochaWeb isnt 'undefined'
                 chai.assert.equal vm.selectedCountries()[1], 'Germany'
                 done()
 
-            xit "should update UI passing an array", (done) ->
+            it "should update UI passing an array", (done) ->
               vm.selectedCountries ['France', 'Germany']
               Global.delay 1, ->
-                chai.assert.equal select.val(), ['France', 'Germany']
+                chai.assert.isTrue arraysAreEqual(select.val(), ['France', 'Germany'])
                 done()
 
             it "should update UI pushing an element", (done) ->
