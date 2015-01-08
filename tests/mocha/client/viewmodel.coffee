@@ -772,18 +772,20 @@ if typeof MochaWeb isnt 'undefined'
               select = $("<select multiple data-bind='options: countries, value: selectedCountries'></select>")
               template = $("<div></div>").append(select)
               vm.bind template
-            xit "notifies when selection changes", ->
+
+            it "notifies when selection changes", (done) ->
               Tracker.autorun (c) ->
                 arr = vm.selectedCountries()
                 if not c.firstRun
                   chai.assert.equal arr[0], 'Spain'
+                  chai.assert.equal arr.length, 1
                   c.stop()
                   done()
 
               select.val ['Spain']
               select.trigger 'change'
 
-            xit "should update vm", (done) ->
+            it "should update vm", (done) ->
               select.val ['France', 'Germany']
               select.trigger 'change'
               Global.delay 1, ->

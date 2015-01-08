@@ -14,3 +14,80 @@ template(name="stringArrayMultiple")
       input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
       button.btn.btn-primary(data-bind="click: selectCountry") Select Country
 
+  .section
+    h3 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#stringArrayMultiple-jade", data-toggle="tab") Jade
+      li
+        a(href="#stringArrayMultiple-html", data-toggle="tab") Html
+    div.tab-content
+      div#stringArrayMultiple-jade.tab-pane.fade.active.in
+        pre.
+          template(name='stringArrayMultiple')
+            p
+              select#countries(multiple, size="5", data-bind="options: countries, value: selectedCountries")
+              | Selected:
+              span(data-bind="text: selectedCountries")
+            p
+              input(type="text", data-bind="value: newCountry, returnKey: addCountry", placeholder="New Country...")
+              button.btn.btn-primary(data-bind="click: addCountry") Add Country
+            p
+              input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
+              button.btn.btn-primary(data-bind="click: selectCountry") Select Country
+      div#stringArrayMultiple-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;stringArrayMultiple&quot;&gt;
+            &lt;p&gt;
+              &lt;select id=&quot;countries&quot; multiple=&quot;multiple&quot; size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountries&quot;&gt;&lt;/select&gt;Selected:&lt;span data-bind=&quot;text: selectedCountries&quot;&gt;&lt;/span&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;input type=&quot;text&quot; data-bind=&quot;value: newCountry, returnKey: addCountry&quot; placeholder=&quot;New Country...&quot;/&gt;
+              &lt;button data-bind=&quot;click: addCountry&quot; class=&quot;btn btn-primary&quot;&gt;Add Country&lt;/button&gt;
+            &lt;/p&gt;
+            &lt;p&gt;
+              &lt;input type=&quot;text&quot; data-bind=&quot;value: countryToSelect, returnKey: selectCountry&quot; placeholder=&quot;Country To Select...&quot;/&gt;
+              &lt;button data-bind=&quot;click: selectCountry&quot; class=&quot;btn btn-primary&quot;&gt;Select Country&lt;/button&gt;
+            &lt;/p&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#stringArrayMultiple-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#stringArrayMultiple-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#stringArrayMultiple-coffee.tab-pane.fade.active.in
+        pre.
+          Template.stringArrayMultiple.rendered = ->
+            ViewBag.stringArrayMultiple = new ViewModel(
+              countries: ['France', 'Germany', 'Spain']
+              selectedCountries: ['Germany', 'Spain']
+              newCountry: ''
+              addCountry: ->
+                @countries().push @newCountry()
+                @newCountry ''
+              countryToSelect: ''
+              selectCountry: ->
+                if @countryToSelect() not in @selectedCountries()
+                  @selectedCountries().push @countryToSelect()
+            ).bind @
+      div#stringArrayMultiple-js.tab-pane.fade
+        pre.
+          Template.stringArrayMultiple.rendered = function() {
+            return ViewBag.stringArrayMultiple = new ViewModel({
+              countries: ['France', 'Germany', 'Spain'],
+              selectedCountries: ['Germany', 'Spain'],
+              newCountry: '',
+              addCountry: function() {
+                this.countries().push(this.newCountry());
+                return this.newCountry('');
+              },
+              countryToSelect: '',
+              selectCountry: function() {
+                var _ref;
+                if (_ref = this.countryToSelect(), [].indexOf.call(this.selectedCountries(), _ref) < 0) {
+                  return this.selectedCountries().push(this.countryToSelect());
+                }
+              }
+            }).bind(this);
+          };

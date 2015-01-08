@@ -18,13 +18,13 @@ template(name="stringArraySingle")
     h3 Code
     ul.nav.nav-pills
       li.active
-        a(href="#options-jade", data-toggle="tab") Jade
+        a(href="#stringArraySingle-jade", data-toggle="tab") Jade
       li
-        a(href="#options-html", data-toggle="tab") Html
+        a(href="#stringArraySingle-html", data-toggle="tab") Html
     div.tab-content
-      div#options-jade.tab-pane.fade.active.in
+      div#stringArraySingle-jade.tab-pane.fade.active.in
         pre.
-          template(name='options')
+          template(name='stringArraySingle')
             p
               select#countries(size="5", data-bind="options: countries, value: selectedCountry")
               | Selected:
@@ -35,9 +35,9 @@ template(name="stringArraySingle")
             p
               input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
               button.btn.btn-primary(data-bind="click: selectCountry") Select Country
-      div#options-html.tab-pane.fade
+      div#stringArraySingle-html.tab-pane.fade
         pre.
-          &lt;template name=&quot;options&quot;&gt;
+          &lt;template name=&quot;stringArraySingle&quot;&gt;
             &lt;p&gt;
               &lt;select id=&quot;countries&quot; size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountry&quot;&gt;&lt;/select&gt;
               Selected:&lt;span data-bind=&quot;text: selectedCountry&quot;&gt;&lt;/span&gt;
@@ -53,13 +53,13 @@ template(name="stringArraySingle")
           &lt;/template&gt;
     ul.nav.nav-pills
       li.active
-        a(href="#options-coffee", data-toggle="tab") Coffeescript
+        a(href="#stringArraySingle-coffee", data-toggle="tab") Coffeescript
       li
-        a(href="#options-js", data-toggle="tab") Javascript
+        a(href="#stringArraySingle-js", data-toggle="tab") Javascript
     div.tab-content
-      div#options-coffee.tab-pane.fade.active.in
+      div#stringArraySingle-coffee.tab-pane.fade.active.in
         pre.
-          Template.options.rendered = ->
+          Template.stringArraySingle.rendered = ->
             new ViewModel(
               countries: ['France', 'Germany', 'Spain']
               selectedCountry: 'Germany'
@@ -70,9 +70,9 @@ template(name="stringArraySingle")
               countryToSelect: ''
               selectCountry: -> @selectedCountry @countryToSelect()
             ).bind @
-      div#options-js.tab-pane.fade
+      div#stringArraySingle-js.tab-pane.fade
         pre.
-          Template.options.rendered = function() {
+          Template.stringArraySingle.rendered = function() {
             return new ViewModel({
               countries: ['France', 'Germany', 'Spain'],
               selectedCountry: 'Germany',
