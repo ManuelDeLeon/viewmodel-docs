@@ -26,7 +26,7 @@ template(name="stringArrayMultiple")
         pre.
           template(name='stringArrayMultiple')
             p
-              select#countries(multiple, size="5", data-bind="options: countries, value: selectedCountries")
+              <b>select</b>(<b>multiple</b>, size="5", data-bind="<b>options: countries, value: selectedCountries</b>")
               | Selected:
               span(data-bind="text: selectedCountries")
             p
@@ -39,7 +39,7 @@ template(name="stringArrayMultiple")
         pre.
           &lt;template name=&quot;stringArrayMultiple&quot;&gt;
             &lt;p&gt;
-              &lt;select id=&quot;countries&quot; multiple=&quot;multiple&quot; size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountries&quot;&gt;&lt;/select&gt;Selected:&lt;span data-bind=&quot;text: selectedCountries&quot;&gt;&lt;/span&gt;
+              &lt;select multiple=&quot;multiple&quot; size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountries&quot;&gt;&lt;/select&gt;Selected:&lt;span data-bind=&quot;text: selectedCountries&quot;&gt;&lt;/span&gt;
             &lt;/p&gt;
             &lt;p&gt;
               &lt;input type=&quot;text&quot; data-bind=&quot;value: newCountry, returnKey: addCountry&quot; placeholder=&quot;New Country...&quot;/&gt;
@@ -60,8 +60,8 @@ template(name="stringArrayMultiple")
         pre.
           Template.stringArrayMultiple.rendered = ->
             ViewBag.stringArrayMultiple = new ViewModel(
-              countries: ['France', 'Germany', 'Spain']
-              selectedCountries: ['Germany', 'Spain']
+              <b>countries: ['France', 'Germany', 'Spain']</b>
+              <b>selectedCountries: ['Germany', 'Spain']</b>
               newCountry: ''
               addCountry: ->
                 @countries().push @newCountry()

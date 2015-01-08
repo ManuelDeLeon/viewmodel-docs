@@ -26,7 +26,7 @@ template(name="stringArraySingle")
         pre.
           template(name='stringArraySingle')
             p
-              select#countries(size="5", data-bind="options: countries, value: selectedCountry")
+              <b>select</b>(size="5", data-bind="<b>options: countries, value: selectedCountry</b>")
               | Selected:
               span(data-bind="text: selectedCountry")
             p
@@ -39,7 +39,7 @@ template(name="stringArraySingle")
         pre.
           &lt;template name=&quot;stringArraySingle&quot;&gt;
             &lt;p&gt;
-              &lt;select id=&quot;countries&quot; size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountry&quot;&gt;&lt;/select&gt;
+              &lt;select size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountry&quot;&gt;&lt;/select&gt;
               Selected:&lt;span data-bind=&quot;text: selectedCountry&quot;&gt;&lt;/span&gt;
             &lt;/p&gt;
             &lt;p&gt;
@@ -61,8 +61,8 @@ template(name="stringArraySingle")
         pre.
           Template.stringArraySingle.rendered = ->
             new ViewModel(
-              countries: ['France', 'Germany', 'Spain']
-              selectedCountry: 'Germany'
+              <b>countries: ['France', 'Germany', 'Spain']</b>
+              <b>selectedCountry: 'Germany'</b>
               newCountry: ''
               addCountry: ->
                 @countries().push @newCountry()
