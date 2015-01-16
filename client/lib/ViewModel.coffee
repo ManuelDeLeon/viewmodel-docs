@@ -1,4 +1,4 @@
-class @ViewModel
+class @ViewModelX
   bindingToken = RegExp("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|/(?:[^/\\\\]|\\\\.)*/w*|[^\\s:,/][^,\"'{}()/:[\\]]*[^\\s,\"'{}()/:[\\]]|[^\\s]","g")
   divisionLookBehind = /[\])"'A-Za-z0-9_$]+$/
   keywordRegexLookBehind =
@@ -105,10 +105,10 @@ class @ViewModel
       else if p.element.val() isnt newValue
           p.element.val newValue
 
-      if isInput
-        return if c.firstRun
-        delay 500, delayName, ->
-          p.vm._vm_delayed[p.property] newValue if p.vm._vm_delayed[p.property]() isnt newValue
+      return if c.firstRun
+      if isInput and not delayed[delayName + "X"]
+        p.vm._vm_delayed[p.property] newValue if p.vm._vm_delayed[p.property]() isnt newValue
+
     if isInput
       p.vm._vm_addDelayedProperty p.property, p.vm[p.property](), p.vm
 
@@ -117,7 +117,7 @@ class @ViewModel
         newValue = p.element.val()
         p.vm[p.property] newValue if p.vm[p.property]() isnt newValue
         if isInput
-          delay 500, delayName, ->
+          delay 500, delayName + "X", ->
             p.vm._vm_delayed[p.property] newValue if p.vm._vm_delayed[p.property]() isnt newValue
       delay 1, ->
         if p.elementBind.returnKey and 13 in [ev.which, ev.keyCode]
@@ -312,12 +312,12 @@ class @ViewModel
         if Session.get(self._vm_id)
           self.fromJS Session.get(self._vm_id), false
         else
-          Session.setDefault self._vm_id, self.toJS() if not Session.get(self._vm_id)?
+          Session.setDefault self._vm_id, self._vm_toJS() if not Session.get(self._vm_id)?
         Tracker.autorun (c) ->
           if disposed or templateBound
             c.stop()
           else
-            Session.set self._vm_id, self.toJS()
+            Session.set self._vm_id, self._vm_toJS()
 
 
     obj = p2 || p1
@@ -422,7 +422,7 @@ class @ViewModel
       if container?.autorun
         container.autorun (c) ->
           templateBound = true
-          js = self.toJS()
+          js = self._vm_toJS()
           return if c.firstRun
           if disposed
             c.stop()
@@ -468,7 +468,7 @@ class @ViewModel
       else
         Template[template].helpers obj
 
-    reservedWords = ['bind', 'extend', 'addHelper', 'addHelpers', 'toJS', 'fromJS', '_vm_id', 'dispose', 'reset', 'parent', '_vm_addDelayedProperty', '_vm_delayed']
+    reservedWords = ['bind', 'extend', 'addHelper', 'addHelpers', 'toJS', 'fromJS', '_vm_id', 'dispose', 'reset', 'parent', '_vm_addDelayedProperty', '_vm_delayed', '_vm_toJS']
 
     @addHelper = (helper, template) ->
       _addHelper helper, template, @
@@ -488,7 +488,7 @@ class @ViewModel
           _addHelper p, template, @
       @
 
-    @toJS = (includeFunctions) =>
+    @_vm_toJS = (includeFunctions) =>
       ret = {}
       if includeFunctions
         for p of @ when p not in reservedWords and p not in propertiesDelayed
@@ -499,12 +499,24 @@ class @ViewModel
           if value instanceof ReactiveArray
             ret[p] = value.array()
           else
-            ret[p] = @[p]()
+            ret[p] = value
 
       for p in propertiesDelayed
         ret[p] = this._vm_delayed[p]()
-      if @_vm_id is "_vm_loginBox"
-        console.log ret
+      ret
+
+    @toJS = (includeFunctions) =>
+      ret = {}
+      if includeFunctions
+        for p of @ when p not in reservedWords
+          ret[p] = @[p]()
+      else
+        for p in properties
+          value = @[p]()
+          if value instanceof ReactiveArray
+            ret[p] = value.array()
+          else
+            ret[p] = value
       ret
 
     @fromJS = (obj) =>

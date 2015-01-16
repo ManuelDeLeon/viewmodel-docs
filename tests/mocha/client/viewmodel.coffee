@@ -159,6 +159,7 @@ if typeof MochaWeb isnt 'undefined'
         beforeEach ->
           input = $("<input type='text' data-bind='value: name'>")
           template = $("<div></div>").append(input)
+          vm._vm_id = Math.random().toString()
           vm.bind template
         it "should set input's default value", ->
           Global.delay 1, ->
@@ -191,6 +192,32 @@ if typeof MochaWeb isnt 'undefined'
           input.trigger 'paste'
           Global.delay 1, ->
             chai.assert.equal 'Bob', vm.name()
+            done()
+        it "should change toJS when vm changes", (done) ->
+          vm.name 'Bob'
+          Global.delay 1, ->
+            chai.assert.equal 'Bob', vm.toJS().name
+            done()
+
+        it "should not delay toJS when input changes via keypress", (done) ->
+          input.val 'Bob'
+          input.trigger 'keypress'
+          Global.delay 1, ->
+            chai.assert.equal 'Bob', vm.toJS().name
+            done()
+
+        it "should delay _vm_toJS when input changes via keypress before 500ms", (done) ->
+          input.val 'Bob'
+          input.trigger 'keypress'
+          Global.delay 1, ->
+            chai.assert.equal 'John', vm._vm_toJS().name
+            done()
+
+        it "should delay _vm_toJS when input changes via keypress after 500ms", (done) ->
+          input.val 'Bob'
+          input.trigger 'keypress'
+          Global.delay 700, ->
+            chai.assert.equal 'Bob', vm._vm_toJS().name
             done()
 
       describe "value binding with sessions", ->
