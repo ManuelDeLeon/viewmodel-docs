@@ -1,5 +1,5 @@
 Template.loginBox.rendered = ->
-  new ViewModel( 'loginBox',
+  vm = new ViewModel('loginBox',
     first: ''
     firstFocus: false
     last: ''
@@ -9,4 +9,5 @@ Template.loginBox.rendered = ->
     errorText: ->
       return '' if @canEnter() or not @showError()
       "Please enter your first and last name"
-  ).bind @
+  )
+  vm.bind @
