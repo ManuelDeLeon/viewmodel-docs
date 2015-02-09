@@ -1,7 +1,6 @@
 Template.loginBox.rendered = ->
   vm = new ViewModel('loginBox',
     first: ''
-    firstFocus: false
     last: ''
     greeting: -> "Hello #{@first()} #{@last()}"
     canEnter: -> !!@first() and !!@last()

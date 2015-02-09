@@ -59,7 +59,7 @@ template(name="stringArrayMultiple")
       div#stringArrayMultiple-coffee.tab-pane.fade.active.in
         pre.
           Template.stringArrayMultiple.rendered = ->
-            ViewBag.stringArrayMultiple = new ViewModel(
+            new ViewModel(
               <b>countries: ['France', 'Germany', 'Spain']</b>
               <b>selectedCountries: ['Germany', 'Spain']</b>
               newCountry: ''
@@ -74,7 +74,7 @@ template(name="stringArrayMultiple")
       div#stringArrayMultiple-js.tab-pane.fade
         pre.
           Template.stringArrayMultiple.rendered = function() {
-            return ViewBag.stringArrayMultiple = new ViewModel({
+            new ViewModel({
               countries: ['France', 'Germany', 'Spain'],
               selectedCountries: ['Germany', 'Spain'],
               newCountry: '',

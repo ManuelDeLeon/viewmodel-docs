@@ -9,7 +9,7 @@ coffeescript
 bootstrap
 spiderable
 mquandalle:jade@=0.2.9
-manuel:reactivearray
-manuel:viewmodel
 
+manuel:viewmodel
+manuel:reactivearray
 mike:mocha

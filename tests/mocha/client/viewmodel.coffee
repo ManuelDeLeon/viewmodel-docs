@@ -23,6 +23,32 @@ if typeof MochaWeb isnt 'undefined'
           chai.assert.equal vm.age(), 21
           chai.assert.equal vm.message(), 'Name: John - Age: 21'
 
+        it "should notify when object property is set to the same object", (done) ->
+          vm.extend
+            obj:
+              num: 1
+          Tracker.autorun (c) ->
+            obj = vm.obj()
+            if not c.firstRun
+              chai.assert.equal obj.num, 2
+              c.stop()
+              done()
+
+          vm.obj().num = 2
+          vm.obj vm.obj()
+
+        it "should notify when array property is set to the same object", (done) ->
+          vm.extend
+            obj: [1]
+          Tracker.autorun (c) ->
+            obj = vm.obj()
+            if not c.firstRun
+              chai.assert.equal obj.length, 1
+              c.stop()
+              done()
+
+          vm.obj vm.obj()
+
       describe "reset", ->
         it "should reset all values", ->
           vm.extend
@@ -123,6 +149,20 @@ if typeof MochaWeb isnt 'undefined'
             chai.assert.isTrue vm.enterPressed()
             done()
 
+      describe "all viewmodels", ->
+        input = {}
+        beforeEach ->
+          vm = new ViewModel('test', { })
+          template = $("<div></div>")
+          vm.bind template
+        it "should return vm by id", ->
+          chai.assert.equal vm._vm_id, ViewModel.byId('test')._vm_id
+        it "should return empty array by Template", ->
+          chai.assert.isTrue ViewModel.byTemplate('test') instanceof Array
+          chai.assert.equal 0, ViewModel.byTemplate('test').length
+        it "should return 1 from all", ->
+          chai.assert.isTrue ViewModel.all instanceof ReactiveArray
+
       describe "multiple value binding", ->
         input1 = {}
         input2 = {}
@@ -216,7 +256,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should delay _vm_toJS when input changes via keypress after 500ms", (done) ->
           input.val 'Bob'
           input.trigger 'keypress'
-          Global.delay 700, ->
+          Global.delay 800, ->
             chai.assert.equal 'Bob', vm._vm_toJS().name
             done()
 
@@ -632,7 +672,7 @@ if typeof MochaWeb isnt 'undefined'
       describe "delay value binding", ->
         input = {}
         beforeEach ->
-          input = $("<input type='text' data-bind='value: name, delay: 10'>")
+          input = $("<input type='text' data-bind='value: name, delay: 100'>")
           template = $("<div></div>").append(input)
           vm.bind template
 
@@ -650,7 +690,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should change vm value later", (done) ->
           input.val 'Bob'
           input.trigger 'keypress'
-          Global.delay 15, ->
+          Global.delay 150, ->
             chai.assert.equal 'Bob', vm.name()
             done()
 
@@ -829,7 +869,7 @@ if typeof MochaWeb isnt 'undefined'
 
             it "should update UI pushing an element", (done) ->
               vm.selectedCountries().push 'France'
-              Global.delay 1, ->
+              Global.delay 200, ->
                 chai.assert.isTrue arraysAreEqual(select.val(), ['France', 'Germany', 'Spain'])
                 done()
 

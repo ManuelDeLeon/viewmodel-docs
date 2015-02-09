@@ -1,5 +1,5 @@
 Template.stringArrayMultiple.rendered = ->
-  ViewBag.stringArrayMultiple = new ViewModel(
+  new ViewModel(
     countries: ['France', 'Germany', 'Spain']
     selectedCountries: ['Germany', 'Spain']
     newCountry: ''

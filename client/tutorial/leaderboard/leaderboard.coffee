@@ -2,7 +2,7 @@ Template.leaderboard.created = ->
   Meteor.subscribe 'Players'
   this.vm = new ViewModel('leaderboard',
     players: -> Players.find {}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } }
-    selected: null
+    selected: -> null
     addPoints: -> Players.update @selected(), { $inc: { score: 5 } }
   ).addHelper 'players', @
 

@@ -2,8 +2,9 @@ template(name='tutorial')
   ul.unstyled.main
     li
       +problem
-    li
-      +introVideo
+    if notLocalhost
+      li
+        +introVideo
     li
       +loginBox
     li
