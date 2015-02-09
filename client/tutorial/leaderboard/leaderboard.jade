@@ -3,8 +3,8 @@ template(name='leaderboard')
   #leaderboard
     .section
       h1 Leaderboard Example
-      //each players
-      //  +player
+      each players
+        +player
       hr
       button.btn(data-bind="visible: selected, click: addPoints") Add 5 points
       div(data-bind="visible: !selected") Please select a player
