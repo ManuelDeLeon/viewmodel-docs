@@ -643,6 +643,37 @@ if typeof MochaWeb isnt 'undefined'
             chai.assert.isTrue vm.isChecked()
             done()
 
+      describe "checked binding multiple", ->
+        input1 = {}
+        input2 = {}
+        input3 = {}
+        beforeEach ->
+          vm.extend
+            selected: ["B"]
+          template = $("<div></div>")
+          input1 = $("<input type='checkbox' value='A' data-bind='checked: selected'>")
+          template.append(input1)
+          input2 = $("<input type='checkbox' value='B' data-bind='checked: selected'>")
+          template.append(input2)
+          input3 = $("<input type='checkbox' value='C' data-bind='checked: selected'>")
+          template.append(input3)
+          vm.bind template
+        it "should set input's default value", ->
+          chai.assert.isFalse input1.is(':checked')
+          chai.assert.isTrue input2.is(':checked')
+          chai.assert.isFalse input3.is(':checked')
+        xit "should change input's value when vm changes", (done) ->
+          vm.isChecked true
+          Global.delay 1, ->
+            chai.assert.isTrue input.is(':checked')
+            done()
+        xit "should change vm value when input changes", (done) ->
+          input.prop('checked', true)
+          input.trigger 'change'
+          Global.delay 1, ->
+            chai.assert.isTrue vm.isChecked()
+            done()
+
       describe "checked binding radios", ->
         inputRed = {}
         inputBlue = {}

@@ -1,4 +1,4 @@
 Template.checkedMultiple.rendered = ->
   new ViewModel(
-    selected: []
+    selected: ["Colorado"]
   ).bind @
