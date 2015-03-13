@@ -1,0 +1,20 @@
+template(name='checkedMultiple')
+  a.bookmark(id='checkedMultipleBk')
+  #checkedMultiple.section
+    h1 checked Binding (multiple checkboxes)
+    p When bound to an array, the checked binding will add/remove the check values to the array.
+    pre data-bind='checked: arrayProperty'
+    .row
+      input(type='checkbox', value="Colorado", data-bind="checked: selected")
+      | Colorado
+    .row
+      input(type='checkbox', value="New York", data-bind="checked: selected")
+      | New York
+    .row
+      input(type='checkbox', value="Florida", data-bind="checked: selected")
+      | Florida
+
+    .row
+      p
+        | Selected:
+        span(data-bind="text: selected")
