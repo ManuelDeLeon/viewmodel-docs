@@ -3,7 +3,7 @@ template(name='newStyle')
   .section
     h1 New way to define viewmodels (Meteor 1.0.4+)
     p Meteor 1.0.4 introduced 3 new template methods (onCreated, onRendered, and onDestroyed) which makes ViewModel a whole lot easier to work with.
-    pre Template.templateName.viewmodel( [name,] viewmodel1 [, viewmodel2 [, viewmodelN]] [, helpers])
+    pre Template.templateName.viewmodel( [name,] viewmodel [, viewmodelN] [, helpers])
     h2 name
     p (Optional) Unique name for the viewmodel. It can be a string or a function that returns a string. The function takes in a data context parameter equal to the template instance's data context. If no name is given the template name is used. If no name is given and there are multiple template instances then no name is used.
     p You must specify a unique name for multiple instances if you want the viewmodel session to persist across hot code pushes. This is not necessary for templates that are used once (because the name will be the name of the template).
