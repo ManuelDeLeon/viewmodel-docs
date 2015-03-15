@@ -1,20 +1,75 @@
 template(name='checkedMultiple')
   a.bookmark(id='checkedMultipleBk')
-  #checkedMultiple.section
+  .section
     h1 checked Binding (multiple checkboxes)
     p When bound to an array, the checked binding will add/remove the check values to the array.
     pre data-bind='checked: arrayProperty'
-    .row
+    label.checkbox
       input(type='checkbox', value="Colorado", data-bind="checked: selected")
       | Colorado
-    .row
+    label.checkbox
       input(type='checkbox', value="New York", data-bind="checked: selected")
       | New York
-    .row
+    label.checkbox
       input(type='checkbox', value="Florida", data-bind="checked: selected")
       | Florida
+    p
+      | Selected:
+      span(data-bind="text: selected")
 
-    .row
-      p
-        | Selected:
-        span(data-bind="text: selected")
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li.active
+        a(href="#checkedMultiple-jade", data-toggle="tab") Jade
+      li
+        a(href="#checkedMultiple-html", data-toggle="tab") Html
+    div.tab-content
+      div#checkedMultiple-jade.tab-pane.fade.active.in
+        pre.
+          template(name='checkedMultiple')
+            label.checkbox
+              input(type='checkbox', value="Colorado", data-bind="checked: selected")
+              | Colorado
+            label.checkbox
+              input(type='checkbox', value="New York", data-bind="checked: selected")
+              | New York
+            label.checkbox
+              input(type='checkbox', value="Florida", data-bind="checked: selected")
+              | Florida
+            p
+              | Selected:
+              span(data-bind="text: selected")
+      div#checkedMultiple-html.tab-pane.fade
+        pre.
+          &lt;template name=&quot;checkedMultiple&quot;&gt;
+            &lt;label class=&quot;checkbox&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; value=&quot;Colorado&quot; data-bind=&quot;checked: selected&quot;/&gt;Colorado
+            &lt;/label&gt;
+            &lt;label class=&quot;checkbox&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; value=&quot;New York&quot; data-bind=&quot;checked: selected&quot;/&gt;New York
+            &lt;/label&gt;
+            &lt;label class=&quot;checkbox&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; value=&quot;Florida&quot; data-bind=&quot;checked: selected&quot;/&gt;Florida
+            &lt;/label&gt;
+            &lt;p&gt;Selected:&lt;span data-bind=&quot;text: selected&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li.active
+        a(href="#checkedMultiple-coffee", data-toggle="tab") Coffeescript
+      li
+        a(href="#checkedMultiple-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#checkedMultiple-coffee.tab-pane.fade.active.in
+        pre.
+          Template.checkedMultiple.rendered = ->
+            new ViewModel(
+              selected: ["Colorado"]
+          ).bind @
+      div#checkedMultiple-js.tab-pane.fade
+        pre.
+          Template.checkedMultiple.rendered = function() {
+            return new ViewModel({
+              selected: ["Colorado"]
+            }).bind(this);
+          };

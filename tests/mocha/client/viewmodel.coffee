@@ -662,17 +662,26 @@ if typeof MochaWeb isnt 'undefined'
           chai.assert.isFalse input1.is(':checked')
           chai.assert.isTrue input2.is(':checked')
           chai.assert.isFalse input3.is(':checked')
-        xit "should change input's value when vm changes", (done) ->
-          vm.isChecked true
-          Global.delay 1, ->
-            chai.assert.isTrue input.is(':checked')
+        it "should change input's value when vm changes", (done) ->
+          vm.selected().push "A"
+          Global.delay 1000, ->
+            chai.assert.isTrue input1.is(':checked')
+            chai.assert.isTrue input2.is(':checked')
+            chai.assert.isFalse input3.is(':checked')
             done()
-        xit "should change vm value when input changes", (done) ->
-          input.prop('checked', true)
-          input.trigger 'change'
+        it "should change vm value when input changes to true", (done) ->
+          input1.prop('checked', true)
+          input1.trigger 'change'
           Global.delay 1, ->
-            chai.assert.isTrue vm.isChecked()
+            chai.assert.isTrue arraysAreEqual(vm.selected(), ["B", "A"])
             done()
+        it "should change vm value when input changes to false", (done) ->
+          input2.prop('checked', false)
+          input2.trigger 'change'
+          Global.delay 1, ->
+            chai.assert.isTrue arraysAreEqual(vm.selected(), [])
+            done()
+
 
       describe "checked binding radios", ->
         inputRed = {}
@@ -900,7 +909,7 @@ if typeof MochaWeb isnt 'undefined'
 
             it "should update UI pushing an element", (done) ->
               vm.selectedCountries().push 'France'
-              Global.delay 200, ->
+              Global.delay 500, ->
                 chai.assert.isTrue arraysAreEqual(select.val(), ['France', 'Germany', 'Spain'])
                 done()
 
