@@ -1,3 +1,5 @@
+Template.leaderboard.viewmodel("A", "B", "C", "D")
+
 Template.leaderboard.created = ->
   Meteor.subscribe 'Players'
   this.vm = new ViewModel('leaderboard',
