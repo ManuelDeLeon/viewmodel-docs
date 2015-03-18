@@ -14,11 +14,11 @@ template(name='style3')
       li
         a(href="#style3-html", data-toggle="tab") Html
     div.tab-content
-      div#style3-jade.tab-pane.fade.active.in
+      div#style3-jade.tab-pane.fade
         pre.
           template(name='style3')
             <b>div</b>(data-bind="<b>style: styleObject</b>, text: textStyle")
-      div#style3-html.tab-pane.fade
+      div#style3-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;style3&quot;&gt;
             &lt;div data-bind=&quot;style: styleObject, text: textStyle&quot;&gt;&lt;/div&gt;
@@ -29,7 +29,7 @@ template(name='style3')
       li
         a(href="#style3-js", data-toggle="tab") Javascript
     div.tab-content
-      div#style3-coffee.tab-pane.fade.active.in
+      div#style3-coffee.tab-pane.fade
         pre.
           Template.style3.rendered = ->
             new ViewModel(
@@ -38,7 +38,7 @@ template(name='style3')
                 'font-weight': 'bold'
               textStyle: -> 'My style is = ' + JSON.stringify @styleObject()
             ).bind @
-      div#style3-js.tab-pane.fade
+      div#style3-js.tab-pane.fade.active.in
         pre.
           Template.style3.rendered = function() {
             return new ViewModel({

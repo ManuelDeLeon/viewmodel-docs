@@ -16,13 +16,13 @@ template(name='enable')
       li
         a(href="#enable-html", data-toggle="tab") Html
     div.tab-content
-      div#enable-jade.tab-pane.fade.active.in
+      div#enable-jade.tab-pane.fade
         pre.
           template(name='enable')
             input(type='text', placeholder='Type something...', data-bind="value: message")
             button.btn-primary(data-bind="<b>enabled: message</b>") Enabled if has text
             a.btn-primary(data-bind="<b>disabled: message</b>") Disabled if has text
-      div#enable-html.tab-pane.fade
+      div#enable-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;enable&quot;&gt;
             &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: message&quot;/&gt;
@@ -35,13 +35,13 @@ template(name='enable')
       li
         a(href="#enable-js", data-toggle="tab") Javascript
     div.tab-content
-      div#enable-coffee.tab-pane.fade.active.in
+      div#enable-coffee.tab-pane.fade
         pre.
           Template.enable.rendered = ->
             new ViewModel(
               <b>message</b>: ''
             ).bind @
-      div#enable-js.tab-pane.fade
+      div#enable-js.tab-pane.fade.active.in
         pre.
           Template.enable.rendered = function() {
             return new ViewModel({

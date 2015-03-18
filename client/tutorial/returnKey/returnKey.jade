@@ -16,12 +16,12 @@ template(name='returnKey')
       li
         a(href="#returnKey-html", data-toggle="tab") Html
     div.tab-content
-      div#returnKey-jade.tab-pane.fade.active.in
+      div#returnKey-jade.tab-pane.fade
         pre.
           template(name='returnKey')
             <b>input</b>(type='text', data-bind="value: message, <b>returnKey: logMessage</b>")
             div(data-bind="text: message")
-      div#returnKey-html.tab-pane.fade
+      div#returnKey-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;returnKey&quot;&gt;
             &lt;input type=&quot;text&quot; data-bind=&quot;value: message, returnKey: logMessage&quot;/&gt;
@@ -33,14 +33,14 @@ template(name='returnKey')
       li
         a(href="#returnKey-js", data-toggle="tab") Javascript
     div.tab-content
-      div#returnKey-coffee.tab-pane.fade.active.in
+      div#returnKey-coffee.tab-pane.fade
         pre.
           Template.returnKey.rendered = ->
             new ViewModel(
               message: 'Can it be true?'
               <b>logMessage</b>: -> console.log @message()
             ).bind @
-      div#returnKey-js.tab-pane.fade
+      div#returnKey-js.tab-pane.fade.active.in
         pre.
           Template.returnKey.rendered = function() {
             return new ViewModel({

@@ -24,7 +24,7 @@ template(name='visible')
       li
         a(href="#visible-html", data-toggle="tab") Html
     div.tab-content
-      div#visible-jade.tab-pane.fade.active.in
+      div#visible-jade.tab-pane.fade
         pre.
           template(name='visible')
             .row
@@ -37,7 +37,7 @@ template(name='visible')
               button.btn-primary(data-bind="<b>visible: showPrimary</b>") Primary
             .row
               button.btn-info(data-bind="<b>if: showInfo</b>") Info
-      div#visible-html.tab-pane.fade
+      div#visible-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;visible&quot;&gt;
             &lt;div class=&quot;row&quot;&gt;
@@ -59,14 +59,14 @@ template(name='visible')
       li
         a(href="#visible-js", data-toggle="tab") Javascript
     div.tab-content
-      div#visible-coffee.tab-pane.fade.active.in
+      div#visible-coffee.tab-pane.fade
         pre.
           Template.visible.rendered = ->
             new ViewModel(
               <b>showPrimary</b>: true
               <b>showInfo</b>: true
             ).bind @
-      div#visible-js.tab-pane.fade
+      div#visible-js.tab-pane.fade.active.in
         pre.
           Template.visible.rendered = function() {
             return new ViewModel({

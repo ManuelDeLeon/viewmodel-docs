@@ -21,7 +21,7 @@ template(name='loginBox')
         li
           a(href="#loginBox-html", data-toggle="tab") Html
       div.tab-content
-        div#loginBox-jade.tab-pane.fade.active.in
+        div#loginBox-jade.tab-pane.fade
           pre.
             <b>template(name='loginBox')</b>
               | First Name:
@@ -32,7 +32,7 @@ template(name='loginBox')
               <b>div</b>(data-bind='<b>text: greeting</b>')
               <b>a</b>.btn-primary(data-bind="<b>enabled: canEnter, hover: showError</b>") Enter Site
               <b>span</b>.text-error(data-bind='<b>text: errorText</b>')
-        div#loginBox-html.tab-pane.fade
+        div#loginBox-html.tab-pane.fade.active.in
           pre.
             &lt;template name=&quot;loginBox&quot;&gt;
               First Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: first&quot;/&gt;
@@ -49,7 +49,7 @@ template(name='loginBox')
         li
           a(href="#loginBox-js", data-toggle="tab") Javascript
       div.tab-content
-        div#loginBox-coffee.tab-pane.fade.active.in
+        div#loginBox-coffee.tab-pane.fade
           pre.
             Template.<b>loginBox.rendered</b> = ->
               new ViewModel(
@@ -62,7 +62,7 @@ template(name='loginBox')
                   return '' if @canEnter() or not @showError()
                   "Please enter your first and last name"
               ).bind @
-        div#loginBox-js.tab-pane.fade
+        div#loginBox-js.tab-pane.fade.active.in
           pre.
             Template.loginBox.rendered = function() {
               return new ViewModel({

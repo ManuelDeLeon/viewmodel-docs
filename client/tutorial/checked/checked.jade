@@ -19,7 +19,7 @@ template(name='checked')
       li
         a(href="#checked-html", data-toggle="tab") Html
     div.tab-content
-      div#checked-jade.tab-pane.fade.active.in
+      div#checked-jade.tab-pane.fade
         pre.
           template(name='checked')
             .row
@@ -27,7 +27,7 @@ template(name='checked')
               | Show button as primary
             .row
               button(data-bind="class: { btn-primary: showPrimary }") The Button!
-      div#checked-html.tab-pane.fade
+      div#checked-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;checked&quot;&gt;
             &lt;div class=&quot;row&quot;&gt;
@@ -43,13 +43,13 @@ template(name='checked')
       li
         a(href="#checked-js", data-toggle="tab") Javascript
     div.tab-content
-      div#checked-coffee.tab-pane.fade.active.in
+      div#checked-coffee.tab-pane.fade
         pre.
           Template.checked.rendered = ->
             new ViewModel(
               <b>showPrimary</b>: false
             ).bind @
-      div#checked-js.tab-pane.fade
+      div#checked-js.tab-pane.fade.active.in
         pre.
           Template.checked.rendered = function() {
             return new ViewModel({

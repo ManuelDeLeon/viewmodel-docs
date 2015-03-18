@@ -18,14 +18,14 @@ template(name='style2')
       li
         a(href="#style2-html", data-toggle="tab") Html
     div.tab-content
-      div#style2-jade.tab-pane.fade.active.in
+      div#style2-jade.tab-pane.fade
         pre.
           template(name='style2')
             input(type='text', placeholder="Text color", data-bind="value: textStyle")
             <b>div</b>(data-bind="<b>style: textStyle</b>")
               | My style is:
               span(data-bind='text: textStyle')
-      div#style2-html.tab-pane.fade
+      div#style2-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;style2&quot;&gt;
             &lt;input type=&quot;text&quot; placeholder=&quot;Text color&quot; data-bind=&quot;value: textStyle&quot;/&gt;
@@ -39,13 +39,13 @@ template(name='style2')
       li
         a(href="#style2-js", data-toggle="tab") Javascript
     div.tab-content
-      div#style2-coffee.tab-pane.fade.active.in
+      div#style2-coffee.tab-pane.fade
         pre.
           Template.style2.rendered = ->
             new ViewModel(
               <b>textStyle</b>: 'color: blue, font-weight: bold'
             ).bind @
-      div#style2-js.tab-pane.fade
+      div#style2-js.tab-pane.fade.active.in
         pre.
           Template.style2.rendered = function() {
             return new ViewModel({

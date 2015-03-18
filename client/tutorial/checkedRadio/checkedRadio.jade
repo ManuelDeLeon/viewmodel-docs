@@ -24,7 +24,7 @@ template(name='checkedRadio')
       li
         a(href="#checkedRadio-html", data-toggle="tab") Html
     div.tab-content
-      div#checkedRadio-jade.tab-pane.fade.active.in
+      div#checkedRadio-jade.tab-pane.fade
         pre.
           template(name='checkedRadio')
             p Favorite color:
@@ -36,7 +36,7 @@ template(name='checkedRadio')
               | Blue
             p Selected color:
             p(data-bind="text: color")
-      div#checkedRadio-html.tab-pane.fade
+      div#checkedRadio-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;checkedRadio&quot;&gt;
             &lt;p&gt;Favorite color:&lt;/p&gt;
@@ -55,13 +55,13 @@ template(name='checkedRadio')
       li
         a(href="#checkedRadio-js", data-toggle="tab") Javascript
     div.tab-content
-      div#checkedRadio-coffee.tab-pane.fade.active.in
+      div#checkedRadio-coffee.tab-pane.fade
         pre.
           Template.checkedRadio.rendered = ->
             new ViewModel(
               color: 'red'
           ).bind @
-      div#checkedRadio-js.tab-pane.fade
+      div#checkedRadio-js.tab-pane.fade.active.in
         pre.
           Template.checkedRadio.rendered = function() {
             return new ViewModel({

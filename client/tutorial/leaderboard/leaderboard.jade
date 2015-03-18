@@ -2,7 +2,7 @@ template(name='leaderboard')
   a.bookmark(id='leaderboardBk')
   #leaderboard
     .section
-      h1 Leaderboard Example
+      h1 Leaderboard Example.
       each players
         +player
       hr
@@ -17,7 +17,7 @@ template(name='leaderboard')
         li
           a(href="#leaderboard-html", data-toggle="tab") Html
       div.tab-content
-        div#leaderboard-jade.tab-pane.fade.active.in
+        div#leaderboard-jade.tab-pane.fade
           pre.
             <b>template(name='leaderboard')</b>
               <b>&#101;ach players</b>
@@ -27,7 +27,7 @@ template(name='leaderboard')
 
             <b>template(name='player')</b>
               <b>div</b>.player(data-bind="<b>text: info, click: select, class: { selected: isSelected }</b>")
-        div#leaderboard-html.tab-pane.fade
+        div#leaderboard-html.tab-pane.fade.active.in
           pre.
             &lt;template name=&quot;leaderboard&quot;&gt;
               &#123;{#each players}}
@@ -47,7 +47,7 @@ template(name='leaderboard')
         li
           a(href="#leaderboard-js", data-toggle="tab") Javascript
       div.tab-content
-        div#leaderboard-coffee.tab-pane.fade.active.in
+        div#leaderboard-coffee.tab-pane.fade
           pre.
             Template.<b>leaderboard.created</b> = ->
               this.vm = new ViewModel('leaderboard',
@@ -67,7 +67,7 @@ template(name='leaderboard')
                 info: -> @player().score + ' ' + @player().name
               ).bind @
 
-        div#leaderboard-js.tab-pane.fade
+        div#leaderboard-js.tab-pane.fade.active.in
           pre.
             Template.leaderboard.created = function() {
               return this.vm = new ViewModel('leaderboard', {

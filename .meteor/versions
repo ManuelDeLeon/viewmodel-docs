@@ -26,7 +26,6 @@ livedata@1.0.13
 logging@1.0.7
 manuel:reactivearray@1.0.4
 manuel:viewmodel@1.4.0
-manuel:viewmodel-explorer@1.0.2
 meteor@1.1.5
 meteor-platform@1.2.2
 mike:mocha@0.5.2

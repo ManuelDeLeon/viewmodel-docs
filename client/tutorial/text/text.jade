@@ -15,12 +15,12 @@ template(name='text')
       li
         a(href="#text-html", data-toggle="tab") Html
     div.tab-content
-      div#text-jade.tab-pane.fade.active.in
+      div#text-jade.tab-pane.fade
         pre.
           template(name='text')
             input(type='text', placeholder='Type something...', data-bind="value: message")
             <b>div</b>(data-bind="<b>text: message</b>")
-      div#text-html.tab-pane.fade
+      div#text-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;text&quot;&gt;
             &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: message&quot;/&gt;
@@ -32,13 +32,13 @@ template(name='text')
       li
         a(href="#text-js", data-toggle="tab") Javascript
     div.tab-content
-      div#text-coffee.tab-pane.fade.active.in
+      div#text-coffee.tab-pane.fade
         pre.
           Template.text.rendered = ->
             new ViewModel(
               <b>message</b>: 'Can it be true?'
             ).bind @
-      div#text-js.tab-pane.fade
+      div#text-js.tab-pane.fade.active.in
         pre.
           Template.text.rendered = function() {
             return new ViewModel({

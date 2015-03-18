@@ -21,7 +21,7 @@ template(name='class2')
       li
         a(href="#class2-html", data-toggle="tab") Html
     div.tab-content
-      div#class2-jade.tab-pane.fade.active.in
+      div#class2-jade.tab-pane.fade
         pre.
           template(name='class2')
             .row
@@ -32,7 +32,7 @@ template(name='class2')
               | Show large button
             .row
               <b>button</b>(data-bind="<b>class: { btn-primary: showPrimary, btn-large: showLarge }</b>") The Button!
-      div#class2-html.tab-pane.fade
+      div#class2-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;class2&quot;&gt;
             &lt;div class=&quot;row&quot;&gt;
@@ -52,14 +52,14 @@ template(name='class2')
       li
         a(href="#class2-js", data-toggle="tab") Javascript
     div.tab-content
-      div#class2-coffee.tab-pane.fade.active.in
+      div#class2-coffee.tab-pane.fade
         pre.
           Template.class2.rendered = ->
             new ViewModel(
               <b>showPrimary</b>: false
               <b>showLarge</b>: false
             ).bind @
-      div#class2-js.tab-pane.fade
+      div#class2-js.tab-pane.fade.active.in
         pre.
           Template.class2.rendered = function() {
             return new ViewModel({

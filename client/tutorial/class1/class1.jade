@@ -16,12 +16,12 @@ template(name='class1')
       li
         a(href="#class1-html", data-toggle="tab") Html
     div.tab-content
-      div#class1-jade.tab-pane.fade.active.in
+      div#class1-jade.tab-pane.fade
         pre.
           template(name='class1')
             input(type='text', placeholder="Button's class", data-bind="value: buttonCss")
             <b>button</b>(data-bind="<b>class: buttonCss</b>") The Button!
-      div#class1-html.tab-pane.fade
+      div#class1-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;class1&quot;&gt;
             &lt;input type=&quot;text&quot; placeholder=&quot;Button&#39;s class&quot; data-bind=&quot;value: buttonCss&quot;/&gt;
@@ -33,13 +33,13 @@ template(name='class1')
       li
         a(href="#class1-js", data-toggle="tab") Javascript
     div.tab-content
-      div#class1-coffee.tab-pane.fade.active.in
+      div#class1-coffee.tab-pane.fade
         pre.
           Template.class1.rendered = ->
             new ViewModel(
               <b>buttonCss</b>: 'btn-primary'
             ).bind @
-      div#class1-js.tab-pane.fade
+      div#class1-js.tab-pane.fade.active.in
         pre.
           Template.class1.rendered = function() {
             return new ViewModel({

@@ -16,12 +16,12 @@ template(name='delay')
       li
         a(href="#delay-html", data-toggle="tab") Html
     div.tab-content
-      div#delay-jade.tab-pane.fade.active.in
+      div#delay-jade.tab-pane.fade
         pre.
           template(name='delay')
             <b>input</b>(type='text', placeholder="Type something...", data-bind="value: message, <b>delay: 1000</b>")
             div(data-bind="text: message")
-      div#delay-html.tab-pane.fade
+      div#delay-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;delay&quot;&gt;
             &lt;input type=&quot;text&quot; data-bind=&quot;value: message, delay: 1000&quot;/&gt;
@@ -33,13 +33,13 @@ template(name='delay')
       li
         a(href="#delay-js", data-toggle="tab") Javascript
     div.tab-content
-      div#delay-coffee.tab-pane.fade.active.in
+      div#delay-coffee.tab-pane.fade
         pre.
           Template.delay.rendered = ->
             new ViewModel(
               message: ''
             ).bind @
-      div#delay-js.tab-pane.fade
+      div#delay-js.tab-pane.fade.active.in
         pre.
           Template.delay.rendered = function() {
             return new ViewModel({

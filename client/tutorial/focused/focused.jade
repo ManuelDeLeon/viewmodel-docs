@@ -16,13 +16,13 @@ template(name='focused')
       li
         a(href="#focused-html", data-toggle="tab") Html
     div.tab-content
-      div#focused-jade.tab-pane.fade.active.in
+      div#focused-jade.tab-pane.fade
         pre.
           template(name='focused')
             input(type='text', data-bind="<b>focused: isFocused</b>")
             button(data-bind="click: setFocus") Focus the textbox
             div(data-bind="if: isFocused") The textbox has focus
-      div#focused-html.tab-pane.fade
+      div#focused-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;focused&quot;&gt;
             &lt;input type=&quot;text&quot; data-bind=&quot;focused: isFocused&quot;/&gt;
@@ -35,14 +35,14 @@ template(name='focused')
       li
         a(href="#focused-js", data-toggle="tab") Javascript
     div.tab-content
-      div#focused-coffee.tab-pane.fade.active.in
+      div#focused-coffee.tab-pane.fade
         pre.
           Template.focused.rendered = ->
             new ViewModel(
               <b>isFocused</b>: false
               setFocus: -> @isFocused true
             ).bind @
-      div#focused-js.tab-pane.fade
+      div#focused-js.tab-pane.fade.active.in
         pre.
           Template.focused.rendered = function() {
             return new ViewModel({

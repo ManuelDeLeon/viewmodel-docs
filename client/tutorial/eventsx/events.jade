@@ -14,11 +14,11 @@ template(name='eventsx')
       li
         a(href="#eventsx-html", data-toggle="tab") Html
     div.tab-content
-      div#eventsx-jade.tab-pane.fade.active.in
+      div#eventsx-jade.tab-pane.fade
         pre.
           template(name='eventsx')
             button(data-bind="<b>click: outputMessage</b>") The Button (tm)
-      div#eventsx-html.tab-pane.fade
+      div#eventsx-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;eventsx&quot;&gt;
             &lt;button data-bind=&quot;click: outputMessage&quot;&gt;The Button (tm)&lt;/button&gt;
@@ -29,13 +29,13 @@ template(name='eventsx')
       li
         a(href="#eventsx-js", data-toggle="tab") Javascript
     div.tab-content
-      div#eventsx-coffee.tab-pane.fade.active.in
+      div#eventsx-coffee.tab-pane.fade
         pre.
           Template.eventsx.rendered = ->
             new ViewModel(
               <b>outputMessage</b>: (event) -> console.log 'You clicked The Button (tm)'
             ).bind @
-      div#eventsx-js.tab-pane.fade
+      div#eventsx-js.tab-pane.fade.active.in
         pre.
           Template.eventsx.rendered = function() {
             return new ViewModel({

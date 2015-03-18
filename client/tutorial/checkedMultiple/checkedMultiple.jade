@@ -25,7 +25,7 @@ template(name='checkedMultiple')
       li
         a(href="#checkedMultiple-html", data-toggle="tab") Html
     div.tab-content
-      div#checkedMultiple-jade.tab-pane.fade.active.in
+      div#checkedMultiple-jade.tab-pane.fade
         pre.
           template(name='checkedMultiple')
             label.checkbox
@@ -40,7 +40,7 @@ template(name='checkedMultiple')
             p
               | Selected:
               span(data-bind="text: selected")
-      div#checkedMultiple-html.tab-pane.fade
+      div#checkedMultiple-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;checkedMultiple&quot;&gt;
             &lt;label class=&quot;checkbox&quot;&gt;
@@ -60,13 +60,13 @@ template(name='checkedMultiple')
       li
         a(href="#checkedMultiple-js", data-toggle="tab") Javascript
     div.tab-content
-      div#checkedMultiple-coffee.tab-pane.fade.active.in
+      div#checkedMultiple-coffee.tab-pane.fade
         pre.
           Template.checkedMultiple.rendered = ->
             new ViewModel(
               selected: ["Colorado"]
           ).bind @
-      div#checkedMultiple-js.tab-pane.fade
+      div#checkedMultiple-js.tab-pane.fade.active.in
         pre.
           Template.checkedMultiple.rendered = function() {
             return new ViewModel({

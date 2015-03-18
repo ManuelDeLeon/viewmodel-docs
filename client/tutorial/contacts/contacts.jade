@@ -29,7 +29,7 @@ template(name='contacts')
         li
           a(href="#contacts-html", data-toggle="tab") Html
       div.tab-content
-        div#contacts-jade.tab-pane.fade.active.in
+        div#contacts-jade.tab-pane.fade
           pre.
             <b>template(name='contacts')</b>
               #contacts
@@ -67,7 +67,7 @@ template(name='contacts')
                   .contact-controls(data-bind="<b>if: showControls</b>")
                     <b>button</b>.btn-info(data-bind="<b>click: edit</b>") Edit
                     <b>button</b>.btn-danger(data-bind="<b>click: delete</b>") Delete
-        div#contacts-html.tab-pane.fade
+        div#contacts-html.tab-pane.fade.active.in
           pre.
             &lt;template name=&quot;contacts&quot;&gt;
               &lt;div id=&quot;contacts&quot;&gt;
@@ -122,7 +122,7 @@ template(name='contacts')
         li
           a(href="#contacts-js", data-toggle="tab") Javascript
       div.tab-content
-        div#contacts-coffee.tab-pane.fade.active.in
+        div#contacts-coffee.tab-pane.fade
           pre.
             Template.<b>contacts.helpers</b>
               <b>contactList</b>: -> Contacts.find()
@@ -166,7 +166,7 @@ template(name='contacts')
                   Contacts.update @_id(), { $set: { name: @name(), number: @number() } }
                   @editMode false
               ).bind @
-        div#contacts-js.tab-pane.fade
+        div#contacts-js.tab-pane.fade.active.in
           pre.
             Template.contacts.helpers({
               contactList: function() {

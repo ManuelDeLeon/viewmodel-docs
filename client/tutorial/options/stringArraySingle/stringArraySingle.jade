@@ -22,7 +22,7 @@ template(name="stringArraySingle")
       li
         a(href="#stringArraySingle-html", data-toggle="tab") Html
     div.tab-content
-      div#stringArraySingle-jade.tab-pane.fade.active.in
+      div#stringArraySingle-jade.tab-pane.fade
         pre.
           template(name='stringArraySingle')
             p
@@ -35,7 +35,7 @@ template(name="stringArraySingle")
             p
               input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
               button.btn.btn-primary(data-bind="click: selectCountry") Select Country
-      div#stringArraySingle-html.tab-pane.fade
+      div#stringArraySingle-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;stringArraySingle&quot;&gt;
             &lt;p&gt;
@@ -57,7 +57,7 @@ template(name="stringArraySingle")
       li
         a(href="#stringArraySingle-js", data-toggle="tab") Javascript
     div.tab-content
-      div#stringArraySingle-coffee.tab-pane.fade.active.in
+      div#stringArraySingle-coffee.tab-pane.fade
         pre.
           Template.stringArraySingle.rendered = ->
             new ViewModel(
@@ -70,7 +70,7 @@ template(name="stringArraySingle")
               countryToSelect: ''
               selectCountry: -> @selectedCountry @countryToSelect()
             ).bind @
-      div#stringArraySingle-js.tab-pane.fade
+      div#stringArraySingle-js.tab-pane.fade.active.in
         pre.
           Template.stringArraySingle.rendered = function() {
             return new ViewModel({

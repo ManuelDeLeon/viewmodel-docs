@@ -15,12 +15,12 @@ template(name='value')
       li
         a(href="#value-html", data-toggle="tab") Html
     div.tab-content
-      div#value-jade.tab-pane.fade.active.in
+      div#value-jade.tab-pane.fade
         pre.
           template(name='value')
             <b>input</b>(type='text', placeholder='Type something...', data-bind="<b>value: message</b>")
             div(data-bind="text: message")
-      div#value-html.tab-pane.fade
+      div#value-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;value&quot;&gt;
             &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: message&quot;/&gt;
@@ -32,13 +32,13 @@ template(name='value')
       li
         a(href="#value-js", data-toggle="tab") Javascript
     div.tab-content
-      div#value-coffee.tab-pane.fade.active.in
+      div#value-coffee.tab-pane.fade
         pre.
           Template.value.rendered = ->
             new ViewModel(
               <b>message</b>: 'I can catch anything.'
             ).bind @
-      div#value-js.tab-pane.fade
+      div#value-js.tab-pane.fade.active.in
         pre.
           Template.value.rendered = function() {
             return new ViewModel({

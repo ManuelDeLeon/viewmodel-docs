@@ -15,12 +15,12 @@ template(name='html')
       li
         a(href="#html-html", data-toggle="tab") Html
     div.tab-content
-      div#html-jade.tab-pane.fade.active.in
+      div#html-jade.tab-pane.fade
         pre.
           template(name='html')
             input(type='text', placeholder='Type something...', data-bind="value: innerHTML")
             <b>div</b>(data-bind="<b>html: innerHTML</b>")
-      div#html-html.tab-pane.fade
+      div#html-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;html&quot;&gt;
             &lt;input type=&quot;text&quot; placeholder=&quot;Type something...&quot; data-bind=&quot;value: innerHTML&quot;/&gt;
@@ -32,13 +32,13 @@ template(name='html')
       li
         a(href="#html-js", data-toggle="tab") Javascript
     div.tab-content
-      div#html-coffee.tab-pane.fade.active.in
+      div#html-coffee.tab-pane.fade
         pre.
           Template.html.rendered = ->
             new ViewModel(
               <b>innerHTML</b>: '&lt;i&gt;Italic!&lt;/i&gt;'
             ).bind @
-      div#html-js.tab-pane.fade
+      div#html-js.tab-pane.fade.active.in
         pre.
           Template.html.rendered = function() {
             return new ViewModel({

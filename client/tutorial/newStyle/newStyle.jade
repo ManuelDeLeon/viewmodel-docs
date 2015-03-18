@@ -5,95 +5,137 @@ template(name='newStyle')
     p Meteor 1.0.4 introduced 3 new template methods (onCreated, onRendered, and onDestroyed) which makes ViewModel a whole lot easier to work with.
     pre Template.templateName.viewmodel( [name,] viewmodel [, viewmodelN] [, helpers])
     h2 name
-    p (Optional) Unique name for the viewmodel. It can be a string or a function that returns a string. The function takes in a data context parameter equal to the template instance's data context. If no name is given the template name is used. If no name is given and there are multiple template instances then no name is used.
-    p You must specify a unique name for multiple instances if you want the viewmodel session to persist across hot code pushes. This is not necessary for templates that are used once (because the name will be the name of the template).
+    p (Optional) Unique name for the viewmodel. It can be a string or a function that returns a string. The function takes in a data context parameter equal to the template instance's data context.
+    p You still have to specify a unique name if you want the viewmodel session to persist across hot code pushes.
     h3 Examples
     p No name
     pre.
-      Template.home.viewmodel
-        address: '123 Main St.'
-        zip: 12345
+      Template.home.viewmodel({
+        address: '123 Main St.',
+        zip: 12345,
+      });
     p Name with a string
     pre.
-      Template.home.viewmodel 'home',
-        address: '123 Main St.'
+      Template.home.viewmodel('home', {
+        address: '123 Main St.',
         zip: 12345
+      });
     p Name with a function
     pre.
-      Template.home.viewmodel ((data) -> 'home' + data._id),
-        address: '123 Main St.'
+      Template.home.viewmodel(function (data) { return 'home' + data._id; },
+      {
+        address: '123 Main St.',
         zip: 12345
+      });
     h2 viewmodel [1..N]
     p Viewmodel object or a function that returns an object. The function takes in a data context parameter equal to the template instance's data context. Each viewmodel will be extended to the previous one so you can specify as many as you want.
     h3 Examples
     p Object
     pre.
-      Template.home.viewmodel
-        address: '123 Main St.'
-        zip: 12345.
+      Template.home.viewmodel({
+        address: '123 Main St.',
+        zip: 12345
+      });
     p Function
     pre.
-      Template.home.viewmodel (data) ->
-        id: data._id
-        address: '123 Main St.'
-        zip: 12345
-    p Multiple Functions
+      Template.home.viewmodel( function (data) {
+        return {
+          id: data._id
+          address: '123 Main St.'
+          zip: 12345
+        };
+      });
+    p Multiple Functions (each function returns an object that will be appended to the viewmodel)
     pre.
-      Template.home.viewmodel ((data) -> data), (data) ->
-        id: data._id
-        address: '123 Main St.'
-        zip: 12345
-
+      Template.home.viewmodel(
+        function (data) { return data; },
+        function (data) {
+          id: data._id
+          address: '123 Main St.'
+          zip: 12345
+        }
+      );
     h2 helpers
     p (Optional) String or array of strings with the viewmodel properties you want to add as template helpers for blaze to use.
     h3 Examples
     p Single helper
     pre.
-      Template.home.viewmodel
-        address: '123 Main St.'
-        zip: 12345.
-      , 'address'
+      Template.home.viewmodel({
+        address: '123 Main St.',
+        zip: 12345
+      }, 'address');
     p Multiple helpers
     pre.
-      Template.home.viewmodel
-        address: '123 Main St.'
-        zip: 12345.
-      , ['address', 'zip']
+      Template.home.viewmodel({
+        address: '123 Main St.',
+        zip: 12345
+      }, ['address', 'zip']);
     h2 Concrete example
     p Instead of doing the following:
     pre.
-      Template.leaderboard.created = ->
-        this.vm = new ViewModel('leaderboard',
-          players: -> Players.find {}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } }
-          selected: null
-          addPoints: -> Players.update @selected(), { $inc: { score: 5 } }
-        ).addHelper 'players', @
+      Template.leaderboard.created = function() {
+        this.vm = new ViewModel('leaderboard', {
+          players: function() {
+            return Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } });
+          },
+          selected: null,
+          addPoints: function() {
+            Players.update(this.selected(), { $inc: { score: 5 }});
+          }
+        }).addHelper('players', this);
+      };
 
-      Template.leaderboard.rendered = ->
-        this.vm.bind @
+      Template.leaderboard.rendered = function() {
+        this.vm.bind(this);
+      };
 
-      Template.player.rendered = ->
-        new ViewModel(
-          _id: this.data._id
-          player: -> Players.findOne(@_id())
-          select: -> @parent().selected @_id()
-          isSelected: -> @parent().selected() is @_id()
-          info: -> @player().score + ' ' + @player().name
-        ).bind @
+      Template.player.rendered = function() {
+        new ViewModel({
+          _id: this.data._id,
+          player: function() {
+            return Players.findOne(this._id());
+          },
+          select: function() {
+            this.parent().selected(this._id());
+          },
+          isSelected: function() {
+            return this.parent().selected() === this._id();
+          },
+          info: function() {
+            return this.player().score + ' ' + this.player().name;
+          }
+        }).bind(this);
+      };
+
     p You would now do:
     pre.
-      Template.leaderboard.viewmodel
-        players: -> Players.find {}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } }
-        selected: null
-        addPoints: -> Players.update @selected(), { $inc: { score: 5 } }
-      , 'players'
+      Template.leaderboard.viewmodel( 'leaderboard', {
+          players: function() {
+            return Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } });
+          },
+          selected: null,
+          addPoints: function() {
+            Players.update(this.selected(), { $inc: { score: 5 }});
+          }
+      }, 'players');
 
-      Template.player.viewmodel (c) ->
-        _id: c._id
-        player: -> Players.findOne(@_id())
-        select: -> @parent().selected @_id()
-        isSelected: -> @parent().selected() is @_id()
-        info: -> @player().score + ' ' + @player().name
+      Template.player.viewmodel( function(data) {
+        return {
+          _id: data._id,
+          player: function() {
+            return Players.findOne(this._id());
+          },
+          select: function() {
+            this.parent().selected(this._id());
+          },
+          isSelected: function() {
+            return this.parent().selected() === this._id();
+          },
+          info: function() {
+            return this.player().score + ' ' + this.player().name;
+          }
+        };
+      });
     h2 Dude where's my vm?
-    p The viewmodels are automatically appended to the template instances. You can access them via the vm property.
-    pre Template.instance().vm
+    p The viewmodels are automatically appended to the template instances. You can access them via the viewmodel property.
+    pre Template.instance().viewmodel
