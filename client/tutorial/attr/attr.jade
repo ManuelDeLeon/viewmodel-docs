@@ -10,9 +10,9 @@ template(name='attr')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#attr-jade", data-toggle="tab") Jade
       li
+        a(href="#attr-jade", data-toggle="tab") Jade
+      li.active
         a(href="#attr-html", data-toggle="tab") Html
     div.tab-content
       div#attr-jade.tab-pane.fade
@@ -25,21 +25,18 @@ template(name='attr')
             &lt;input type=&quot;text&quot; data-bind=&quot;value: titleValue, attr: { title: titleValue }&quot;/&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#attr-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#attr-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#attr-js", data-toggle="tab") Javascript
     div.tab-content
       div#attr-coffee.tab-pane.fade
         pre.
-          Template.attr.rendered = ->
-            new ViewModel(
-              titleValue: 'The Tile!'
-            ).bind @
+          Template.attr.viewmodel
+            titleValue: 'The Tile!'
+
       div#attr-js.tab-pane.fade.active.in
         pre.
-          Template.attr.rendered = function() {
-            return new ViewModel({
-              titleValue: 'The Tile!'
-            }).bind(this);
-          };
+          Template.attr.viewmodel({
+            titleValue: 'The Tile!'
+          });

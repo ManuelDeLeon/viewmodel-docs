@@ -40,8 +40,8 @@ template(name='newStyle')
     pre.
       Template.home.viewmodel( function (data) {
         return {
-          id: data._id
-          address: '123 Main St.'
+          id: data._id,
+          address: '123 Main St.',
           zip: 12345
         };
       });
@@ -50,9 +50,11 @@ template(name='newStyle')
       Template.home.viewmodel(
         function (data) { return data; },
         function (data) {
-          id: data._id
-          address: '123 Main St.'
-          zip: 12345
+          return {
+            id: data._id,
+            address: '123 Main St.',
+            zip: 12345
+          }
         }
       );
     h2 helpers

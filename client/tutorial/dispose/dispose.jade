@@ -7,12 +7,15 @@ template(name='dispose')
     p Viewmodels are disposed automatically when you bind them to Meteor templates. There are times when you need to bind the viewmodel to an html element (e.g. when you have two viewmodels for one template). In those cases you have to call the .dispose() method yourself (usually done in the template's destroyed event).
     h2 Example
     pre.
-      vmPerson = new ViewModel
-        name: ''
+      var vmPerson = new ViewModel({
+        name: '',
         address: ''
+      })
 
-      Template.person.rendered = ->
-        vmPerson.bind 'personBlock' # Not bound to the template
+      Template.person.onRendered( function() {
+        vmPerson.bind('personBlock') // Not bound to the template
+      });
 
-      Template.person.destroyed = ->
-        vmPerson.dispose() # Stop computations
+      Template.person.onDestroyed( function() {
+        vmPerson.dispose() // Stop computations
+      });

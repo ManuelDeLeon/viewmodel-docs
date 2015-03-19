@@ -8,8 +8,9 @@ template(name='arrays')
       | . This means they become reactive sources and thus you'll be notified when items are added or removed.
 
     pre.
-      vm = new ViewModel
+      vm = new ViewModel({
         names: ['Tom', 'Dick', 'Harry']
+      });
   #arrays
     .section
       +arrayList

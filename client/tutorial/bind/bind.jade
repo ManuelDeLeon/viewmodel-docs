@@ -3,15 +3,17 @@ template(name='bindx')
   .section
     h1 .bind Method
     pre.
-      Template.templateName.rendered = ->
-        viewmodel.bind this
+      Template.templateName.onRendered( function() {
+        viewmodel.bind( this );
+      });
     p This is the one you're going to use most often. It searches the rendered template for the data-bind attributes and binds the html elements to the corresponding viewmodel properties. It needs to be called on rendered since it uses the html elements.
     h2 Example
     pre.
-      Template.person.rendered = ->
-        new ViewModel(
-          name: ''
+      Template.person.onRendered( function() {
+        new ViewModel({
+          name: '',
           address: ''
-        ).bind @
+        }).bind(this)
+      });
     h2 Binding to html elements
     p You can actually bind to to any html element on the page, not just templates. This is useful in cases where you need multiple viewmodels within the same template. You can call bind with a locator string, a DOM element, a jQuery element, or the string name of any template already rendered. All child elements with the data-bind attribute will be bound to the viewmodel.

@@ -12,9 +12,9 @@ template(name='leaderboard')
     .section
       h2 Code
       ul.nav.nav-pills
-        li.active
-          a(href="#leaderboard-jade", data-toggle="tab") Jade
         li
+          a(href="#leaderboard-jade", data-toggle="tab") Jade
+        li.active
           a(href="#leaderboard-html", data-toggle="tab") Html
       div.tab-content
         div#leaderboard-jade.tab-pane.fade
@@ -42,30 +42,26 @@ template(name='leaderboard')
             &lt;/template&gt;
 
       ul.nav.nav-pills
-        li.active
-          a(href="#leaderboard-coffee", data-toggle="tab") Coffeescript
         li
+          a(href="#leaderboard-coffee", data-toggle="tab") Coffeescript
+        li.active
           a(href="#leaderboard-js", data-toggle="tab") Javascript
       div.tab-content
         div#leaderboard-coffee.tab-pane.fade
           pre.
-            Template.<b>leaderboard.created</b> = ->
-              this.vm = new ViewModel('leaderboard',
-                <b>players:</b> -> Players.find {}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } }
-                <b>selected:</b> null
-                <b>addPoints:</b> -> Players.update @selected(), { $inc: { score: 5 } }
-              )<b>.addHelper 'players', @</b>
+            Template.<b>leaderboard.viewmodel</b> 'leaderboard',
+              <b>players:</b> -> Players.find {}, { sort: { score:-1, name: 1 }
+              <b>selected:</b> null
+              <b>addPoints:</b> -> Players.update @selected(), { $inc: { score: 5 } }
+            , <b>'players'</b>
 
-            Template.<b>leaderboard.rendered</b> = ->
-              this.vm.bind @
+            Template.<b>player.viewmodel</b> (data) ->
+              id: data._id
+              player: -> Players.findOne(@id())
+              select: -> <b>@parent()</b>.selected @id()
+              isSelected: -> <b>@parent()</b>.selected() is @id()
+              info: -> @player().score + ' ' + @player().name
 
-            Template.<b>player.rendered</b> = ->
-              new ViewModel(this.data).extend(
-                player: -> Players.findOne(@_id())
-                select: -> <b>@parent()</b>.selected @_id()
-                isSelected: -> <b>@parent()</b>.selected() is @_id()
-                info: -> @player().score + ' ' + @player().name
-              ).bind @
 
         div#leaderboard-js.tab-pane.fade.active.in
           pre.

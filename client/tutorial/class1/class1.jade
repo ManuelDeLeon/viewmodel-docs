@@ -11,9 +11,9 @@ template(name='class1')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#class1-jade", data-toggle="tab") Jade
       li
+        a(href="#class1-jade", data-toggle="tab") Jade
+      li.active
         a(href="#class1-html", data-toggle="tab") Html
     div.tab-content
       div#class1-jade.tab-pane.fade
@@ -28,22 +28,19 @@ template(name='class1')
             &lt;button data-bind=&quot;class: buttonCss&quot;&gt;The Button!&lt;/button&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#class1-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#class1-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#class1-js", data-toggle="tab") Javascript
     div.tab-content
       div#class1-coffee.tab-pane.fade
         pre.
-          Template.class1.rendered = ->
-            new ViewModel(
-              <b>buttonCss</b>: 'btn-primary'
-            ).bind @
+          Template.class1.viewmodel
+            <b>buttonCss</b>: 'btn-primary'
+
       div#class1-js.tab-pane.fade.active.in
         pre.
-          Template.class1.rendered = function() {
-            return new ViewModel({
-              buttonCss: 'btn-primary'
-            }).bind(this);
+          Template.class1.viewmodel({
+            buttonCss: 'btn-primary'
           };
 

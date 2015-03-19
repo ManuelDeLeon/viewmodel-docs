@@ -28,23 +28,58 @@ template(name='extending')
 
   .section
     h2 Code
-    h3 .jade
-    pre.
-      template(name='extending')
-        button(data-bind="click: toggleFade") Fade Text
-        div(<b>data-bind="fade: textFade"</b>)
-          | Fade this text by pressing the button
-    h3 .coffee
-    pre.
-      <b>ViewModel.addBind 'fade', (p) -></b>
-        p.autorun ->
-          &#105;f p.vm[p.property]()
-            p.element.fadeIn()
-          else
-            p.element.fadeOut()
+    ul.nav.nav-pills
+      li
+        a(href="#extending-jade", data-toggle="tab") Jade
+      li.active
+        a(href="#extending-html", data-toggle="tab") Html
+    div.tab-content
+      div#extending-jade.tab-pane.fade
+        pre.
+          template(name='extending')
+            button(data-bind="click: toggleFade") Fade Text
+            div(<b>data-bind="fade: textFade"</b>)
+              | Fade this text by pressing the button
+      div#extending-html.tab-pane.fade.active.in
+        pre.
+          &lt;template name=&quot;extending&quot;&gt;
+            &lt;button data-bind=&quot;click: toggleFade&quot;&gt;Fade Text&lt;/button&gt;
+            &lt;div data-bind=&quot;fade: textFade&quot;&gt;Fade this text by pressing the button&lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li
+        a(href="#extending-coffee", data-toggle="tab") Coffeescript
+      li.active
+        a(href="#extending-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#extending-coffee.tab-pane.fade
+        pre.
+          <b>ViewModel.addBind 'fade', (p) -></b>
+            p.autorun ->
+              &#105;f p.vm[p.property]()
+                p.element.fadeIn()
+              else
+                p.element.fadeOut()
 
-      Template.extending.rendered = ->
-        new ViewModel(
-          textFade: true
-          toggleFade: -> @textFade !@textFade()
-        ).bind @
+          Template.extending.viewmodel
+            textFade: true
+            toggleFade: -> @textFade !@textFade()
+
+      div#extending-js.tab-pane.fade.active.in
+        pre.
+          ViewModel.addBind('fade', function(p) {
+            p.autorun(function() {
+              &#105;f (p.vm[p.property]()) {
+                p.element.fadeIn();
+              } else {
+                p.element.fadeOut();
+              }
+            });
+          });
+
+          Template.extending.viewmodel({
+            textFade: true,
+            toggleFade: function() {
+              this.textFade(!this.textFade());
+            }
+          };

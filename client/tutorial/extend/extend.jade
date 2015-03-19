@@ -3,11 +3,11 @@ template(name='extendx')
   .section
     h1 .extend Method
     pre.
-      viewmodel.extend object
+      viewmodel.extend(object)
     p The extend method allows you to add properties and methods to an existing viewmodel.
     h2 Example
     pre.
-      vm = new ViewModel() #empty viewmodel
+      var vm = new ViewModel() // empty viewmodel
 
-      vm.extend { name: '' }
-      #vm now has the property name
+      vm.extend({ name: '' })
+      // vm now has the property name

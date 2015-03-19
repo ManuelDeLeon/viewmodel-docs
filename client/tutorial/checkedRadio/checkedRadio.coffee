@@ -1,4 +1,3 @@
-Template.checkedRadio.rendered = ->
-  new ViewModel(
-    color: 'red'
-  ).bind @
+Template.checkedRadio.viewmodel
+  color: 'red'
+

@@ -19,9 +19,9 @@ template(name='checkedRadio')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#checkedRadio-jade", data-toggle="tab") Jade
       li
+        a(href="#checkedRadio-jade", data-toggle="tab") Jade
+      li.active
         a(href="#checkedRadio-html", data-toggle="tab") Html
     div.tab-content
       div#checkedRadio-jade.tab-pane.fade
@@ -50,21 +50,18 @@ template(name='checkedRadio')
             &lt;p data-bind=&quot;text: color&quot;&gt;&lt;/p&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#checkedRadio-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#checkedRadio-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#checkedRadio-js", data-toggle="tab") Javascript
     div.tab-content
       div#checkedRadio-coffee.tab-pane.fade
         pre.
-          Template.checkedRadio.rendered = ->
-            new ViewModel(
-              color: 'red'
-          ).bind @
+          Template.checkedRadio.viewmodel
+            color: 'red'
+
       div#checkedRadio-js.tab-pane.fade.active.in
         pre.
-          Template.checkedRadio.rendered = function() {
-            return new ViewModel({
-              color: 'red'
-            }).bind(this);
-          };
+          Template.checkedRadio.viewmodel({
+            color: 'red'
+          });

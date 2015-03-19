@@ -1,9 +1,9 @@
-Meteor.publish "Players", -> Players.find()
+Meteor.publish "players", -> Players.find()
 
 @Players.allow
   update: (userId, o, fields, modifier) -> true
 
-Meteor.publish "Contacts", -> Contacts.find()
+Meteor.publish "contacts", -> Contacts.find()
 
 @Contacts.allow
   insert: (userId, o) -> Contacts.find().count() < 10

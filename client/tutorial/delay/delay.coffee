@@ -1,4 +1,3 @@
-Template.delay.rendered = ->
-  new ViewModel(
-    message: ''
-  ).bind @
+Template.delay.viewmodel
+  message: ''
+

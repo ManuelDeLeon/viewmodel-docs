@@ -10,9 +10,9 @@ template(name='html')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#html-jade", data-toggle="tab") Jade
       li
+        a(href="#html-jade", data-toggle="tab") Jade
+      li.active
         a(href="#html-html", data-toggle="tab") Html
     div.tab-content
       div#html-jade.tab-pane.fade
@@ -27,21 +27,18 @@ template(name='html')
             &lt;div data-bind=&quot;html: innerHTML&quot;&gt;&lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#html-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#html-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#html-js", data-toggle="tab") Javascript
     div.tab-content
       div#html-coffee.tab-pane.fade
         pre.
-          Template.html.rendered = ->
-            new ViewModel(
-              <b>innerHTML</b>: '&lt;i&gt;Italic!&lt;/i&gt;'
-            ).bind @
+          Template.html.viewmodel
+            <b>innerHTML</b>: '&lt;i&gt;Italic!&lt;/i&gt;'
+
       div#html-js.tab-pane.fade.active.in
         pre.
-          Template.html.rendered = function() {
-            return new ViewModel({
-              innerHTML: '<i>Italic!</i>'
-            }).bind(this);
-          };
+          Template.html.viewmodel({
+            innerHTML: '<i>Italic!</i>'
+          });

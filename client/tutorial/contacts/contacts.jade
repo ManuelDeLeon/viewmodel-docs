@@ -24,9 +24,9 @@ template(name='contacts')
     .section
       h2 Code
       ul.nav.nav-pills
-        li.active
-          a(href="#contacts-jade", data-toggle="tab") Jade
         li
+          a(href="#contacts-jade", data-toggle="tab") Jade
+        li.active
           a(href="#contacts-html", data-toggle="tab") Html
       div.tab-content
         div#contacts-jade.tab-pane.fade
@@ -117,128 +117,124 @@ template(name='contacts')
             &lt;/template&gt;
 
       ul.nav.nav-pills
-        li.active
-          a(href="#contacts-coffee", data-toggle="tab") Coffeescript
         li
+          a(href="#contacts-coffee", data-toggle="tab") Coffeescript
+        li.active
           a(href="#contacts-js", data-toggle="tab") Javascript
       div.tab-content
         div#contacts-coffee.tab-pane.fade
           pre.
-            Template.<b>contacts.helpers</b>
+            Template.<b>contacts.onCreated</b> ->
+              this.subscribe "contacts"
+
+            Template.<b>contacts.viewmodel</b>
               <b>contactList</b>: -> Contacts.find()
-
-            Template.<b>contacts.rendered</b> = ->
-              new ViewModel(
-                <b>name</b>: ''
-                <b>number</b>: ''
-                <b>canAddContact</b>: -> !!@name() and !!@number() and Contacts.find().count() &lt;= 10
-                <b>addContact</b>: ->
-                  &#105;f @canAddContact()
-                    Contacts.insert { name: @name(), number: @number() }
-                    @name ''
-                    @number ''
-                <b>tryAdd</b>: false
-                <b>errorText</b>: ->
-                  &#105;f @tryAdd() and not @canAddContact()
-                    &#105;f Contacts.find().count() >= 10
-                      "Can't have more than 10 contacts"
-                    else
-                      "Name and Number are required"
+              <b>name</b>: ''
+              <b>number</b>: ''
+              <b>canAddContact</b>: -> !!@name() and !!@number() and Contacts.find().count() &lt;= 10
+              <b>addContact</b>: ->
+                &#105;f @canAddContact()
+                  Contacts.insert { name: @name(), number: @number() }
+                  @name ''
+                  @number ''
+              <b>tryAdd</b>: false
+              <b>errorText</b>: ->
+                &#105;f @tryAdd() and not @canAddContact()
+                  &#105;f Contacts.find().count() >= 10
+                    "Can't have more than 10 contacts"
                   else
-                    ''
-              ).bind @
+                    "Name and Number are required"
+                else
+                  ''
+            , 'contactList'
 
-            Template.<b>contact.rendered</b> = ->
-              new ViewModel(this.data).extend(
-                <b>contact</b>: -> Contacts.findOne @_id()
-                <b>delete</b>: -> Contacts.remove @_id()
-                <b>editMode</b>: false
-                <b>numberFocus</b>: false
-                <b>edit</b>: ->
-                  @name @contact().name
-                  @number @contact().number
-                  @editMode true
-                  @numberFocus true
-                <b>showControls</b>: false
-                <b>cancel</b>: -> @editMode false
-                <b>canUpdate</b>: -> !!@name() and !!@number()
-                <b>update</b>: ->
-                  Contacts.update @_id(), { $set: { name: @name(), number: @number() } }
-                  @editMode false
-              ).bind @
+            Template.<b>contact.viewmodel</b> ((data) -> data),
+              <b>contact</b>: -> Contacts.findOne @_id()
+              <b>delete</b>: -> Contacts.remove @_id()
+              <b>editMode</b>: false
+              <b>numberFocus</b>: false
+              <b>edit</b>: ->
+                @name @contact().name
+                @number @contact().number
+                @editMode true
+                @numberFocus true
+              <b>showControls</b>: false
+              <b>cancel</b>: -> @editMode false
+              <b>canUpdate</b>: -> !!@name() and !!@number()
+              <b>update</b>: ->
+                Contacts.update @_id(), { $set: { name: @name(), number: @number() } }
+                @editMode false
+
         div#contacts-js.tab-pane.fade.active.in
           pre.
-            Template.contacts.helpers({
-              contactList: function() {
-                return Contacts.find();
-              }
+            Template.contacts.onCreated( function() {
+              this.subscribe("contacts");
             });
 
-            Template.contacts.rendered = function() {
-              return new ViewModel({
-                name: &#39;&#39;,
-                number: &#39;&#39;,
-                canAddContact: function() {
-                  return !!this.name() &amp;&amp; !!this.number() &amp;&amp; Contacts.find().count() &lt;= 10;
-                },
-                addContact: function() {
-                  &#105;f (this.canAddContact()) {
-                    Contacts.insert({
-                    name: this.name(),
-                      number: this.number()
-                    });
-                    this.name(&#39;&#39;);
-                    return this.number(&#39;&#39;);
-                  }
-                },
-                tryAdd: false,
-                errorText: function() {
-                  &#105;f (this.tryAdd() &amp;&amp; !this.canAddContact()) {
-                    &#105;f (Contacts.find().count() &gt;= 10) {
-                      return &quot;Can&#39;t have more than 10 contacts&quot;;
-                    } else {
-                      return &quot;Name and Number are required&quot;;
-                    }
-                  } else {
-                    return &#39;&#39;;
-                  }
-                }
-              }).bind(this);
-            };
-
-            Template.contact.rendered = function() {
-              return new ViewModel(this.data).extend({
-                contact: function() {
-                  return Contacts.findOne(this._id());
-                },
-                &quot;delete&quot;: function() {
-                  return Contacts.remove(this._id());
-                },
-                editMode: false,
-                numberFocus: false,
-                edit: function() {
-                  this.name(this.contact().name);
-                  this.number(this.contact().number);
-                  this.editMode(true);
-                  return this.numberFocus(true);
-                },
-                showControls: false,
-                cancel: function() {
-                  return this.editMode(false);
-                },
-                canUpdate: function() {
-                  return !!this.name() &amp;&amp; !!this.number();
-                },
-                update: function() {
-                  Contacts.update(this._id(), {
-                    $set: {
-                      name: this.name(),
-                      number: this.number()
-                    }
+            Template.contacts.viewmodel({
+              contactList: function() {
+                return Contacts.find();
+              },
+              name: &#39;&#39;,
+              number: &#39;&#39;,
+              canAddContact: function() {
+                return !!this.name() &amp;&amp; !!this.number() &amp;&amp; Contacts.find().count() &lt;= 10;
+              },
+              addContact: function() {
+                &#105;f (this.canAddContact()) {
+                  Contacts.insert({
+                  name: this.name(),
+                    number: this.number()
                   });
-                  return this.editMode(false);
+                  this.name(&#39;&#39;);
+                  return this.number(&#39;&#39;);
                 }
-              }).bind(this);
+              },
+              tryAdd: false,
+              errorText: function() {
+                &#105;f (this.tryAdd() &amp;&amp; !this.canAddContact()) {
+                  &#105;f (Contacts.find().count() &gt;= 10) {
+                    return &quot;Can&#39;t have more than 10 contacts&quot;;
+                  } else {
+                    return &quot;Name and Number are required&quot;;
+                  }
+                } else {
+                  return &#39;&#39;;
+                }
+              }
+            }, 'contactList');
+
+            Template.contact.viewmodel( function(data) { return data; }, {
+              contact: function() {
+                return Contacts.findOne(this._id());
+              },
+              &quot;delete&quot;: function() {
+                return Contacts.remove(this._id());
+              },
+              editMode: false,
+              numberFocus: false,
+              edit: function() {
+                this.name(this.contact().name);
+                this.number(this.contact().number);
+                this.editMode(true);
+                return this.numberFocus(true);
+              },
+              showControls: false,
+              cancel: function() {
+                return this.editMode(false);
+              },
+              canUpdate: function() {
+                return !!this.name() &amp;&amp; !!this.number();
+              },
+              update: function() {
+                Contacts.update(this._id(), {
+                  $set: {
+                    name: this.name(),
+                    number: this.number()
+                  }
+                });
+                return this.editMode(false);
+              }
             };
 
 

@@ -11,9 +11,9 @@ template(name='delay')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#delay-jade", data-toggle="tab") Jade
       li
+        a(href="#delay-jade", data-toggle="tab") Jade
+      li.active
         a(href="#delay-html", data-toggle="tab") Html
     div.tab-content
       div#delay-jade.tab-pane.fade
@@ -28,21 +28,18 @@ template(name='delay')
             &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#delay-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#delay-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#delay-js", data-toggle="tab") Javascript
     div.tab-content
       div#delay-coffee.tab-pane.fade
         pre.
-          Template.delay.rendered = ->
-            new ViewModel(
-              message: ''
-            ).bind @
+          Template.delay.viewmodel
+            message: ''
+
       div#delay-js.tab-pane.fade.active.in
         pre.
-          Template.delay.rendered = function() {
-            return new ViewModel({
-              message: ''
-            }).bind(this);
-          };
+          Template.delay.viewmodel({
+            message: ''
+          });

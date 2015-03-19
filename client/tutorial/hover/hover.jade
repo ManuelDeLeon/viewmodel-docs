@@ -9,9 +9,9 @@ template(name='hover')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#hover-jade", data-toggle="tab") Jade
       li
+        a(href="#hover-jade", data-toggle="tab") Jade
+      li.active
         a(href="#hover-html", data-toggle="tab") Html
     div.tab-content
       div#hover-jade.tab-pane.fade
@@ -24,21 +24,18 @@ template(name='hover')
             &lt;button data-bind=&quot;hover: mouseIsOver, class: { btn-primary: mouseIsOver }&quot;&gt;The Button (tm)&lt;/button&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#hover-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#hover-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#hover-js", data-toggle="tab") Javascript
     div.tab-content
       div#hover-coffee.tab-pane.fade
         pre.
-          Template.hover.rendered = ->
-            new ViewModel(
-              <b>mouseIsOver</b>: false
-            ).bind @
+          Template.hover.viewmodel
+            <b>mouseIsOver</b>: false
+
       div#hover-js.tab-pane.fade.active.in
         pre.
-          Template.hover.rendered = function() {
-            return new ViewModel({
-              mouseIsOver: false
-            }).bind(this);
-          };
+          Template.hover.viewmodel({
+            mouseIsOver: false
+          });

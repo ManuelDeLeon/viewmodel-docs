@@ -8,9 +8,12 @@ template(name='fromjs')
 
     h2 Example
     pre.
-      vm = new ViewModel
-        first: ''
-        last: ''
-        full: -> @first() + ' ' + @last()
+      var vm = new ViewModel({
+        first: '',
+        last: '',
+        full: function() {
+          return this.first() + ' ' + this.last();
+        }
+      };
 
-      vm.fromJS { first: 'John', last: 'Doe' }
+      vm.fromJS( { first: 'John', last: 'Doe' } );

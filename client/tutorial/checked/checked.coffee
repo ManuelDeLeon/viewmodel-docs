@@ -1,4 +1,2 @@
-Template.checked.rendered = ->
-  new ViewModel(
-    showPrimary: true
-  ).bind @
+Template.checked.viewmodel
+  showPrimary: true

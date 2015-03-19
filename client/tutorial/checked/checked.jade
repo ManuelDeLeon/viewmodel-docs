@@ -14,9 +14,9 @@ template(name='checked')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#checked-jade", data-toggle="tab") Jade
       li
+        a(href="#checked-jade", data-toggle="tab") Jade
+      li.active
         a(href="#checked-html", data-toggle="tab") Html
     div.tab-content
       div#checked-jade.tab-pane.fade
@@ -38,21 +38,17 @@ template(name='checked')
             &lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#checked-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#checked-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#checked-js", data-toggle="tab") Javascript
     div.tab-content
       div#checked-coffee.tab-pane.fade
         pre.
-          Template.checked.rendered = ->
-            new ViewModel(
-              <b>showPrimary</b>: false
-            ).bind @
+          Template.checked.viewmodel
+            <b>showPrimary</b>: false
       div#checked-js.tab-pane.fade.active.in
         pre.
-          Template.checked.rendered = function() {
-            return new ViewModel({
-              showPrimary: false
-            }).bind(this);
-          };
+          Template.checked.viewmodel({
+            showPrimary: false
+          });

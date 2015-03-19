@@ -1,4 +1,3 @@
-Template.html.rendered = ->
-  new ViewModel(
-    innerHTML: '<i>Italic!</i>'
-  ).bind @
+Template.html.viewmodel
+  innerHTML: '<i>Italic!</i>'
+

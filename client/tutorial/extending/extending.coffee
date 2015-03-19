@@ -5,8 +5,7 @@ ViewModel.addBind 'fade', (p) ->
     else
       p.element.fadeOut()
 
-Template.extending.rendered = ->
-  new ViewModel(
-    textFade: true
-    toggleFade: -> @textFade !@textFade()
-  ).bind @
+Template.extending.viewmodel
+  textFade: true
+  toggleFade: -> @textFade !@textFade()
+

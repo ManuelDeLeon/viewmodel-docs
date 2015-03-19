@@ -1,4 +1,3 @@
-Template.checkedMultiple.rendered = ->
-  new ViewModel('checkMultiple',
-    selected: ["Colorado"]
-  ).bind @
+Template.checkedMultiple.viewmodel
+  selected: ["Colorado"]
+

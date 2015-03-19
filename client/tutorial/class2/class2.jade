@@ -16,9 +16,9 @@ template(name='class2')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#class2-jade", data-toggle="tab") Jade
       li
+        a(href="#class2-jade", data-toggle="tab") Jade
+      li.active
         a(href="#class2-html", data-toggle="tab") Html
     div.tab-content
       div#class2-jade.tab-pane.fade
@@ -47,23 +47,20 @@ template(name='class2')
           &lt;/template&gt;
 
     ul.nav.nav-pills
-      li.active
-        a(href="#class2-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#class2-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#class2-js", data-toggle="tab") Javascript
     div.tab-content
       div#class2-coffee.tab-pane.fade
         pre.
-          Template.class2.rendered = ->
-            new ViewModel(
-              <b>showPrimary</b>: false
-              <b>showLarge</b>: false
-            ).bind @
+          Template.class2.viewmodel
+            <b>showPrimary</b>: false
+            <b>showLarge</b>: false
+
       div#class2-js.tab-pane.fade.active.in
         pre.
-          Template.class2.rendered = function() {
-            return new ViewModel({
-              showPrimary: false,
-              showLarge: false
-            }).bind(this);
+          Template.class2.viewmodel({
+            showPrimary: false,
+            showLarge: false
           };

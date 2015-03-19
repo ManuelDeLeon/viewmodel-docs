@@ -1,5 +1,4 @@
-Template.focused.rendered = ->
-  new ViewModel(
-    isFocused: false
-    setFocus: -> @isFocused true
-  ).bind @
+Template.focused.viewmodel
+  isFocused: false
+  setFocus: -> @isFocused true
+

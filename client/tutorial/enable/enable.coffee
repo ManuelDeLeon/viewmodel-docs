@@ -1,4 +1,3 @@
-Template.enable.rendered = ->
-  new ViewModel(
-    message: ''
-  ).bind @
+Template.enable.viewmodel
+  message: ''
+

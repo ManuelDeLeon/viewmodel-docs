@@ -9,9 +9,9 @@ template(name='eventsx')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#eventsx-jade", data-toggle="tab") Jade
       li
+        a(href="#eventsx-jade", data-toggle="tab") Jade
+      li.active
         a(href="#eventsx-html", data-toggle="tab") Html
     div.tab-content
       div#eventsx-jade.tab-pane.fade
@@ -24,23 +24,19 @@ template(name='eventsx')
             &lt;button data-bind=&quot;click: outputMessage&quot;&gt;The Button (tm)&lt;/button&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#eventsx-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#eventsx-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#eventsx-js", data-toggle="tab") Javascript
     div.tab-content
       div#eventsx-coffee.tab-pane.fade
         pre.
-          Template.eventsx.rendered = ->
-            new ViewModel(
-              <b>outputMessage</b>: (event) -> console.log 'You clicked The Button (tm)'
-            ).bind @
+          Template.eventsx.viewmodel
+            <b>outputMessage</b>: (event) -> console.log 'You clicked The Button (tm)'
       div#eventsx-js.tab-pane.fade.active.in
         pre.
-          Template.eventsx.rendered = function() {
-            return new ViewModel({
-              outputMessage: function(event) {
-                return console.log('You clicked The Button (tm)');
-              }
-            }).bind(this);
-          };
+          Template.eventsx.viewmodel({
+            outputMessage: function(event) {
+              console.log('You clicked The Button (tm)');
+            }
+          });

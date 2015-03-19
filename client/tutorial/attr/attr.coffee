@@ -1,4 +1,3 @@
-Template.attr.rendered = ->
-  new ViewModel(
-    titleValue: 'The Tile!'
-  ).bind @
+Template.attr.viewmodel
+  titleValue: 'The Tile!'
+

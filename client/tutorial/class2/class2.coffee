@@ -1,5 +1,3 @@
-Template.class2.rendered = ->
-  new ViewModel(
-    showPrimary: false
-    showLarge: false
-  ).bind @
+Template.class2.viewmodel
+  showPrimary: false
+  showLarge: false
