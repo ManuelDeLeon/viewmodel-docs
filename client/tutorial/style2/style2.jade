@@ -13,9 +13,9 @@ template(name='style2')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#style2-jade", data-toggle="tab") Jade
       li
+        a(href="#style2-jade", data-toggle="tab") Jade
+      li.active
         a(href="#style2-html", data-toggle="tab") Html
     div.tab-content
       div#style2-jade.tab-pane.fade
@@ -34,21 +34,18 @@ template(name='style2')
             &lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#style2-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#style2-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#style2-js", data-toggle="tab") Javascript
     div.tab-content
       div#style2-coffee.tab-pane.fade
         pre.
-          Template.style2.rendered = ->
-            new ViewModel(
-              <b>textStyle</b>: 'color: blue, font-weight: bold'
-            ).bind @
+          Template.style2.viewmodel
+            <b>textStyle</b>: 'color: blue, font-weight: bold'
+
       div#style2-js.tab-pane.fade.active.in
         pre.
-          Template.style2.rendered = function() {
-            return new ViewModel({
-              textStyle: 'color: blue, font-weight: bold'
-            }).bind(this);
-          };
+          Template.style2.viewmodel({
+            textStyle: 'color: blue, font-weight: bold'
+          });

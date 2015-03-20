@@ -16,9 +16,9 @@ template(name='loginBox')
     .section
       h2 Code
       ul.nav.nav-pills
-        li.active
-          a(href="#loginBox-jade", data-toggle="tab") Jade
         li
+          a(href="#loginBox-jade", data-toggle="tab") Jade
+        li.active
           a(href="#loginBox-html", data-toggle="tab") Html
       div.tab-content
         div#loginBox-jade.tab-pane.fade
@@ -44,106 +44,101 @@ template(name='loginBox')
             &lt;/template&gt;
 
       ul.nav.nav-pills
-        li.active
-          a(href="#loginBox-coffee", data-toggle="tab") Coffeescript
         li
+          a(href="#loginBox-coffee", data-toggle="tab") Coffeescript
+        li.active
           a(href="#loginBox-js", data-toggle="tab") Javascript
       div.tab-content
         div#loginBox-coffee.tab-pane.fade
           pre.
-            Template.<b>loginBox.rendered</b> = ->
-              new ViewModel(
-                <b>first</b>: ''
-                <b>last</b>: ''
-                <b>greeting</b>: -> "Hello #{@first()} #{@last()}"
-                <b>canEnter</b>: -> !!@first() and !!@last()
-                <b>showError</b>: false
-                <b>errorText</b>: ->
-                  return '' if @canEnter() or not @showError()
-                  "Please enter your first and last name"
-              ).bind @
+            Template.<b>loginBox.viewmodel</b>
+              <b>first</b>: ''
+              <b>last</b>: ''
+              <b>greeting</b>: -> "Hello #{@first()} #{@last()}"
+              <b>canEnter</b>: -> !!@first() and !!@last()
+              <b>showError</b>: false
+              <b>errorText</b>: ->
+                return '' if @canEnter() or not @showError()
+                "Please enter your first and last name"
+
         div#loginBox-js.tab-pane.fade.active.in
           pre.
-            Template.loginBox.rendered = function() {
-              return new ViewModel({
-                first: &#39;&#39;,
-                last: &#39;&#39;,
-                greeting: function() {
-                  return &quot;Hello &quot; + (this.first()) + &quot; &quot; + (this.last());
-                },
-                canEnter: function() {
-                  return !!this.first() &amp;&amp; !!this.last();
-                },
-                showError: false,
-                errorText: function() {
-                  &#105;f (this.canEnter() || !this.showError()) {
-                    return &#39;&#39;;
-                  }
-                  return &quot;Please enter your first and last name&quot;;
+            Template.loginBox.viewmodel({
+              first: &#39;&#39;,
+              last: &#39;&#39;,
+              greeting: function() {
+                return &quot;Hello &quot; + this.first() + &quot; &quot; + this.last();
+              },
+              canEnter: function() {
+                return !!this.first() &amp;&amp; !!this.last();
+              },
+              showError: false,
+              errorText: function() {
+                &#105;f (this.canEnter() || !this.showError()) {
+                  return &#39;&#39;;
                 }
-              }).bind(this);
-            };
+                return &quot;Please enter your first and last name&quot;;
+              }
+            });
       h2 What's going on...
         h3 Binding first/last name values to their input boxes
         pre.
-          template(name='loginBox')
+          &lt;template name=&quot;loginBox&quot;&gt;
             ...
-            input(type='text', <b>data-bind="value: first"</b>)
+            input type=&quot;text&quot; <b>data-bind=&quot;value: first&quot;</b>/&gt;
             ...
         pre.
-          Template.loginBox.rendered = ->
-            new ViewModel(
-              <b>first: ''</b>
-              ...
+          Template.loginBox.viewmodel({
+            <b>first: ''</b>,
+            ...
         p Here we're binding the value of the input/text element to the property 'first' of the viewmodel.
         p The result is that the viewmodel object will be kept in sync with the input box. If you change the value in the texbox then the value of the viewmodel's 'first' property will also change and vice versa.
         h3 The greeting message
         pre.
-          template(name='loginBox')
+          &lt;template name=&quot;loginBox&quot;&gt;
             ...
-            div(<b>data-bind='text: greeting'</b>)
+            &lt;div <b>data-bind=&quot;text: greeting&quot;</b>&gt;&lt;/div&gt;
             ...
         pre.
-          Template.loginBox.rendered = ->
-            new ViewModel(
-              ...
-              <b>greeting: -> "Hello #{@first()} #{@last()}"</b>
-              ...
+          Template.loginBox.viewmodel({
+            ...
+            <b>greeting</b>: function() {
+              return "Hello " + this.first() + " " + this.last()
+            }
+            ...
         p The greeting property of the viewmodel returns the string "Hello firstName lastName". This is a reactive method so its output changes as first and last change.
         p We then bind the output of the greeting property to the text contents of the div element. The effect is that as you type into the first/last input boxes, their value is transmitted to the first/last properties in the viewmodel, the greeting property is in turn updated with the new value, and finally the div's contents get updated with the new value of greeting.
         h3 The button
         pre.
-          template(name='loginBox')
+          &lt;template name=&quot;loginBox&quot;&gt;
             ...
-            a.btn-primary(data-bind="<b>enabled: canEnter, hover: showError</b>") Enter Site
+            &lt;a <b>data-bind=&quot;enabled: canEnter, hover: showError&quot;</b> class=&quot;btn-primary&quot;&gt;Enter Site&lt;/a&gt;
             ...
         pre.
-          Template.loginBox.rendered = ->
-            new ViewModel(
-              ...
-              <b>canEnter: -> !!@first() and !!@last()</b>
-              <b>showError: false</b>
-              ...
+          Template.loginBox.viewmodel({
+            ...
+            <b>canEnter</b>: function() {
+              return !!this.first() && !!this.last()
+            },
+            <b>showError: false</b>
+            ...
         p The button's enabled/disabled state is bound to the canEnter property. In turn canEnter returns true if the viewmodel has both a first and a last name. The button is only enabled when canEnter returns true.
         p The hover bind sets the bound property to true when the mouse is over the element. It sets the property to false when it's not. We use this to tell the errorText function if it should return the error text.
         h3 The error text
         pre.
-          template(name='loginBox')
+          &lt;template name=&quot;loginBox&quot;&gt;
             ...
-            span.text-error(data-bind='<b>text: errorText</b>')
+            &lt;span <b>data-bind=&quot;text: errorText&quot;</b> class=&quot;text-error&quot;&gt;&lt;/span&gt;
         pre.
-          Template.loginBox.rendered = ->
-            new ViewModel(
-              ...
-              <b>errorText</b>: ->
-                return '' if @canEnter() or not @showError()
-                "Please enter your first and last name"
-              ...
+          Template.loginBox.viewmodel({
+            ...
+            <b>errorText</b>: function() {
+              &#105;f (this.canEnter() || !this.showError()) {
+                return &#39;&#39;;
+              }
+              return &quot;Please enter your first and last name&quot;;
+            }
+            ...
         p Here we bind the span's text to the output of the errorText function. It will return an empty string if either first or last is empty or showError is false. As a reminder, showError is true if the mouse is over the button.
         h3 Binding the html to the viewmodel
-        pre.
-          Template.loginBox.rendered = ->
-            new ViewModel(
-              ...
-            )<b>.bind @</b>
-        p The last step is to bind the html elements with the data-bind attribute to their corresponding properties in the viewmodel.
+        p ViewModel automatically binds the html elements with the data-bind attribute to their corresponding properties in the viewmodel.

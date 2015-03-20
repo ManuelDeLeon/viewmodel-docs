@@ -19,9 +19,9 @@ template(name='visible')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#visible-jade", data-toggle="tab") Jade
       li
+        a(href="#visible-jade", data-toggle="tab") Jade
+      li.active
         a(href="#visible-html", data-toggle="tab") Html
     div.tab-content
       div#visible-jade.tab-pane.fade
@@ -54,23 +54,20 @@ template(name='visible')
             &lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#visible-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#visible-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#visible-js", data-toggle="tab") Javascript
     div.tab-content
       div#visible-coffee.tab-pane.fade
         pre.
-          Template.visible.rendered = ->
-            new ViewModel(
-              <b>showPrimary</b>: true
-              <b>showInfo</b>: true
-            ).bind @
+          Template.visible.viewmodel
+            <b>showPrimary</b>: true
+            <b>showInfo</b>: true
+
       div#visible-js.tab-pane.fade.active.in
         pre.
-          Template.visible.rendered = function() {
-            return new ViewModel({
-              showPrimary: true,
-              showInfo: true
-            }).bind(this);
-          };
+          Template.visible.viewmodel({
+            showPrimary: true,
+            showInfo: true
+          });

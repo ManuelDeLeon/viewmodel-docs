@@ -1,4 +1,3 @@
-Template.value.rendered = ->
-  new ViewModel(
-    message: 'I can catch anything.'
-  ).bind @
+Template.value.viewmodel
+  message: 'I can catch anything.'
+

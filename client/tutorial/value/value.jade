@@ -10,9 +10,9 @@ template(name='value')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#value-jade", data-toggle="tab") Jade
       li
+        a(href="#value-jade", data-toggle="tab") Jade
+      li.active
         a(href="#value-html", data-toggle="tab") Html
     div.tab-content
       div#value-jade.tab-pane.fade
@@ -27,21 +27,18 @@ template(name='value')
             &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#value-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#value-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#value-js", data-toggle="tab") Javascript
     div.tab-content
       div#value-coffee.tab-pane.fade
         pre.
-          Template.value.rendered = ->
-            new ViewModel(
-              <b>message</b>: 'I can catch anything.'
-            ).bind @
+          Template.value.viewmodel
+            <b>message</b>: 'I can catch anything.'
+
       div#value-js.tab-pane.fade.active.in
         pre.
-          Template.value.rendered = function() {
-            return new ViewModel({
-              message: 'I can catch anything.'
-            }).bind(this);
-          };
+          Template.value.viewmodel({
+            message: 'I can catch anything.'
+          });

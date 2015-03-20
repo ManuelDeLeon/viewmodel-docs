@@ -9,9 +9,9 @@ template(name='style3')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#style3-jade", data-toggle="tab") Jade
       li
+        a(href="#style3-jade", data-toggle="tab") Jade
+      li.active
         a(href="#style3-html", data-toggle="tab") Html
     div.tab-content
       div#style3-jade.tab-pane.fade
@@ -24,30 +24,27 @@ template(name='style3')
             &lt;div data-bind=&quot;style: styleObject, text: textStyle&quot;&gt;&lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#style3-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#style3-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#style3-js", data-toggle="tab") Javascript
     div.tab-content
       div#style3-coffee.tab-pane.fade
         pre.
-          Template.style3.rendered = ->
-            new ViewModel(
-              <b>styleObject</b>:
-                color: 'blue'
-                'font-weight': 'bold'
-              textStyle: -> 'My style is = ' + JSON.stringify @styleObject()
-            ).bind @
+          Template.style3.viewmodel
+            <b>styleObject</b>:
+              color: 'blue'
+              'font-weight': 'bold'
+            textStyle: -> 'My style is = ' + JSON.stringify @styleObject()
+
       div#style3-js.tab-pane.fade.active.in
         pre.
-          Template.style3.rendered = function() {
-            return new ViewModel({
-              styleObject: {
-                color: 'blue',
-                'font-weight': 'bold'
-              },
-              textStyle: function() {
-                return 'My style is = ' + JSON.stringify(this.styleObject());
-              }
-            }).bind(this);
-          };
+          Template.style3.viewmodel({
+            styleObject: {
+              color: 'blue',
+              'font-weight': 'bold'
+            },
+            textStyle: function() {
+              return 'My style is = ' + JSON.stringify(this.styleObject());
+            }
+          });

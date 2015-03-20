@@ -1,4 +1,3 @@
-Template.style1.rendered = ->
-  new ViewModel(
-    textColor: 'blue'
-  ).bind @
+Template.style1.viewmodel
+  textColor: 'blue'
+

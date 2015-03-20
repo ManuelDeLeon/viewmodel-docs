@@ -10,10 +10,11 @@ template(name='tojs')
       fullObject = viewmodel.toJS(true)
     h2 Example
     pre.
-      vm = new ViewModel
-        first: 'John'
-        last: 'Doe'
+      var vm = new ViewModel({
+        first: 'John',
+        last: 'Doe',
         full: -> @first() + ' ' + @last()
+      });
 
-      vm.toJS() # { first: 'John', last: 'Doe' }
-      vm.toJS(true) # { first: 'John', last: 'Doe', full: 'John Doe' }
+      vm.toJS() // returns { first: 'John', last: 'Doe' }
+      vm.toJS(true) // returns { first: 'John', last: 'Doe', full: 'John Doe' }

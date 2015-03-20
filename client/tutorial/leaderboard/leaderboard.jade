@@ -2,7 +2,7 @@ template(name='leaderboard')
   a.bookmark(id='leaderboardBk')
   #leaderboard
     .section
-      h1 Leaderboard Example.
+      h1 Leaderboard Example
       each players
         +player
       hr
@@ -49,8 +49,11 @@ template(name='leaderboard')
       div.tab-content
         div#leaderboard-coffee.tab-pane.fade
           pre.
+            Template.leaderboard.onCreated ->
+              this.subscribe 'players'
+
             Template.<b>leaderboard.viewmodel</b> 'leaderboard',
-              <b>players:</b> -> Players.find {}, { sort: { score:-1, name: 1 }
+              <b>players:</b> -> Players.find {}, { sort: { score:-1, name: 1 } }
               <b>selected:</b> null
               <b>addPoints:</b> -> Players.update @selected(), { $inc: { score: 5 } }
             , <b>'players'</b>
@@ -65,93 +68,93 @@ template(name='leaderboard')
 
         div#leaderboard-js.tab-pane.fade.active.in
           pre.
-            Template.leaderboard.created = function() {
-              return this.vm = new ViewModel('leaderboard', {
+            Template.leaderboard.onCreated(function() {
+              this.subscribe("players");
+            });
+
+            Template.leaderboard.viewmodel(
+              'leaderboard',
+              {
                 players: function() {
-                  return Players.find({}, {
-                    sort: {
-                      score: -1,
-                      name: 1
-                    },
-                    fields: {
-                      _id: 1
-                    }
-                  });
+                  return Players.find({}, { sort: { score:-1, name: 1 } });
                 },
                 selected: null,
                 addPoints: function() {
-                  return Players.update(this.selected(), {
-                    $inc: {
-                      score: 5
-                    }
-                  });
+                  Players.update(this.selected(), { $inc: { score: 5 } });
                 }
-              }).addHelper('players');
-            };
+              },
+              'players'
+            );
 
-            Template.leaderboard.rendered = function() {
-              return this.vm.bind(this);
-            };
-
-            Template.player.rendered = function() {
-              return new ViewModel(this.data).extend({
+            Template.player.viewmodel( function(data) {
+              return {
+                id: data._id,
                 player: function() {
-                  return Players.findOne(this._id());
+                  return Players.findOne(this.id());
                 },
                 select: function() {
-                  return this.parent().selected(this._id());
+                  this.parent().selected(this.id());
                 },
                 isSelected: function() {
-                  return this.parent().selected() === this._id();
+                  return this.parent().selected() === this.id();
                 },
                 info: function() {
                   return this.player().score + ' ' + this.player().name;
                 }
-              }).bind(this);
-            };
+              };
+            });
 
 
       h2 What's going on...
       h3 viewmodel
       pre.
-        Template.<b>leaderboard.created</b> = ->
-          this.vm = new ViewModel('leaderboard',
-            ...
-      p We create the viewmodel for the leaderboard in the template created event and store it as a property of the instance (we'll use it on the rendered event). We also give the viewmodel a name so the state persists over hot code pushes (See Misc -> Hot Code Pushes)
+        Template.<b>leaderboard.viewmodel</b>(
+          'leaderboard',
+          ...
+      p.
+        We create the viewmodel for the leaderboard template and give it a name so the state persists over hot code pushes.
+        <br>See: Misc -> New Style
+        <br>See: Misc -> Hot Code Pushes
 
       h3 players helper
       pre.
-        Template.leaderboard.created = ->
-          this.vm = new ViewModel('leaderboard',
-            <b>players</b>: -> Players.find {}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } }
+        Template.leaderboard.viewmodel(
+          'leaderboard',
+          {
+            <b>players</b>: function() {
+              return Players.find( {}, { sort: { score:-1, name: 1 } } );
+            }
             ...
-          )<b>.addHelper 'players', @</b>
-      p We add the players method which returns a reactive cursor.
-      p After creating our viewmodel we add the players property as a template helper with the .addHelper method.
-      p Another option would have been to let the viewmodel add all its properties and methods as Meteor helpers. In this particular case we don't need the selected or addPoints helpers so we can just add the one helper we need. For your reference, you can add all helpers with the addHelpers method:
-      pre.
-        this.vm = new ViewModel(
-          ...
-        ).addHelpers @
+          },
+          'players'
+        );
+      p We add the players method which returns a reactive cursor. We're passing 3 parameters to the viewmodel method: 1) the name, 2) the viewmodel object, and 3) the property we want to use as a template helper. In this case ViewModel adds the players property as a template helper (that's why the template can use &#123;{#each players}}).
+
       h3 binding the leaderboard template
-      pre.
-        Template.leaderboard.rendered = ->
-          this.vm.bind @
-      p Here we're binding the html elements with a "data-bind" attribute to the viewmodel. It happens in the rendered event because it needs the actual html elements to be present on the page. As a reminder we set the vm property of the template instance in the created event.
+      p ViewModel automatically binds the html elements with a "data-bind" attribute to the viewmodel. It happens in the rendered event because it needs the actual html elements to be present on the page.
       h3 player viewmodel
       pre.
-        Template.<b>player.rendered</b> = ->
-          new ViewModel(this.data).extend(
-            player: -> Players.findOne(@_id())
-            select: -> @parent().selected @_id()
-            isSelected: -> @parent().selected() is @_id()
-            info: -> @player().score + ' ' + @player().name
-          ).bind @
-      p Here we're creating a player viewmodel for each of the players rendered. It begins by taking this.data (the context given by the #each loop in the parent/leaderboard template) and adding its properties to the player viewmodel. In this case it only has _id. That's why the rest of the viewmodel can use @_id().
-      p @parent() refers to the viewmodel directly above the current one. In this case @parent() refers to the leaderboard viewmodel.
-      p Then we extend the viewmodel to add the properties and methods we want it to have (player, select, isSelected, and info). The player property returns a single player object taken from the Players collection. We do this so its properties are reactively updated when the database changes. Remember that findOne is the reactive function, the object's properties are not.
-      p Then we bind the template's html elements with a "data-bind" attribute property to the current player viewmodel.
-      p We create the viewmodel in the template rendered event because we don't need to add any helpers to the player template. In addition, we don't give a name to the viewmodel because all properties as functions so there's no state to maintain.
+        Template.player.viewmodel( function(data) {
+          return {
+            id: data._id,
+            player: function() {
+              return Players.findOne(this.id());
+            },
+            select: function() {
+              this.parent().selected(this.id());
+            },
+            isSelected: function() {
+              return this.parent().selected() === this.id();
+            },
+            info: function() {
+              return this.player().score + ' ' + this.player().name;
+            }
+          };
+        });
+      p Here we're creating a player viewmodel for each of the players rendered. We're only passing 1 parameter to the viewmodel method: a function that takes in the template's data context. That is the context given by the #each loop in the parent/leaderboard template. In this case we use it to extract the player _id and give it to the id property. That's why the rest of the viewmodel can use this.id().
+      p this.parent() refers to the viewmodel directly above the current one. In this case this.parent() refers to the leaderboard viewmodel.
+      p Then we add the properties and methods we want it to have (player, select, isSelected, and info). The player property returns a single player object taken from the Players collection. We do this so its properties are reactively updated when the database changes. Remember that findOne is the reactive function, the object properties returned by findOne are not.
+      p We don't give a name to the viewmodel because all properties as functions so there's no state to maintain.
 
 
 template(name='player')

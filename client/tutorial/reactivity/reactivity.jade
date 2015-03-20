@@ -2,7 +2,7 @@ template(name='reactivity')
   a.bookmark(id='reactivityBk')
   .section
     h1 Reactivity
-    p ViewModels are reactive data sources. That means you can use the properties and methods anywhere you would use a reactive source. In the following example we use the vm.textVisible property as a template helper (vm.addHelpers 'template-name')
+    p ViewModels are reactive data sources. That means you can use the properties and methods anywhere you would use a reactive source. In the following example we use the vm.textVisible property as a template helper.
     .row
       button.btn.pull-left(data-bind="click: toggleText") Toggle Text
       if textVisible
@@ -22,8 +22,8 @@ template(name='reactivity')
         textVisible: true
         toggleText: -> @textVisible !@textVisible()
 
-      Template.reactivity.created = ->
-        vm.addHelpers 'reactivity'
+      Template.reactivity.helpers
+        textVisible: -> vm.textVisible()
 
-      Template.reactivity.rendered = ->
+      Template.reactivity.onRendered ->
         vm.bind @

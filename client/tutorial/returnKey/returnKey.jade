@@ -11,9 +11,9 @@ template(name='returnKey')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#returnKey-jade", data-toggle="tab") Jade
       li
+        a(href="#returnKey-jade", data-toggle="tab") Jade
+      li.active
         a(href="#returnKey-html", data-toggle="tab") Html
     div.tab-content
       div#returnKey-jade.tab-pane.fade
@@ -28,25 +28,22 @@ template(name='returnKey')
             &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#returnKey-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#returnKey-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#returnKey-js", data-toggle="tab") Javascript
     div.tab-content
       div#returnKey-coffee.tab-pane.fade
         pre.
-          Template.returnKey.rendered = ->
-            new ViewModel(
-              message: 'Can it be true?'
-              <b>logMessage</b>: -> console.log @message()
-            ).bind @
+          Template.returnKey.viewmodel
+            message: 'Can it be true?'
+            <b>logMessage</b>: -> console.log @message()
+
       div#returnKey-js.tab-pane.fade.active.in
         pre.
-          Template.returnKey.rendered = function() {
-            return new ViewModel({
-              message: 'Can it be true?',
-              logMessage: function() {
-                return console.log(this.message());
-              }
-            }).bind(this);
-          };
+          Template.returnKey.viewmodel({
+            message: 'Can it be true?',
+            logMessage: function() {
+              console.log(this.message());
+            }
+          });

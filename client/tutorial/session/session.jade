@@ -4,16 +4,18 @@ template(name='session')
     h1 Hot Code Pushes
     p With ViewModel you don't have to worry about maintaining the user's state when a hot code push occurs. If you give the viewmodel a name or id, it will automaticaly save its contents to a session variable ('_vm_' + name). After a hot code push the viewmodel will load the values from the session variable. All you need to do is give the viewmodel a name/id in the constructor:
     pre.
-      vm = new ViewModel 'vmNameOrId',
-        property: ''
-        method: ->
+      vm = new ViewModel( 'vmNameOrId', viewmodelObject );
+    pre.
+      vm = new ViewModel( function(data) { return 'vmNameOrId' }, viewmodelObject );
 
     h2 Example
     p In the following example we give the viewmodel the name/id of 'leaderboard'. Only the value selected is stored in a session variable when it changes. This is because players and addPoints are functions. The value of selected will be restored automatically when a hot code push occurs.
     pre.
-      Template.leaderboard.rendered = ->
-        new ViewModel('leaderboard',
+      Template.leaderboard.viewmodel(
+        'leaderboard',
+        {
           players: -> Players.find()
           selected: null
           addPoints: -> Players.update(@selected(), { $inc: { score: 5 } })
-        ).bind @
+        }
+      );

@@ -1,4 +1,3 @@
-Template.text.rendered = ->
-  new ViewModel(
-    message: 'Can it be true?'
-  ).bind @
+Template.text.viewmodel
+  message: 'Can it be true?'
+

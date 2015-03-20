@@ -8,11 +8,12 @@ template(name='reset')
 
     h2 Example
     pre.
-      vm = new ViewModel
+      var vm = new ViewModel({
         name: ''
+      });
 
-      vm.name 'John Doe' # Set a value
+      vm.name( 'John Doe' ) // Set a value
 
-      vm.reset() # Reset values
+      vm.reset() // Reset values
 
-      vm.toJS() # { name: '' }
+      vm.toJS() // returns { name: '' }

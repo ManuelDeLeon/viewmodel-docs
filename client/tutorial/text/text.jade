@@ -10,9 +10,9 @@ template(name='text')
   .section
     h2 Code
     ul.nav.nav-pills
-      li.active
-        a(href="#text-jade", data-toggle="tab") Jade
       li
+        a(href="#text-jade", data-toggle="tab") Jade
+      li.active
         a(href="#text-html", data-toggle="tab") Html
     div.tab-content
       div#text-jade.tab-pane.fade
@@ -27,21 +27,18 @@ template(name='text')
             &lt;div data-bind=&quot;text: message&quot;&gt;&lt;/div&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
-      li.active
-        a(href="#text-coffee", data-toggle="tab") Coffeescript
       li
+        a(href="#text-coffee", data-toggle="tab") Coffeescript
+      li.active
         a(href="#text-js", data-toggle="tab") Javascript
     div.tab-content
       div#text-coffee.tab-pane.fade
         pre.
-          Template.text.rendered = ->
-            new ViewModel(
-              <b>message</b>: 'Can it be true?'
-            ).bind @
+          Template.text.viewmodel
+            <b>message</b>: 'Can it be true?'
+
       div#text-js.tab-pane.fade.active.in
         pre.
-          Template.text.rendered = function() {
-            return new ViewModel({
-              message: 'Can it be true?'
-            }).bind(this);
-          };
+          Template.text.viewmodel({
+            message: 'Can it be true?'
+          });
