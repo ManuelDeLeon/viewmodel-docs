@@ -1,0 +1,9 @@
+<template name="emailInput">
+  <div data-bind="class: { error: invalidEmail }" class="control-group">
+    <label class="control-label">Email:</label>
+    <div class="controls">
+      <input type="text" data-bind="value: email">
+      <span data-bind="text: message" class="help-inline" ></span>
+    </div>
+  </div>
+</template>

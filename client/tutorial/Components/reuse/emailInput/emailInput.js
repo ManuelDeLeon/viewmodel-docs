@@ -1,0 +1,1 @@
+Template.emailInput2.viewmodel(EmailViewModel);

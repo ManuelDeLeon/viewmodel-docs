@@ -1,0 +1,7 @@
+<template name="emailCheck">
+  <div class="input-append">
+    <input type="text" data-bind="value: email, change: clearInfo">
+    <button class="btn" type="button" data-bind="click: checkEmail">Check Email</button>
+    <label data-bind="text: info"></label>
+  </div>
+</template>

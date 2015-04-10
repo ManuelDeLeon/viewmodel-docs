@@ -1,0 +1,32 @@
+template(name='compBasic')
+  a.bookmark(id='compBasicBk')
+  .section
+    h1 Components - Basic
+    p With ViewModel every template becomes a reusable component. Because the viewmodel itself is just a Javascript object you can compose, mix, inherit, and extend the components.
+    p For example, if you want an input box that validates the contents for email addresses you might do the following:
+    pre.
+      &lt;template name=&quot;emailInput&quot;&gt;
+        &lt;div data-bind=&quot;class: { error: invalidEmail }&quot; class=&quot;control-group&quot;&gt;
+          &lt;label class=&quot;control-label&quot;&gt;Email:&lt;/label&gt;
+          &lt;div class=&quot;controls&quot;&gt;
+            &lt;input type=&quot;text&quot; data-bind=&quot;value: email&quot;&gt;
+            &lt;span data-bind=&quot;text: message&quot; class=&quot;help-inline&quot; &gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/template&gt;
+
+      Template.emailInput.viewmodel({
+        email: '',
+        invalidEmail: function(){
+          var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+          return !(emailRegex.test(this.email()));
+        },
+        message: function() {
+          return this.invalidEmail() ? "Invalid Email" : "";
+        }
+      });
+    p And now you have a component you can reuse throughout your application:
+    pre.
+      &#123;&#123;> emailInput &#125;&#125;
+    form.form-horizontal
+      +emailInput

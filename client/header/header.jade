@@ -17,7 +17,7 @@ template(name='header')
                 a(role='menuitem', tabindex='-1', href='#contactsBk') Contacts
 
           li.dropdown
-            a#drop2.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+            a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
               | Bindings
               b.caret
             ul.dropdown-menu(role='menu')
@@ -63,7 +63,7 @@ template(name='header')
                 a(role='menuitem', tabindex='-1', href='#optionsBk') options
 
           li.dropdown
-            a#drop2.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+            a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
               | Misc
               b.caret
             ul.dropdown-menu(role='menu')
@@ -94,7 +94,15 @@ template(name='header')
                 a(role='menuitem', tabindex='-1', href='#newStyleBk') New Style
 
           li.dropdown
-            a#drop2.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+            a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+              | Components
+              b.caret
+            ul.dropdown-menu(role='menu')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#compBasicBk' ) Basic
+
+          li.dropdown
+            a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
               | Source
               b.caret
             ul.dropdown-menu(role='menu')
