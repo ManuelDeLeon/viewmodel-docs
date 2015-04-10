@@ -1,6 +1,5 @@
 Template.emailCheck.viewmodel(
   EmailViewModel,
-  // Extend the viewmodel
   {
     info: '',
     checkEmail: function() {
