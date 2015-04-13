@@ -1,7 +1,7 @@
-template(name='newStyle')
-  a.bookmark(id='newStyleBk')
+template(name='defining')
+  a.bookmark(id='definingBk')
   .section
-    h1 New way to define viewmodels (Meteor 1.0.4+)
+    h1 Defining ViewModels
     p Meteor 1.0.4 introduced 3 new template methods (onCreated, onRendered, and onDestroyed) which makes ViewModel a whole lot easier to work with.
     pre Template.templateName.viewmodel( [name,] viewmodel [, viewmodelN] [, helpers])
     h2 name
@@ -72,26 +72,31 @@ template(name='newStyle')
         address: '123 Main St.',
         zip: 12345
       }, ['address', 'zip']);
-    h2 Concrete example
-    p Instead of doing the following:
+
+    h2 Dude where's my vm?
+    p The viewmodels are automatically appended to the template instances. You can access them via the viewmodel property.
+    pre Template.instance().viewmodel
+
+    h2 Getting your hands dirty
+    p You can also create the viewmodels "by hand" and use them in the template events. Here's the leaderboard example:
     pre.
-      Template.leaderboard.created = function() {
+      Template.leaderboard.onCreated( function() {
         this.vm = new ViewModel('leaderboard', {
           players: function() {
-            return Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } });
+            return Players.find({}, { sort: { score: -1, name: 1 }, fields: { _id: 1 } });
           },
           selected: null,
           addPoints: function() {
             Players.update(this.selected(), { $inc: { score: 5 }});
           }
         }).addHelper('players', this);
-      };
+      });
 
-      Template.leaderboard.rendered = function() {
+      Template.leaderboard.onRendered( function() {
         this.vm.bind(this);
-      };
+      });
 
-      Template.player.rendered = function() {
+      Template.player.onRendered( function() {
         new ViewModel({
           _id: this.data._id,
           player: function() {
@@ -107,37 +112,4 @@ template(name='newStyle')
             return this.player().score + ' ' + this.player().name;
           }
         }).bind(this);
-      };
-
-    p You would now do:
-    pre.
-      Template.leaderboard.viewmodel( 'leaderboard', {
-          players: function() {
-            return Players.find({}, { sort: { score:-1, name: 1 }, fields: { _id: 1 } });
-          },
-          selected: null,
-          addPoints: function() {
-            Players.update(this.selected(), { $inc: { score: 5 }});
-          }
-      }, 'players');
-
-      Template.player.viewmodel( function(data) {
-        return {
-          _id: data._id,
-          player: function() {
-            return Players.findOne(this._id());
-          },
-          select: function() {
-            this.parent().selected(this._id());
-          },
-          isSelected: function() {
-            return this.parent().selected() === this._id();
-          },
-          info: function() {
-            return this.player().score + ' ' + this.player().name;
-          }
-        };
       });
-    h2 Dude where's my vm?
-    p The viewmodels are automatically appended to the template instances. You can access them via the viewmodel property.
-    pre Template.instance().viewmodel

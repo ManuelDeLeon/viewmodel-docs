@@ -6,22 +6,22 @@ template(name='compBasic')
     p For example, if you want an input box that validates the contents for email addresses you might do the following:
     pre.
       &lt;template name=&quot;emailInput&quot;&gt;
-        &lt;div data-bind=&quot;class: { error: invalidEmail }&quot; class=&quot;control-group&quot;&gt;
+        &lt;div data-bind=&quot;<b>class: { error: invalidEmail }</b>&quot; class=&quot;control-group&quot;&gt;
           &lt;label class=&quot;control-label&quot;&gt;Email:&lt;/label&gt;
           &lt;div class=&quot;controls&quot;&gt;
-            &lt;input type=&quot;text&quot; data-bind=&quot;value: email&quot;&gt;
-            &lt;span data-bind=&quot;text: message&quot; class=&quot;help-inline&quot; &gt;&lt;/span&gt;
+            &lt;<b>input</b> type=&quot;text&quot; data-bind=&quot;<b>value: email</b>&quot;&gt;
+            &lt;<b>span</b> data-bind=&quot;<b>text: message</b>&quot; class=&quot;help-inline&quot; &gt;&lt;/span&gt;
           &lt;/div&gt;
         &lt;/div&gt;
       &lt;/template&gt;
 
       Template.emailInput.viewmodel({
-        email: '',
-        invalidEmail: function(){
+        <b>email</b>: '',
+        <b>invalidEmail</b>: function(){
           var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
           return !(emailRegex.test(this.email()));
         },
-        message: function() {
+        <b>message</b>: function() {
           return this.invalidEmail() ? "Invalid Email" : "";
         }
       });

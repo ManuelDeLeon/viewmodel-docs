@@ -1,35 +1,67 @@
 template(name='compReuse')
   a.bookmark(id='compReuseBk')
   .section.reuse
-    h1 Components - Reusing and Sharing Code
+    h1 Components - Reusing and Extending
     p Viewmodels are just a Javascript objects. That means you can share them between template/components.
-    p In the following example we share the emailInput code with 2 templates/components:
+    p In the following example we share the email input code with 2 templates/components:
     h3 Shared Code
     pre.
-      &lt;template name=&quot;emailInput&quot;&gt;
-        &lt;div data-bind=&quot;class: { error: invalidEmail }&quot; class=&quot;control-group&quot;&gt;
-          &lt;label class=&quot;control-label&quot;&gt;Email:&lt;/label&gt;
-          &lt;div class=&quot;controls&quot;&gt;
-            &lt;input type=&quot;text&quot; data-bind=&quot;value: email&quot;&gt;
-            &lt;span data-bind=&quot;text: message&quot; class=&quot;help-inline&quot; &gt;&lt;/span&gt;
-          &lt;/div&gt;
-        &lt;/div&gt;
-      &lt;/template&gt;
-
-      Template.emailInput.viewmodel({
-        email: '',
-        invalidEmail: function(){
+      <b>EmailViewModel</b> = {
+        <b>email</b>: '',
+        <b>invalidEmail</b>: function(){
           var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
           return !(emailRegex.test(this.email()));
         },
-        message: function() {
+        <b>message</b>: function() {
           return this.invalidEmail() ? "Invalid Email" : "";
         }
-      });
-    p And now you have a component you can reuse throughout your application:
+      };
+    h3 emailInput component
+    p We use it first without any modifications with the emailInput template:
+    pre.
+      &lt;template name=&quot;emailInput&quot;&gt;
+        &lt;div data-bind=&quot;<b>class: { error: invalidEmail }</b>&quot; class=&quot;control-group&quot;&gt;
+          &lt;label class=&quot;control-label&quot;&gt;Email:&lt;/label&gt;
+          &lt;div class=&quot;controls&quot;&gt;
+            &lt;<b>input</b> type=&quot;text&quot; data-bind=&quot;<b>value: email</b>&quot;&gt;
+            &lt;<b>span</b> data-bind=&quot;<b>text: message</b>&quot; class=&quot;help-inline&quot; &gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/template&gt;
+    p To use it we just pass the EmailViewModel object to the emailInput template:
+    pre.
+      Template.emailInput.viewmodel( <b>EmailViewModel</b> );
     pre.
       &#123;&#123;> emailInput &#125;&#125;
     form.form-horizontal
       +emailInput2
+    h3 emailCheck component
+    p We can also use it with a different template:
+    pre.
+      &lt;template name=&quot;emailCheck&quot;&gt;
+        &lt;div class=&quot;input-append&quot;&gt;
+          &lt;<b>input</b> type=&quot;text&quot; data-bind=&quot;<b>value: email, change: clearInfo</b>&quot;&gt;
+          &lt;<b>button</b> class=&quot;btn&quot; type=&quot;button&quot; data-bind=&quot;<b>click: checkEmail</b>&quot;&gt;Check Email&lt;/button&gt;
+          &lt;<b>label</b> data-bind=&quot;<b>text: info</b>&quot;&gt;&lt;/label&gt;
+        &lt;/div&gt;
+      &lt;/template&gt;
+    p But in this case we'll extend the EmailViewModel with info, checkEmail, and clearInfo which are used by the emailCheck template. Notice how the new viewmodel object can access properties from EmailViewModel as if they were its own (this.message() and this.invalidEmail()).
+    p In the following code we pass 2 parameters to Template.emailCheck.viewmodel, the EmailViewModel object and a new object we're going to use to extend EmailViewModel. We can pass any number of objects to the viewmodel method and their properties will be combined into that template's viewmodel.
+    pre.
+      Template.emailCheck.viewmodel(
+        <b>EmailViewModel</b>,
+        {
+          <b>info</b>: '',
+          <b>checkEmail</b>: function() {
+            var newInfo = this.invalidEmail() ? this.message() : "Email is valid!";
+            this.info( newInfo );
+          },
+          <b>clearInfo</b>: function(){
+            this.info( '' );
+          }
+        }
+      );
+    pre.
+      &#123;&#123;> emailCheck &#125;&#125;
     form
       +emailCheck

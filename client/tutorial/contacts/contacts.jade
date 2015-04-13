@@ -187,7 +187,7 @@ template(name='contacts')
                     number: this.number()
                   });
                   this.name(&#39;&#39;);
-                  return this.number(&#39;&#39;);
+                  this.number(&#39;&#39;);
                 }
               },
               tryAdd: false,
@@ -209,7 +209,7 @@ template(name='contacts')
                 return Contacts.findOne(this._id());
               },
               &quot;delete&quot;: function() {
-                return Contacts.remove(this._id());
+                Contacts.remove(this._id());
               },
               editMode: false,
               numberFocus: false,
@@ -217,11 +217,11 @@ template(name='contacts')
                 this.name(this.contact().name);
                 this.number(this.contact().number);
                 this.editMode(true);
-                return this.numberFocus(true);
+                this.numberFocus(true);
               },
               showControls: false,
               cancel: function() {
-                return this.editMode(false);
+                this.editMode(false);
               },
               canUpdate: function() {
                 return !!this.name() &amp;&amp; !!this.number();
@@ -233,7 +233,7 @@ template(name='contacts')
                     number: this.number()
                   }
                 });
-                return this.editMode(false);
+                this.editMode(false);
               }
             };
 

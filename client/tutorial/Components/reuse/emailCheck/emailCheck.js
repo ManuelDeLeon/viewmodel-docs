@@ -3,12 +3,7 @@ Template.emailCheck.viewmodel(
   {
     info: '',
     checkEmail: function() {
-      var newInfo;
-      if (this.invalidEmail()) {
-        newInfo = this.message();
-      } else {
-        newInfo = "Email is valid!";
-      }
+      var newInfo = this.invalidEmail() ? this.message() : "Email is valid!";
       this.info( newInfo );
     },
     clearInfo: function(){
