@@ -1,0 +1,71 @@
+template(name='compDynamicVM')
+  a.bookmark(id='compDynamicVMBk')
+  .section.reuse
+    h1 Components - Dynamic View Models
+    p You can pass view models as parameters to the templates. In the following example we're going to use the same template (emailInput) with two different view models.
+
+    h3 View Models
+    pre.
+      <b>EmailViewModel</b> = {
+        <b>email</b>: '',
+        <b>invalidEmail</b>: function(){
+          var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+          return !(emailRegex.test(this.email()));
+        },
+        <b>message</b>: function() {
+          return this.invalidEmail() ? "Invalid Email" : "";
+        }
+      };
+
+      <b>AcmeEmailViewModel</b> = {
+        <b>email</b>: '',
+        <b>invalidEmail</b>: function(){
+          var emailRegex = /^([\w-]+(?:\.[\w-]+)*)@acme.com$/i;
+          return !(emailRegex.test(this.email()));
+        },
+        <b>message</b>: function() {
+          return this.invalidEmail() ? "Not an Acme email" : "";
+        }
+      };
+
+    h3 Email Input Component
+    pre.
+      &lt;template name=&quot;emailInput&quot;&gt;
+        &lt;div data-bind=&quot;<b>class: { error: invalidEmail }</b>&quot; class=&quot;control-group&quot;&gt;
+          &lt;label class=&quot;control-label&quot;&gt;Email:&lt;/label&gt;
+          &lt;div class=&quot;controls&quot;&gt;
+            &lt;<b>input</b> type=&quot;text&quot; data-bind=&quot;<b>value: email</b>&quot;&gt;
+            &lt;<b>span</b> data-bind=&quot;<b>text: message</b>&quot; class=&quot;help-inline&quot; &gt;&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/template&gt;
+
+    h3 Parent Template
+    pre.
+      &lt;template name=&quot;dynamicVmParent&quot;&gt;
+
+        &lt;h4&gt;Any Email:&lt;/h4&gt;
+        &lt;form class=&quot;form-horizontal&quot;&gt;
+          <b>&#123;{&gt; emailInput vmAnyEmail }}</b>
+        &lt;/form&gt;
+
+        &lt;h4&gt;Acme Email (ends with @acme.com):&lt;/h4&gt;
+        &lt;form class=&quot;form-horizontal&quot;&gt;
+          <b>&#123;{&gt; emailInput vmAcmeEmail }}</b>
+        &lt;/form&gt;
+
+      &lt;/template&gt;
+
+    h3 Parent Code
+    pre.
+      Template.dynamicVmParent.viewmodel({
+        <b>vmAnyEmail</b>: function(){
+          return EmailViewModel;
+        },
+        <b>vmAcmeEmail</b>: function(){
+          return AcmeEmailViewModel;
+        }
+      }, ['vmAnyEmail', 'vmAcmeEmail']);
+
+    h3 Result:
+    +dynamicVmParent
