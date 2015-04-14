@@ -1,0 +1,16 @@
+template(name='beyond')
+  a.bookmark(id='beyondBk')
+  .section
+    h1 Beyond ViewModel
+    p What happens if you encounter a situation where you can't use view models, for example, you can't bind to an element for whatever reason? The answer is simple: you do it in good old Blaze/Meteor.
+    p With ViewModel the "worst" thing that can happen is that end up with a template coded in plain Blaze.
+    p It's not an all or nothing situation either. Most of the time when you have a component which you can't bind, you can use a view model for the entire template and good old Blaze for that particular case.
+    h2 Example
+    p Let's say you have a fancy button created in JS and you can't apply a bind (or it would be too cumbersome to hook the bind). You can just add an event:
+    pre.
+      Template.templateName.events({
+        'click #fancyButton': function() {
+          Template.instance().viewmodel.doSomething()
+        }
+      });
+    p The rest of the template is handled normally with your view model and binds.

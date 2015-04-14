@@ -1,0 +1,50 @@
+template(name='blazeHooks')
+  a.bookmark(id='blazeHooksBk')
+  .section
+    h1 Blaze Hooks
+    p Sometimes it's useful to add Blaze hooks (onCreated, onRendered, events, etc.) when you define your view model. Starting on ViewModel 1.5.0, the following are ViewModel reserved keywords: <b>blaze_events</b>, <b>blaze_helpers</b>, <b>onRendered</b>, <b>onCreated</b>, <b>onDestroyed</b>.
+    p They will perform the same function as calling them from a template. events and helpers are prefixed with "blaze_" because they're too generic to reserve.
+    h2 Example 1
+    p The following two blocks are equivalent:
+    pre.
+      Template.person.viewmodel({
+        doSomething: function() {
+          // Do something
+        },
+        events: {
+          'click #fancyButton': function() {
+            Template.instance().viewmodel.doSomething();
+          }
+        }
+      });
+    pre.
+      Template.person.viewmodel({
+        doSomething: function() {
+          // Do something
+        }
+      });
+      Template.person.events({
+        'click #fancyButton': function() {
+          Template.instance().viewmodel.doSomething();
+        }
+      });
+    h2 Example 2
+    pre.
+      &lt;template name=&quot;templateWithHooks&quot;&gt;
+        &lt;button class=&quot;btn&quot;&gt;&#123;{text}}&lt;/button&gt;
+      &lt;/template&gt;
+    pre.
+      Template.templateWithHooks.viewmodel
+        onCreated: -> console.log "templateWithHooks - onCreated"
+        onRendered: -> console.log "templateWithHooks - onRendered"
+        onDestroyed: -> console.log "templateWithHooks - onDestroyed"
+        blaze_helpers:
+          text: "Blaze Button"
+        blaze_events:
+          'click button': -> console.log "templateWithHooks - click"
+
+    label.checkbox
+      input(type="checkbox", data-bind="checked: showTempWithHooks")
+      | Show Template With Hooks
+    if showTempWithHooks
+      +templateWithHooks
