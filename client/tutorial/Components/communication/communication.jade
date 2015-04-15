@@ -1,0 +1,44 @@
+template(name='compCommunication')
+  a.bookmark(id='compCommunicationBk')
+  .section
+    h1 Communication Between View Models
+    p Sometimes you need to access one view model's information from another. One common situation is where you have an item selected in one part of the screen and you want to show information about it on another. ViewModel provides two methods to help with those cases:
+    h3 ViewModel.byId
+    pre.
+      ViewModel.byId( viewmodelName )
+    p Returns the view model with the given name. Returns undefined if the view model doesn't exist or isn't loaded.
+    h3 ViewModel.byTemplate
+    pre.
+      ViewModel.byTemplate( templateName )
+    p Returns an array with all the view models associated with a particular template. Returns undefined if the template doesn't exist or there isn't a view model loaded for that template.
+    h2 Example
+    h3 Search Box:
+    pre.
+      &lt;template name=&quot;commSearchBox&quot;&gt;
+        Search: &lt;input type=&quot;text&quot; data-bind=&quot;value: searchText&quot;&gt;
+      &lt;/template&gt;
+
+      Template.commSearchBox.viewmodel(
+        'commSearchBox', // View model's name
+        {
+          searchText: ''
+        }
+      )
+    h3 Results:
+    pre.
+      &lt;template name=&quot;commResults&quot;&gt;
+        You&#39;re searching for: &lt;span data-bind=&quot;text: search&quot;&gt;&lt;/span&gt;
+      &lt;/template&gt;
+
+      Template.commResults.viewmodel({
+        search: function(){
+          return ViewModel.byId("commSearchBox").searchText();
+        }
+      })
+
+    h3 Putting it together:
+    hr
+    +commSearchBox
+    hr
+    +commResults
+    hr
