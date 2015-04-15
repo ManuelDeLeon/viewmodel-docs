@@ -34,13 +34,13 @@ template(name='loginBox')
               <b>span</b>.text-error(data-bind='<b>text: errorText</b>')
         div#loginBox-html.tab-pane.fade.active.in
           pre.
-            &lt;template name=&quot;loginBox&quot;&gt;
-              First Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: first&quot;/&gt;
+            <b>&lt;template name=&quot;loginBox&quot;&gt;</b>
+              First Name: &lt;<b>input</b> type=&quot;text&quot; data-bind=&quot;<b>value: first</b>&quot;/&gt;
               &lt;br/&gt;
-              Last Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: last&quot;/&gt;
-              &lt;div data-bind=&quot;text: greeting&quot;&gt;&lt;/div&gt;
-              &lt;a data-bind=&quot;enabled: canEnter, hover: showError&quot; class=&quot;btn-primary&quot;&gt;Enter Site&lt;/a&gt;
-              &lt;span data-bind=&quot;text: errorText&quot; class=&quot;text-error&quot;&gt;&lt;/span&gt;
+              Last Name: &lt;<b>input</b> type=&quot;text&quot; data-bind=&quot;<b>value: last</b>&quot;/&gt;
+              &lt;<b>div</b> data-bind=&quot;<b>text: greeting</b>&quot;&gt;&lt;/div&gt;
+              &lt;<b>a</b> data-bind=&quot;<b>enabled: canEnter, hover: showError</b>&quot; class=&quot;btn-primary&quot;&gt;Enter Site&lt;/a&gt;
+              &lt;<b>span</b> data-bind=&quot;<b>text: errorText</b>&quot; class=&quot;text-error&quot;&gt;&lt;/span&gt;
             &lt;/template&gt;
 
       ul.nav.nav-pills
@@ -63,17 +63,17 @@ template(name='loginBox')
 
         div#loginBox-js.tab-pane.fade.active.in
           pre.
-            Template.loginBox.viewmodel({
-              first: &#39;&#39;,
-              last: &#39;&#39;,
-              greeting: function() {
+            Template.<b>loginBox.viewmodel</b>({
+              <b>first</b>: &#39;&#39;,
+              <b>last</b>: &#39;&#39;,
+              <b>greeting</b>: function() {
                 return &quot;Hello &quot; + this.first() + &quot; &quot; + this.last();
               },
-              canEnter: function() {
+              <b>canEnter</b>: function() {
                 return !!this.first() &amp;&amp; !!this.last();
               },
-              showError: false,
-              errorText: function() {
+              <b>showError</b>: false,
+              <b>errorText</b>: function() {
                 &#105;f (this.canEnter() || !this.showError()) {
                   return &#39;&#39;;
                 }

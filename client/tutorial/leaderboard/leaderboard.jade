@@ -29,16 +29,16 @@ template(name='leaderboard')
               <b>div</b>.player(data-bind="<b>text: info, click: select, class: { selected: isSelected }</b>")
         div#leaderboard-html.tab-pane.fade.active.in
           pre.
-            &lt;template name=&quot;leaderboard&quot;&gt;
-              &#123;{#each players}}
-                &#123;{> player}}
+            <b>&lt;template name=&quot;leaderboard&quot;&gt;</b>
+              <b>&#123;{#each players}}</b>
+                <b>&#123;{> player}}</b>
               &#123;{/each}}
-              &lt;button data-bind=&quot;visible: selected, click: addPoints&quot;&gt;Add 5 points&lt;/button&gt;
-              &lt;div data-bind=&quot;visible: !selected&quot;&gt;Please select a player&lt;/div&gt;
+              &lt;<b>button</b> data-bind=&quot;<b>visible: selected, click: addPoints</b>&quot;&gt;Add 5 points&lt;/button&gt;
+              &lt;<b>div</b> data-bind=&quot;<b>visible: !selected</b>&quot;&gt;Please select a player&lt;/div&gt;
             &lt;/template&gt;
 
-            &lt;template name=&quot;player&quot;&gt;
-              &lt;div data-bind=&quot;text: info, click: select, class: { selected: isSelected }&quot; class=&quot;player&quot;&gt;&lt;/div&gt;
+            <b>&lt;template name=&quot;player&quot;&gt;</b>
+              &lt;<b>div</b> data-bind=&quot;<b>text: info, click: select, class: { selected: isSelected }</b>&quot; class=&quot;player&quot;&gt;&lt;/div&gt;
             &lt;/template&gt;
 
       ul.nav.nav-pills
@@ -72,31 +72,31 @@ template(name='leaderboard')
               this.subscribe("players");
             });
 
-            Template.leaderboard.viewmodel(
-              'leaderboard',
+            Template.<b>leaderboard.viewmodel</b>(
+              <b>'leaderboard'</b>,
               {
-                players: function() {
+                <b>players</b>: function() {
                   return Players.find({}, { sort: { score:-1, name: 1 } });
                 },
-                selected: null,
-                addPoints: function() {
+                <b>selected</b>: null,
+                <b>addPoints</b>: function() {
                   Players.update(this.selected(), { $inc: { score: 5 } });
                 }
               },
-              'players'
+              <b>'players'</b>
             );
 
-            Template.player.viewmodel( function(data) {
+            Template.<b>player.viewmodel</b>( function(data) {
               return {
                 id: data._id,
                 player: function() {
                   return Players.findOne(this.id());
                 },
                 select: function() {
-                  this.parent().selected(this.id());
+                  <b>this.parent()</b>.selected(this.id());
                 },
                 isSelected: function() {
-                  return this.parent().selected() === this.id();
+                  <b>return this.parent()</b>.selected() === this.id();
                 },
                 info: function() {
                   return this.player().score + ' ' + this.player().name;
