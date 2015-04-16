@@ -1,0 +1,52 @@
+template(name='change')
+  a.bookmark(id='changeBk')
+  #checked.section
+    h1 change Binding
+    p The change binding executes a function when the value of the bound property changes. It will trigger when the following bindings are affected: value, checked, text, and focused.
+    pre data-bind='change: functionToExecute'
+    .row
+      label.checkbox
+        input(type='checkbox', data-bind="checked: isChecked, change: showState")
+        | Show check state when it changes
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li
+        a(href="#change-jade", data-toggle="tab") Jade
+      li.active
+        a(href="#change-html", data-toggle="tab") Html
+    div.tab-content
+      div#change-jade.tab-pane.fade
+        pre.
+          template(name='change')
+            label.checkbox
+              input(type='checkbox', data-bind="checked: isChecked, change: showState")
+              | Show check state when it changes
+      div#change-html.tab-pane.fade.active.in
+        pre.
+          &lt;template name=&quot;change&quot;&gt;
+            &lt;label class=&quot;checkbox&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: isChecked, change: showState&quot;/&gt;
+              Show check state when it changes
+            &lt;/label&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li
+        a(href="#change-coffee", data-toggle="tab") Coffeescript
+      li.active
+        a(href="#change-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#change-coffee.tab-pane.fade
+        pre.
+          Template.change.viewmodel
+            isChecked: false
+            showState: -> alert "Checked: " + @isChecked()
+      div#change-js.tab-pane.fade.active.in
+        pre.
+          Template.change.viewmodel({
+            isChecked: false,
+            showState: function() {
+              alert("Checked: " + this.isChecked());
+            }
+          });
