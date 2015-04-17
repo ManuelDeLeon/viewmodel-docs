@@ -1,0 +1,75 @@
+template(name='hidden')
+  a.bookmark(id='hiddenBk')
+  #hidden.section
+    h1 hidden / unless Bindings
+    p Hidden and unless bindings are synonyms and cause the html element to appear on screen or not, depending on the value of the bound property.
+    pre data-bind='hidden: booleanProperty'
+    pre data-bind='unless: booleanProperty'
+    .row
+      label.checkbox
+        input(type='checkbox', data-bind="checked: doNotShowPrimary")
+        | Do Not Show Primary Button
+    .row
+      label.checkbox
+        input(type='checkbox', data-bind="checked: doNotShowInfo")
+        | Do Not Show Info Button
+    .row
+      button.btn.btn-primary(data-bind="hidden: doNotShowPrimary") Primary
+    .row
+      button.btn.btn-info(data-bind="unless: doNotShowInfo") Info
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li
+        a(href="#hidden-jade", data-toggle="tab") Jade
+      li.active
+        a(href="#hidden-html", data-toggle="tab") Html
+    div.tab-content
+      div#hidden-jade.tab-pane.fade
+        pre.
+          template(name='hidden')
+            .row
+              input(type='checkbox', data-bind="checked: doNotShowPrimary")
+              | Show Primary Button
+            .row
+              input(type='checkbox', data-bind="checked: doNotShowInfo")
+              | Show Info Button
+            .row
+              button.btn-primary(data-bind="<b>hidden: doNotShowPrimary</b>") Primary
+            .row
+              button.btn-info(data-bind="<b>unless: doNotShowInfo</b>") Info
+      div#hidden-html.tab-pane.fade.active.in
+        pre.
+          &lt;template name=&quot;hidden&quot;&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: doNotShowPrimary&quot;/&gt;Show Primary Button
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: doNotShowInfo&quot;/&gt;Show Info Button
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;button data-bind=&quot;hidden: doNotShowPrimary&quot; class=&quot;btn-primary&quot;&gt;Primary&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;row&quot;&gt;
+              &lt;button data-bind=&quot;unless: doNotShowInfo&quot; class=&quot;btn-info&quot;&gt;Info&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li
+        a(href="#hidden-coffee", data-toggle="tab") Coffeescript
+      li.active
+        a(href="#hidden-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#hidden-coffee.tab-pane.fade
+        pre.
+          Template.hidden.viewmodel
+            <b>doNotShowPrimary</b>: true
+            <b>doNotShowInfo</b>: true
+
+      div#hidden-js.tab-pane.fade.active.in
+        pre.
+          Template.hidden.viewmodel({
+            doNotShowPrimary: true,
+            doNotShowInfo: true
+          });
