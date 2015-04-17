@@ -11,7 +11,7 @@ template(name='blazeHooks')
         doSomething: function() {
           // Do something
         },
-        events: {
+        blaze_events: {
           'click #fancyButton': function() {
             Template.instance().viewmodel.doSomething();
           }
