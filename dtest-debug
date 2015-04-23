@@ -1,6 +1,0 @@
-# mrt remove velocity-html-reporter
-git add .
-git commit -am "Pushing to viewmodel.meteor.com"
-git push
-meteor deploy viewmodel.meteor.com --debug
-# mrt add velocity-html-reporter
