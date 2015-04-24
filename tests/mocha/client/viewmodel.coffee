@@ -174,10 +174,11 @@ if typeof MochaWeb isnt 'undefined'
           template.append(input2)
           vm.bind template
 
-        it "should set input's default value", ->
+        it "should set input's default value", (done) ->
           Global.delay 1, ->
             chai.assert.equal 'John', input1.val()
             chai.assert.equal 'John', input2.val()
+            done()
         it "should change input's value when vm changes", (done) ->
           vm.name 'Bob'
           Global.delay 1, ->
@@ -201,9 +202,10 @@ if typeof MochaWeb isnt 'undefined'
           template = $("<div></div>").append(input)
           vm._vm_id = Math.random().toString()
           vm.bind template
-        it "should set input's default value", ->
+        it "should set input's default value", (done) ->
           Global.delay 1, ->
             chai.assert.equal 'John', input.val()
+            done()
         it "should change input's value when vm changes", (done) ->
           vm.name 'Bob'
           Global.delay 1, ->
