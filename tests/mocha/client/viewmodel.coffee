@@ -920,3 +920,81 @@ if typeof MochaWeb isnt 'undefined'
               chai.assert.equal selected.length, 2
               chai.assert.equal selected[0].value, 'Germany'
               chai.assert.equal selected[1].value, 'Spain'
+
+      describe "change binding - value", ->
+        input = {}
+        beforeEach ->
+          input = $("<input type='text' data-bind='value: name, change: setChanged'>")
+          template = $("<div></div>").append(input)
+          vm.extend
+            changed: false
+            setChanged: -> @changed(true)
+          vm.bind template
+
+        it "notifies when vm changes", (done) ->
+          Tracker.autorun (c) ->
+            value = vm.changed()
+            if not c.firstRun
+              chai.assert.equal value, true
+              c.stop()
+              done()
+          vm.name('other')
+
+        it "notifies when input changes", (done) ->
+          Tracker.autorun (c) ->
+            value = vm.changed()
+            if not c.firstRun
+              chai.assert.equal value, true
+              c.stop()
+              done()
+          input.val "other"
+          input.trigger 'change'
+
+      describe "change binding - checked", ->
+        input = {}
+        beforeEach ->
+          input = $("<input type='checkbox' data-bind='checked: isChecked, change: setChanged'>")
+          template = $("<div></div>").append(input)
+          vm.extend
+            isChecked: false
+            changed: false
+            setChanged: -> @changed(true)
+          vm.bind template
+
+        it "notifies when vm changes", (done) ->
+          Tracker.autorun (c) ->
+            value = vm.changed()
+            if not c.firstRun
+              chai.assert.equal value, true
+              c.stop()
+              done()
+          vm.isChecked(true)
+
+        it "notifies when input changes", (done) ->
+          Tracker.autorun (c) ->
+            value = vm.changed()
+            if not c.firstRun
+              chai.assert.equal value, true
+              c.stop()
+              done()
+          input.prop 'checked', true
+          input.trigger 'change'
+
+      describe "change binding - text", ->
+        input = {}
+        beforeEach ->
+          input = $("<div data-bind='text: name, change: setChanged'></div>")
+          template = $("<div></div>").append(input)
+          vm.extend
+            changed: false
+            setChanged: -> @changed(true)
+          vm.bind template
+
+        it "notifies when vm changes", (done) ->
+          Tracker.autorun (c) ->
+            value = vm.changed()
+            if not c.firstRun
+              chai.assert.equal value, true
+              c.stop()
+              done()
+          vm.name('other')
