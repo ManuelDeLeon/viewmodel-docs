@@ -998,3 +998,55 @@ if typeof MochaWeb isnt 'undefined'
               c.stop()
               done()
           vm.name('other')
+
+      describe "And option", ->
+        input = {}
+        beforeEach ->
+          vm.extend
+            isA: false
+            isB: false
+          input = $("<input type='checkbox' data-bind='checked: isA && isB'>")
+          template = $("<div></div>").append(input)
+          vm.bind template
+
+        it "both false", (done) ->
+          Global.delay 1, ->
+            chai.assert.isFalse input.is(':checked')
+            done()
+        it "one true", (done) ->
+          vm.isA true
+          Global.delay 1, ->
+            chai.assert.isFalse input.is(':checked')
+            done()
+        it "both true", (done) ->
+          vm.isA true
+          vm.isB true
+          Global.delay 1, ->
+            chai.assert.isTrue input.is(':checked')
+            done()
+
+      describe "Or option", ->
+        input = {}
+        beforeEach ->
+          vm.extend
+            isA: false
+            isB: false
+          input = $("<input type='checkbox' data-bind='checked: isA || isB'>")
+          template = $("<div></div>").append(input)
+          vm.bind template
+
+        it "both false", (done) ->
+          Global.delay 1, ->
+            chai.assert.isFalse input.is(':checked')
+            done()
+        it "one true", (done) ->
+          vm.isA true
+          Global.delay 1, ->
+            chai.assert.isTrue input.is(':checked')
+            done()
+        it "both true", (done) ->
+          vm.isA true
+          vm.isB true
+          Global.delay 1, ->
+            chai.assert.isTrue input.is(':checked')
+            done()
