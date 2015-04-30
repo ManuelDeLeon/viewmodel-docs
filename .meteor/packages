@@ -8,7 +8,7 @@ stylus
 coffeescript
 bootstrap
 spiderable
-mquandalle:jade@=0.2.9
+mquandalle:jade
 
 manuel:viewmodel
 manuel:reactivearray

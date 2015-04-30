@@ -10,4 +10,51 @@ template(name='file')
       | File Type:
       span(data-bind="text: fileType")
 
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li
+        a(href="#file-jade", data-toggle="tab") Jade
+      li.active
+        a(href="#file-html", data-toggle="tab") Html
+    div.tab-content
+      div#file-jade.tab-pane.fade
+        pre.
+          template(name='file')
+            label.file
+              input(type='file', data-bind="file: file, change: logFile")
+            label
+              | File Type:
+              span(data-bind="text: fileType")
+      div#file-html.tab-pane.fade.active.in
+        pre.
+          &lt;template name=&quot;change&quot;&gt;
+            &lt;label class=&quot;checkbox&quot;&gt;
+              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: isChecked, change: showState&quot;/&gt;
+              Show check state when it changes
+            &lt;/label&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li
+        a(href="#file-coffee", data-toggle="tab") Coffeescript
+      li.active
+        a(href="#file-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#file-coffee.tab-pane.fade
+        pre.
+          Template.file.viewmodel
+            file: null
+            fileType: -> @file()?.type
+            logFile: -> console.log @file()
+      div#file-js.tab-pane.fade.active.in
+        pre.
+          Template.file.viewmodel({
+            file: null,
+            fileType: function() {
+              return this.file() && this.file().type;
+            },
+            logFile: function() {
+              return console.log(this.file());
+            }
+          });
 
