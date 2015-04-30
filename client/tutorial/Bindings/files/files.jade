@@ -1,0 +1,11 @@
+template(name='files')
+  a.bookmark(id='filesBk')
+  #checked.section
+    h1 files Binding
+    p Binds a view model array/property with the files returned by the input(type="file", multiple).
+    pre data-bind='file: property'
+    label.file
+      input(type='file', data-bind="files: fileList", multiple)
+    select(data-bind="options: names, selected: selected", size="5")
+
+

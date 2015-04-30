@@ -2,7 +2,7 @@ template(name='change')
   a.bookmark(id='changeBk')
   #checked.section
     h1 change Binding
-    p The change binding executes a function when the value of the bound property changes. It will trigger when the following bindings are affected: value, checked, text, and focused.
+    p The change binding executes a function when the value of the bound property changes. It will trigger when the following bindings are affected: value, checked, text, and focused. When those bindings are not present change will trigger on the JQuery change event of the element.
     pre data-bind='change: functionToExecute'
     .row
       label.checkbox

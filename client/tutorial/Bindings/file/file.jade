@@ -1,0 +1,13 @@
+template(name='file')
+  a.bookmark(id='fileBk')
+  #checked.section
+    h1 file Binding
+    p Binds a view model property with the file object returned by the input(type="file").
+    pre data-bind='file: property'
+    label.file
+      input(type='file', data-bind="file: file, change: logFile")
+    label
+      | File Type:
+      span(data-bind="text: fileType")
+
+

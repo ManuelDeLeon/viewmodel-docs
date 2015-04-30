@@ -595,13 +595,31 @@ if typeof MochaWeb isnt 'undefined'
         it "should have it", ->
           chai.assert.isTrue ViewModel.hasBind('visible')
 
+      describe "if binding", ->
+        it "should have it", ->
+          chai.assert.isTrue ViewModel.hasBind('if')
+
+      describe "hidden binding", ->
+        it "should have it", ->
+          chai.assert.isTrue ViewModel.hasBind('hidden')
+
+      describe "unless binding", ->
+        it "should have it", ->
+          chai.assert.isTrue ViewModel.hasBind('unless')
+
+      describe "file binding", ->
+        it "should have it", ->
+          chai.assert.isTrue ViewModel.hasBind('file')
+
+      describe "files binding", ->
+        it "should have it", ->
+          chai.assert.isTrue ViewModel.hasBind('files')
+
       describe "focused binding", ->
         it "should have it", ->
           chai.assert.isTrue ViewModel.hasBind('focused')
           
-      describe "if binding", ->
-        it "should have it", ->
-          chai.assert.isTrue ViewModel.hasBind('if')
+
 
       describe "attr binding multiple", ->
         anchor = {}
@@ -714,7 +732,7 @@ if typeof MochaWeb isnt 'undefined'
       describe "delay value binding", ->
         input = {}
         beforeEach ->
-          input = $("<input type='text' data-bind='value: name, delay: 100'>")
+          input = $("<input type='text' data-bind='value: name, delay: 250'>")
           template = $("<div></div>").append(input)
           vm.bind template
 
@@ -732,7 +750,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should change vm value later", (done) ->
           input.val 'Bob'
           input.trigger 'keypress'
-          Global.delay 150, ->
+          Global.delay 500, ->
             chai.assert.equal 'Bob', vm.name()
             done()
 
@@ -939,6 +957,26 @@ if typeof MochaWeb isnt 'undefined'
               c.stop()
               done()
           vm.name('other')
+
+        it "notifies when input changes", (done) ->
+          Tracker.autorun (c) ->
+            value = vm.changed()
+            if not c.firstRun
+              chai.assert.equal value, true
+              c.stop()
+              done()
+          input.val "other"
+          input.trigger 'change'
+
+      describe "change binding - standalone", ->
+        input = {}
+        beforeEach ->
+          input = $("<input type='text' data-bind='change: setChanged'>")
+          template = $("<div></div>").append(input)
+          vm.extend
+            changed: false
+            setChanged: -> @changed(true)
+          vm.bind template
 
         it "notifies when input changes", (done) ->
           Tracker.autorun (c) ->
