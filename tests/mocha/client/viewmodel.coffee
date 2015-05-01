@@ -258,7 +258,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should delay _vm_toJS when input changes via keypress after 500ms", (done) ->
           input.val 'Bob'
           input.trigger 'keypress'
-          Global.delay 800, ->
+          Global.delay 1000, ->
             chai.assert.equal 'Bob', vm._vm_toJS().name
             done()
 

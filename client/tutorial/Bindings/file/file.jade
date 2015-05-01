@@ -28,11 +28,11 @@ template(name='file')
               span(data-bind="text: fileType")
       div#file-html.tab-pane.fade.active.in
         pre.
-          &lt;template name=&quot;change&quot;&gt;
-            &lt;label class=&quot;checkbox&quot;&gt;
-              &lt;input type=&quot;checkbox&quot; data-bind=&quot;checked: isChecked, change: showState&quot;/&gt;
-              Show check state when it changes
+          &lt;template name=&quot;file&quot;&gt;
+            &lt;label class=&quot;file&quot;&gt;
+              &lt;input type=&quot;file&quot; data-bind=&quot;file: file, change: logFile&quot;/&gt;
             &lt;/label&gt;
+            &lt;label&gt;File Type:&lt;span data-bind=&quot;text: fileType&quot;&gt;&lt;/span&gt;&lt;/label&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
       li
@@ -54,7 +54,7 @@ template(name='file')
               return this.file() && this.file().type;
             },
             logFile: function() {
-              return console.log(this.file());
+              console.log(this.file());
             }
           });
 

@@ -3,9 +3,59 @@ template(name='files')
   #checked.section
     h1 files Binding
     p Binds a view model array/property with the files returned by the input(type="file", multiple).
-    pre data-bind='file: property'
+    pre data-bind='files: array'
     label.file
       input(type='file', data-bind="files: fileList", multiple)
     select(data-bind="options: names, selected: selected", size="5")
 
-
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li
+        a(href="#files-jade", data-toggle="tab") Jade
+      li.active
+        a(href="#files-html", data-toggle="tab") Html
+    div.tab-content
+      div#files-jade.tab-pane.fade
+        pre.
+          template(name='files')
+            label.file
+              input(type='file', data-bind="files: fileList", multiple)
+            select(data-bind="options: names, selected: selected", size="5")
+      div#files-html.tab-pane.fade.active.in
+        pre.
+          &lt;template name=&quot;files&quot;&gt;
+            &lt;label class=&quot;file&quot;&gt;
+              &lt;input type=&quot;file&quot; data-bind=&quot;files: fileList&quot; multiple/&gt;
+            &lt;/label&gt;
+            &lt;select data-bind=&quot;options: names, selected: selected&quot; size=&quot;5&quot;&gt;&lt;/select&gt;
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li
+        a(href="#files-coffee", data-toggle="tab") Coffeescript
+      li.active
+        a(href="#files-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#files-coffee.tab-pane.fade
+        pre.
+          Template.files.viewmodel
+            fileList: []
+            selected: ''
+            names: ->
+              f.name for f in @fileList()
+      div#files-js.tab-pane.fade.active.in
+        pre.
+          Template.files.viewmodel({
+            fileList: [],
+            selected: '',
+            names: function() {
+              var f, i, len, files, results;
+              files = this.fileList();
+              results = [];
+              for (i = 0, len = files.length; i &lt; len; i++) {
+                f = files[i];
+                results.push(f.name);
+              }
+              return results;
+            }
+          });
