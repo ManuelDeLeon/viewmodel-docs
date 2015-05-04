@@ -939,6 +939,98 @@ if typeof MochaWeb isnt 'undefined'
               chai.assert.equal selected[0].value, 'Germany'
               chai.assert.equal selected[1].value, 'Spain'
 
+        describe "optionsCaption - string", ->
+          select = {}
+          beforeEach ->
+            vm.extend
+              countries: [ { id: 2, name: 'Germany' }]
+              selectedCountry: ''
+            select = $("<select data-bind='optionsCaption: \"hello\", options: countries, value: selectedCountry, optionsValue: id, optionsText: name'></select>")
+            template = $("<div></div>").append(select)
+            vm.bind template
+
+          it "should have correct values and text", ->
+            selected = select.find("option")
+            chai.assert.equal selected.length, 2
+            chai.assert.equal selected[0].value, ''
+            chai.assert.equal selected[1].value, 2
+
+            chai.assert.equal selected[0].text, 'hello'
+            chai.assert.equal selected[1].text, 'Germany'
+
+            selected = select.find(":selected")
+            chai.assert.equal selected.length, 1
+            chai.assert.equal selected[0].value, ''
+            chai.assert.equal selected[0].text, 'hello'
+
+        describe "optionsCaption - function", ->
+          select = {}
+          beforeEach ->
+            vm.extend
+              countries: [ { id: 2, name: 'Germany' }]
+              selectedCountry: ''
+              caption: -> "hello"
+            select = $("<select data-bind='optionsCaption: caption, options: countries, value: selectedCountry, optionsValue: id, optionsText: name'></select>")
+            template = $("<div></div>").append(select)
+            vm.bind template
+
+          it "should have correct values and text", ->
+            selected = select.find("option")
+            chai.assert.equal selected.length, 2
+            chai.assert.equal selected[0].value, ''
+            chai.assert.equal selected[1].value, 2
+
+            chai.assert.equal selected[0].text, 'hello'
+            chai.assert.equal selected[1].text, 'Germany'
+
+            selected = select.find(":selected")
+            chai.assert.equal selected.length, 1
+            chai.assert.equal selected[0].value, ''
+            chai.assert.equal selected[0].text, 'hello'
+
+        describe "with object array - multiple selection", ->
+          select = {}
+          beforeEach ->
+            vm.extend
+              countries: [{ id: 1, name: 'France' }, { id: 2, name: 'Germany' }, { id: 3, name: 'Spain' }]
+              selectedCountries: []
+            select = $("<select multiple data-bind='options: countries, value: selectedCountries, optionsValue: id, optionsText: name'></select>")
+            template = $("<div></div>").append(select)
+            vm.bind template
+
+          it "should have correct values and text", ->
+            selected = select.find("option")
+            chai.assert.equal selected.length, 3
+            chai.assert.equal selected[0].value, 1
+            chai.assert.equal selected[1].value, 2
+            chai.assert.equal selected[2].value, 3
+
+            chai.assert.equal selected[0].text, 'France'
+            chai.assert.equal selected[1].text, 'Germany'
+            chai.assert.equal selected[2].text, 'Spain'
+
+
+          it "notifies when selection changes", (done) ->
+            Tracker.autorun (c) ->
+              arr = vm.selectedCountries()
+              if not c.firstRun
+                chai.assert.equal arr[0], 1
+                chai.assert.equal arr[1], 2
+                chai.assert.equal arr.length, 2
+                c.stop()
+                done()
+            select.val [1, 2]
+            select.trigger 'change'
+
+          it "should update vm", (done) ->
+            select.val [1, 2]
+            select.trigger 'change'
+            Global.delay 1, ->
+              chai.assert.equal vm.selectedCountries().length, 2
+              chai.assert.equal vm.selectedCountries()[0], 1
+              chai.assert.equal vm.selectedCountries()[1], 2
+              done()
+
       describe "change binding - value", ->
         input = {}
         beforeEach ->

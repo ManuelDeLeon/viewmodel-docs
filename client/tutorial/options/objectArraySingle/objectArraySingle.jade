@@ -1,21 +1,22 @@
-template(name="stringArraySingle")
+template(name="objectArraySingle")
   .section
-    h2 String Array - Single Selection
+    h2 Object Array - Single Selection
+    p.
+      Use a list of objects to populate a select object.
     pre.
-      &lt;select data-bind=&#39;options: array, value: property, optionsCaption: property&#39;&gt;&lt;/select&gt;
+      &lt;select data-bind=&#39;options: array, value: property, optionsValue: id, optionsText: name&#39;&gt;&lt;/select&gt;
 
-      <b>optionsCaption:</b> Property used as default selection with value ''
+      <b>optionsValue:</b> Property used for the option value
+      <b>optionsText:</b> Property used for the option text
 
     p
-      select(size="5", data-bind="options: countries, value: selectedCountry")
-      | Selected:
-      span(data-bind="text: selectedCountry")
+      select(size="5", data-bind="options: countries, value: selectedId, optionsValue: id, optionsText: name")
     p
-      input(type="text", data-bind="value: newCountry, returnKey: addCountry", placeholder="New Country...")
-      button.btn.btn-primary(data-bind="click: addCountry") Add Country
+      | Selected id:
+      span(data-bind="text: selectedId")
     p
-      input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
-      button.btn.btn-primary(data-bind="click: selectCountry") Select Country
+      | Selected name:
+      span(data-bind="text: selectedName")
 
   .section
     h3 Code

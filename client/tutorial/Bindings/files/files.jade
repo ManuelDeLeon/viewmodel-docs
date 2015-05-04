@@ -5,8 +5,8 @@ template(name='files')
     p Binds a view model array/property with the files returned by the input(type="file", multiple).
     pre data-bind='files: array'
     label.file
-      input(type='file', data-bind="files: fileList", multiple)
-    select(data-bind="options: names, selected: selected", size="5")
+      input(type='file', data-bind="files: files", multiple)
+    select(data-bind="options: files, optionsText: name, optionsValue: name", size="5")
 
   .section
     h2 Code
@@ -20,15 +20,21 @@ template(name='files')
         pre.
           template(name='files')
             label.file
-              input(type='file', data-bind="files: fileList", multiple)
-            select(data-bind="options: names, selected: selected", size="5")
+              input(type='file', data-bind="files: files", multiple)
+            select(data-bind="options: files, optionsText: name, optionsValue: name", size="5")
       div#files-html.tab-pane.fade.active.in
         pre.
           &lt;template name=&quot;files&quot;&gt;
             &lt;label class=&quot;file&quot;&gt;
-              &lt;input type=&quot;file&quot; data-bind=&quot;files: fileList&quot; multiple/&gt;
+              &lt;input type=&quot;file&quot; data-bind=&quot;files: files&quot; multiple/&gt;
             &lt;/label&gt;
-            &lt;select data-bind=&quot;options: names, selected: selected&quot; size=&quot;5&quot;&gt;&lt;/select&gt;
+            &lt;select size=&quot;5&quot;
+              data-bind=&quot;
+                options: files,
+                optionsText: name,
+                optionsValue: name&quot;&gt;
+
+            &lt;/select&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
       li
@@ -39,23 +45,9 @@ template(name='files')
       div#files-coffee.tab-pane.fade
         pre.
           Template.files.viewmodel
-            fileList: []
-            selected: ''
-            names: ->
-              f.name for f in @fileList()
+            files: []
       div#files-js.tab-pane.fade.active.in
         pre.
           Template.files.viewmodel({
-            fileList: [],
-            selected: '',
-            names: function() {
-              var f, i, len, files, results;
-              files = this.fileList();
-              results = [];
-              for (i = 0, len = files.length; i &lt; len; i++) {
-                f = files[i];
-                results.push(f.name);
-              }
-              return results;
-            }
+            files: []
           });
