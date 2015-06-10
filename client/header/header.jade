@@ -125,6 +125,16 @@ template(name='header')
 
           li.dropdown
             a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
+              | Testing
+              b.caret
+            ul.dropdown-menu(role='menu')
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#testCodeBk' ) Testing the code
+              li(role='presentation')
+                a(role='menuitem', tabindex='-1', href='#testBindingsBk' ) Testing the bindings
+
+          li.dropdown
+            a.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
               | Source
               b.caret
             ul.dropdown-menu(role='menu')

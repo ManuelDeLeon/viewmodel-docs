@@ -1,0 +1,62 @@
+template(name='testCode')
+  a.bookmark(id='testCodeBk')
+  .section
+    h1 Testing Your Code
+    p One of the best things about ViewModel is how easy it is to test your code. Since your logic is stored on a single object (the view model) you can just run tests against that object. You can create a view model with the createViewModel method:
+    pre.
+      Template.name.createViewModel( optionalContext )
+
+    h2 Example 1 - View models without data context
+    p Let's say you have the following view model with a name and a canEnter function which returns false if name is empty.
+    pre.
+      Template.main.viewmodel({
+        name: '',
+        canEnter: function() {
+          return !!this.name();
+        }
+      });
+    p You can then test each part of it. Here we're using Mocha but of course you can use any other testing framework.
+    pre.
+      <b>describe("Main View Model"</b>, function() {
+        var vm;
+        beforeEach(function () {
+          <b>vm = Template.main.createViewModel()</b>;
+        });
+        <b>it("should have default properties"</b>, function () {
+          chai.assert.equal(vm.name(), '');
+        });
+        <b>describe("canEnter"</b>, function() {
+          <b>it("should return false when name is empty"</b>, function () {
+            vm.name('');
+            chai.assert.isFalse(vm.canEnter());
+          });
+          <b>it("should return true when name is not empty"</b>, function () {
+            vm.name('Alan');
+            chai.assert.isTrue(vm.canEnter());
+          });
+        });
+      });
+
+    h2 Example 2 - View models with a data context
+    p In the previous example name is "hard coded" on the view model, but it could also come as the template's context. In that case you could define the view model like so:
+    pre.
+      Template.main.viewmodel(function(data){
+        return {
+          name: data.name,
+          canEnter: function() {
+            return !!this.name();
+          }
+        };
+      });
+
+    p.
+      In this case we're defining the same view model as before but the name will have a default value provided by the context.
+      <br>See: #[a(href="#definingBk") Misc -> Defining View Models]
+    p Now the tests will be the same except for createViewModel and testing the default properties (in this case one):
+    pre.
+      beforeEach(function () {
+        vm = Template.main.createViewModel(<b>{ name: "Rick" }</b>);
+      });
+      it("should have default properties", function () {
+        chai.assert.equal(vm.name(), <b>'Rick'</b>);
+      });
