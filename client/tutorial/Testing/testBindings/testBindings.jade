@@ -2,61 +2,34 @@ template(name='testBindings')
   a.bookmark(id='testBindingsBk')
   .section
     h1 Testing Your Bindings
-    p After testing your code (view models) the next step is to make sure the template is bound properly. The idea is that if your code is working and the bindings are in place, then you don't have to go through all permutations when you perform your user tests with say Selenium.
+    p After testing your code (the view models) the next step is to make sure the templates are bound properly. The idea is that if your code is working and the bindings are in place, then you don't have to go through all permutations when you perform your user tests with Selenium (or whatever else you use).
+    p To test a bind you use the elementBind method and pass a CSS selector to locate the element that has the bind. If the template requires a context you can pass it as a second parameter.
     pre.
-      Template.name.createViewModel( optionalContext )
+      Template.name.elementBind( cssSelector, optionalContext )
 
-    h2 Example 1 - View models without data context
-    p Let's say you have the following view model with a name and a canEnter function which returns false if name is empty.
+    h2 Example
+    p Let's say you have the following template/view. It has an input for the name and a button that is enabled if name has something:
     pre.
-      Template.main.viewmodel({
-        name: '',
-        canEnter: function() {
-          return !!this.name();
-        }
-      });
-    p You can then test each part of it. Here we're using Mocha but of course you can use any other testing framework.
+      &lt;template name=&quot;main&quot;&gt;
+        Name: &lt;input type=&quot;text&quot; data-bind=&quot;value: name&quot;&gt;
+        &lt;button data-bind=&quot;enabled: canEnter&quot;&gt;Enter&lt;/button&gt;
+      &lt;/template&gt;
+    p You can then test that each element is properly bound. Here we're using Mocha but of course you can use any other testing framework.
     pre.
-      <b>describe("Main View Model"</b>, function() {
-        var vm;
-        beforeEach(function () {
-          <b>vm = Template.main.createViewModel()</b>;
+      <b>describe("Main Bindings"</b>, function() {
+        <b>it("should bind name input"</b>, function () {
+          var bind = Template.main.elementBind("input");
+          chai.assert.isTrue(<b>_.isEqual(bind, { value: "name" })</b>);
         });
-        <b>it("should have default properties"</b>, function () {
-          chai.assert.equal(vm.name(), '');
-        });
-        <b>describe("canEnter"</b>, function() {
-          <b>it("should return false when name is empty"</b>, function () {
-            vm.name('');
-            chai.assert.isFalse(vm.canEnter());
-          });
-          <b>it("should return true when name is not empty"</b>, function () {
-            vm.name('Alan');
-            chai.assert.isTrue(vm.canEnter());
-          });
+
+        <b>it("should bind enter button"</b>, function () {
+          var bind = Template.main.elementBind("button");
+          chai.assert.isTrue(<b>_.isEqual(bind, { enabled: "canEnter" })</b>);
         });
       });
-
-    h2 Example 2 - View models with a data context
-    p In the previous example name is "hard coded" on the view model, but it could also come as the template's context. In that case you could define the view model like so:
-    pre.
-      Template.main.viewmodel(function(data){
-        return {
-          name: data.name,
-          canEnter: function() {
-            return !!this.name();
-          }
-        };
-      });
-
-    p.
-      In this case we're defining the same view model as before but the name will have a default value provided by the context.
-      <br>See: #[a(href="#definingBk") Misc -> Defining View Models]
-    p Now the tests will be the same except for createViewModel and testing the default properties (in this case one):
-    pre.
-      beforeEach(function () {
-        vm = Template.main.createViewModel(<b>{ name: "Rick" }</b>);
-      });
-      it("should have default properties", function () {
-        chai.assert.equal(vm.name(), <b>'Rick'</b>);
-      });
+    p A few things to notice:
+    ul
+      li Templates are usually small so most of the time you can get by without element ids.
+      li The templates are rendered before extracting the bindings. That means if there are sub-templates then they will get rendered too. Keep this in mind when using your selectors.
+      li You can pass an optional object as a second parameter to elementBind if a template requires a context.
+      li ViewModel converts data-bind attributes to simple (very simple) objects with string values. That's why data-bind="value: name" is converted to { value: "name" }
