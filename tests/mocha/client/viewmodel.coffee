@@ -145,7 +145,7 @@ if typeof MochaWeb isnt 'undefined'
           e.which = 13
           e.keyCode = 13
           input.trigger(e)
-          Global.delay 1, ->
+          Global.delay 1000, ->
             chai.assert.isTrue vm.enterPressed()
             done()
 
@@ -220,7 +220,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should change vm value when input changes via input", (done) ->
           input.val 'Bob'
           input.trigger 'input'
-          Global.delay 1, ->
+          Global.delay 100, ->
             chai.assert.equal 'Bob', vm.name()
             done()
         it "should change vm value when input changes via cut", (done) ->
