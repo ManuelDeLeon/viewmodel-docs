@@ -4,6 +4,7 @@ template(name='blazeHooks')
     h1 Blaze Hooks
     p Sometimes it's useful to add Blaze hooks (onCreated, onRendered, events, etc.) when you define your view model. Starting on ViewModel 1.5.0, the following are ViewModel reserved keywords: <b>blaze_events</b>, <b>blaze_helpers</b>, <b>onRendered</b>, <b>onCreated</b>, <b>onDestroyed</b>.
     p They will perform the same function as calling them from a template. events and helpers are prefixed with "blaze_" because they're too generic to reserve. onCreated, onRendered, onDestroyed functions will be called with the template instance as an argument.
+    p There's also <b>beforeBind</b> and <b>afterBind</b> to let you fine tune when you want things to happen before or after the view model is bound to the template (on the onRendered event). In a future version of ViewModel I'll remove onRendered because it's not clear when it gets called (other than on the onRendered event).
     h2 Example 1
     p The following two blocks are equivalent:
     pre.

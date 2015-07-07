@@ -214,7 +214,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should change vm value when input changes via keypress", (done) ->
           input.val 'Bob'
           input.trigger 'keypress'
-          Global.delay 1, ->
+          Global.delay 100, ->
             chai.assert.equal 'Bob', vm.name()
             done()
         it "should change vm value when input changes via input", (done) ->
@@ -283,7 +283,7 @@ if typeof MochaWeb isnt 'undefined'
         it "should change vm value when input changes via keypress", (done) ->
           input.val 'Bob'
           input.trigger 'keypress'
-          Global.delay 1, ->
+          Global.delay 100, ->
             chai.assert.equal 'Bob', vm.name()
             done()
         it "should change vm value when input changes via input", (done) ->
@@ -1180,3 +1180,10 @@ if typeof MochaWeb isnt 'undefined'
           Global.delay 1, ->
             chai.assert.isTrue input.is(':checked')
             done()
+      describe "extend", ->
+        it "should add the property if it doesn't exist", ->
+          vm.extend a: 1
+          chai.assert.isTrue _.has(vm, "a")
+        it "should update the property if it exists", ->
+          vm.extend name: "Me"
+          chai.assert.equal vm.name(), "Me"

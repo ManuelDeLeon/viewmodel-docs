@@ -1,0 +1,49 @@
+template(name='toggle')
+  a.bookmark(id='toggleBk')
+  #checked.section
+    h1 toggle Binding
+    p This binding toggles a boolean value when the element is clicked.
+    pre data-bind='toggle: boolean'
+    .row
+      button(class="btn", data-bind="toggle: textVisible") Toggle Text
+      if textVisible
+        | Toggle this text by pressing the button
+
+  .section
+    h2 Code
+    ul.nav.nav-pills
+      li
+        a(href="#toggle-jade", data-toggle="tab") Jade
+      li.active
+        a(href="#toggle-html", data-toggle="tab") Html
+    div.tab-content
+      div#toggle-jade.tab-pane.fade
+        pre.
+          template(name='toggle')
+            button(data-bind="toggle: textVisible") Toggle Text
+            &#105;f textVisible
+              | Toggle this text by pressing the button
+      div#toggle-html.tab-pane.fade.active.in
+        pre.
+          &lt;template name="toggle"&gt;
+            &lt;button data-bind="toggle: textVisible"&gt;Toggle Text&lt;/button&gt;
+            &#123;{#&#105;f textVisible}}
+              Toggle this text by pressing the button
+            &#123;{/if}}
+          &lt;/template&gt;
+    ul.nav.nav-pills
+      li
+        a(href="#toggle-coffee", data-toggle="tab") Coffeescript
+      li.active
+        a(href="#toggle-js", data-toggle="tab") Javascript
+    div.tab-content
+      div#toggle-coffee.tab-pane.fade
+        pre.
+          Template.toggle.viewmodel
+            textVisible: true
+          , 'textVisible'
+      div#toggle-js.tab-pane.fade.active.in
+        pre.
+          Template.toggle.viewmodel({
+            textVisible: true
+          }, 'textVisible');
