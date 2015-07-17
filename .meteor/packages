@@ -12,6 +12,6 @@ mquandalle:jade
 
 manuel:viewmodel
 manuel:reactivearray
-mike:mocha
 manuel:viewmodel-explorer
 zodern:nice-reload
+mike:mocha
