@@ -217,6 +217,23 @@ if typeof MochaWeb isnt 'undefined'
           Global.delay 100, ->
             chai.assert.equal 'Bob', vm.name()
             done()
+        it "should ignore non-character keypress", (done) ->
+          e = jQuery.Event("keypress")
+          e.keyCode = $.ui.keyCode.LEFT
+          e.which = 0
+          input.trigger(e)
+          Global.delay 10, ->
+            chai.assert.equal 'John', vm.name()
+            done()
+        it "should ignore backspace on empty input", (done) ->
+          input.val ''
+          e = jQuery.Event("keypress")
+          e.keyCode = $.ui.keyCode.BACKSPACE
+          e.which = 8
+          input.trigger(e)
+          Global.delay 10, ->
+            chai.assert.equal '', vm.name()
+            done()
         it "should change vm value when input changes via input", (done) ->
           input.val 'Bob'
           input.trigger 'input'
