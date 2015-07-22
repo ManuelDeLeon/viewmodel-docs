@@ -141,7 +141,7 @@ if typeof MochaWeb isnt 'undefined'
             changeEnter: -> @enterPressed true
           vm.bind template
         it "should call method upon return key", (done) ->
-          e = jQuery.Event("keypress")
+          e = jQuery.Event("keyup")
           e.which = 13
           e.keyCode = 13
           input.trigger(e)
@@ -211,14 +211,14 @@ if typeof MochaWeb isnt 'undefined'
           Global.delay 1, ->
             chai.assert.equal 'Bob', input.val()
             done()
-        it "should change vm value when input changes via keypress", (done) ->
+        it "should change vm value when input changes via keyup", (done) ->
           input.val 'Bob'
-          input.trigger 'keypress'
+          input.trigger 'keyup'
           Global.delay 100, ->
             chai.assert.equal 'Bob', vm.name()
             done()
-        it "should ignore non-character keypress", (done) ->
-          e = jQuery.Event("keypress")
+        it "should ignore non-character keyup", (done) ->
+          e = jQuery.Event("keyup")
           e.keyCode = $.ui.keyCode.LEFT
           e.which = 0
           input.trigger(e)
@@ -227,7 +227,7 @@ if typeof MochaWeb isnt 'undefined'
             done()
         it "should ignore backspace on empty input", (done) ->
           input.val ''
-          e = jQuery.Event("keypress")
+          e = jQuery.Event("keyup")
           e.keyCode = $.ui.keyCode.BACKSPACE
           e.which = 8
           input.trigger(e)
@@ -258,23 +258,23 @@ if typeof MochaWeb isnt 'undefined'
             chai.assert.equal 'Bob', vm.toJS().name
             done()
 
-        it "should not delay toJS when input changes via keypress", (done) ->
+        it "should not delay toJS when input changes via keyup", (done) ->
           input.val 'Bob'
-          input.trigger 'keypress'
+          input.trigger 'keyup'
           Global.delay 1, ->
             chai.assert.equal 'Bob', vm.toJS().name
             done()
 
-        it "should delay _vm_toJS when input changes via keypress before 500ms", (done) ->
+        it "should delay _vm_toJS when input changes via keyup before 500ms", (done) ->
           input.val 'Bob'
-          input.trigger 'keypress'
+          input.trigger 'keyup'
           Global.delay 1, ->
             chai.assert.equal 'John', vm._vm_toJS().name
             done()
 
-        it "should delay _vm_toJS when input changes via keypress after 500ms", (done) ->
+        it "should delay _vm_toJS when input changes via keyup after 500ms", (done) ->
           input.val 'Bob'
-          input.trigger 'keypress'
+          input.trigger 'keyup'
           Global.delay 1000, ->
             chai.assert.equal 'Bob', vm._vm_toJS().name
             done()
@@ -297,9 +297,9 @@ if typeof MochaWeb isnt 'undefined'
             Global.delay 1, ->
               chai.assert.equal 'Bob', input.val()
               done()
-        it "should change vm value when input changes via keypress", (done) ->
+        it "should change vm value when input changes via keyup", (done) ->
           input.val 'Bob'
-          input.trigger 'keypress'
+          input.trigger 'keyup'
           Global.delay 100, ->
             chai.assert.equal 'Bob', vm.name()
             done()
@@ -758,15 +758,13 @@ if typeof MochaWeb isnt 'undefined'
           Global.delay 1, ->
             chai.assert.equal 'Bob', input.val()
             done()
-        it "should not change vm value immediately", (done) ->
+        it "should not change vm value immediately", ->
           input.val 'Bob'
-          input.trigger 'keypress'
-          Global.delay 1, ->
-            chai.assert.notEqual 'Bob', vm.name()
-            done()
+          input.trigger 'keyup'
+          chai.assert.notEqual 'Bob', vm.name()
         it "should change vm value later", (done) ->
           input.val 'Bob'
-          input.trigger 'keypress'
+          input.trigger 'keyup'
           Global.delay 500, ->
             chai.assert.equal 'Bob', vm.name()
             done()
@@ -781,7 +779,7 @@ if typeof MochaWeb isnt 'undefined'
             changeEnter: -> @enterPressed true
           vm.bind template
         it "should call method upon return key immediately", (done) ->
-          e = jQuery.Event("keypress")
+          e = jQuery.Event("keyup")
           e.which = 13
           e.keyCode = 13
           input.trigger(e)
