@@ -1,0 +1,83 @@
+template(name='dataContext')
+  a.bookmark(id='dataContextBk')
+  .section
+    h1 Passing data contexts from template to template
+    p For parent/child templates you don't need to do anything special, you can just call a parent's method or property from the child using .parent().
+    h3 Example
+    pre.
+      Template.parentItems.viewmodel({
+        items: function() {
+          return Items.find();
+        },
+        selected: null
+      });
+      Template.childItem.viewmodel({
+        select: function() {
+          this.parent().selected(this._id());
+        }
+      });
+    p Sometimes you need more than that. Sometimes you need to pass a data context across multiple template levels. In those cases it's very cumbersome to use `this.parent().parent().parent().property()` so you should pass the properties and functions as template parameters.
+    h3 Example
+    p We have the template hierarchy of A > B > C and we want C to use a property of A
+    p Template A
+    pre.
+      &lt;template name="A">
+        Selected: &lt;span data-bind="text: selected">&lt;/span>
+        &#123;&#123;> B context}} &lt;!-- Call B and pass the context -->
+      &lt;/template>
+
+      Template.A.viewModel({
+        selected: 0,
+        context: function() {
+          return {
+            selected: this.selected // Pass the property by reference, not by value
+          }
+        }
+      }, 'context');
+
+    p Template B
+    pre.
+      &lt;template name="B">
+        &#123;&#123;> C context}} &lt;!-- Call C and pass the context -->
+      &lt;/template>
+
+      Template.B.viewModel(
+        function(context) {
+          // Add all properties of the context to this view model
+          // In this case it's only the selected property
+          return context;
+        },
+        {
+          context: function() {
+            return {
+              selected: this.selected // Pass the property by reference, not by value
+            }
+          }
+        },
+        'context'
+      );
+
+    p Template C
+    pre.
+      &lt;template name="C">
+        &lt;!-- Use selected property from A -->
+        Selected in A: &lt;span data-bind="text: selected">&lt;/span>
+      &lt;/template>
+
+      Template.C.viewModel(
+        function(context) {
+          // Add all properties of the context to this view model
+          // In this case it's only the selected property
+          return context;
+        }
+      );
+
+    h3 A tree of templates
+    p Just like you can share properties within one branch (e.g. A > B > C) you can also share the properties between different branches. For example, say you have to following template tree:
+    pre.
+      A
+        B1
+          C1
+        B2
+          C2
+    p And now you want C2 to access a property of C1. You have two choices. The simplest thing is to call `ViewModel.byId("C1").property()` from C2. If that's not your cup of tea you can always move the property to their common ancestor (in this case template A) and then pass the property as part of the context for both B1 and B2, and they would pass the property to both C1 and C2.
