@@ -1,0 +1,19 @@
+template(name='stateOnUrl')
+  a.bookmark(id='stateOnUrlBk')
+  .section
+    h1 State on the URL
+    p ViewModel allows you to save the state of the UI on the URL. That means if the user refreshes the page or copy/pastes the URL, their state is preserved. To do this use the 'onUrl' property and pass a string with the name of the property you want on the URL or an array with the names you want on the URL.
+    pre.
+      onUrl: 'propertyToSaveOnUrl'
+    pre.
+      onUrl: ['property_1_ToSaveOnUrl','property_2_ToSaveOnUrl', ...]
+    h2 Example
+    pre.
+      Template.home.viewmodel({
+        selection: 0,
+        onUrl: 'selection'
+      });
+    p The URL address will be updated automatically as the selection changes.
+    p Note: ViewModel is compatible down to IE8 (same as Meteor) but this particular piece of functionality is only available to modern browsers (IE10+)
+    p
+      iframe(width='853', height='480', src='//www.youtube.com/embed/rxbGf2c0cj0', frameborder='0', allowfullscreen='')
