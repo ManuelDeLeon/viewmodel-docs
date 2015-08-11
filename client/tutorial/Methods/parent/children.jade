@@ -4,4 +4,16 @@ template(name='children')
     h1 .children()
     p Returns an array of view models directly below the current one.
     pre.
+      viewmodel.children( [name or bool predicate] )
+
+    p Without any parameters .children returns all view models directly below the current one.
+    pre.
       viewmodel.children()
+
+    p With a string .children returns all view models directly below the current one that are of the given template.
+    pre.
+      viewmodel.children("templateName")
+
+    p You can pass a function that takes a view model and returns a boolean value. .children will return all sub view models that return true when passed to the function.
+    pre.
+      viewmodel.children(function(vm) { return vm.property() === 1 })
