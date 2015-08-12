@@ -6,7 +6,7 @@ template(name='compCommunication')
     h3 ViewModel.byId
     pre.
       ViewModel.byId( viewmodelName )
-    p Returns the view model with the given name. Returns undefined if the view model doesn't exist or isn't loaded.
+    p Returns the view model with the given name. Returns undefined if the view model doesn't exist or isn't loaded. byId will also try to return the first view model with the given template. That way you don't have to give a name to the view model when you use a template once. You can just call .byId and pass the name of the template.
     h3 ViewModel.byTemplate
     pre.
       ViewModel.byTemplate( templateName )
