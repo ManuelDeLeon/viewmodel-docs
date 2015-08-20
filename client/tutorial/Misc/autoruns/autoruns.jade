@@ -1,0 +1,46 @@
+template(name='autoruns')
+  a.bookmark(id='autorunsBk')
+  .section
+    h1 autorun
+    p You can easily add one or more autoruns when you declare your view models. To add a single one just add an 'autorun' property with the desired function.
+    pre.
+      Template.body.viewmodel({
+        name: '',
+        autorun: function() {
+          console.log("The name is now: " + this.name());
+        }
+      });
+
+    p To add multiple autoruns you can use an array of fuctions or declare the view model with multiple objects:
+
+    pre.
+      Template.body.viewmodel({
+        name: '',
+        age: 0,
+        autorun: [
+          function() {
+            console.log("The name is now: " + this.name());
+          },
+          function() {
+            console.log("The age is now: " + this.age());
+          }
+        ]
+      });
+
+    pre.
+      Template.body.viewmodel(
+        {
+          name: '',
+          age: 0
+        },
+        {
+          autorun: function() {
+            console.log("The name is now: " + this.name());
+          }
+        },
+        {
+          autorun: function() {
+            console.log("The age is now: " + this.age());
+          }
+        }
+      );
