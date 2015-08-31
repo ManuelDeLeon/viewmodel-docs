@@ -22,69 +22,56 @@ template(name="objectArraySingle")
     h3 Code
     ul.nav.nav-pills
       li
-        a(href="#stringArraySingle-jade", data-toggle="tab") Jade
+        a(href="#objectArraySingle-jade", data-toggle="tab") Jade
       li.active
-        a(href="#stringArraySingle-html", data-toggle="tab") Html
+        a(href="#objectArraySingle-html", data-toggle="tab") Html
     div.tab-content
-      div#stringArraySingle-jade.tab-pane.fade
+      div#objectArraySingle-jade.tab-pane.fade
         pre.
-          template(name='stringArraySingle')
+          template(name='objectArraySingle')
             p
-              <b>select</b>(size="5", data-bind="<b>options: countries, value: selectedCountry</b>")
-              | Selected:
-              span(data-bind="text: selectedCountry")
+              select(size="5", data-bind="options: countries, value: selectedId, optionsValue: id, optionsText: name")
             p
-              input(type="text", data-bind="value: newCountry, returnKey: addCountry", placeholder="New Country...")
-              button.btn.btn-primary(data-bind="click: addCountry") Add Country
+              | Selected id:
+              span(data-bind="text: selectedId")
             p
-              input(type="text", data-bind="value: countryToSelect, returnKey: selectCountry", placeholder="Country To Select...")
-              button.btn.btn-primary(data-bind="click: selectCountry") Select Country
-      div#stringArraySingle-html.tab-pane.fade.active.in
+              | Selected name:
+              span(data-bind="text: selectedName")
+      div#objectArraySingle-html.tab-pane.fade.active.in
         pre.
-          &lt;template name=&quot;stringArraySingle&quot;&gt;
+          &lt;template name=&quot;objectArraySingle&quot;&gt;
             &lt;p&gt;
-              &lt;select size=&quot;5&quot; data-bind=&quot;options: countries, value: selectedCountry&quot;&gt;&lt;/select&gt;
-              Selected:&lt;span data-bind=&quot;text: selectedCountry&quot;&gt;&lt;/span&gt;
+              &lt;select size="5" data-bind="options: countries, value: selectedId, optionsValue: id, optionsText: name"&gt;&lt;/select&gt;
             &lt;/p&gt;
-            &lt;p&gt;
-              &lt;input type=&quot;text&quot; data-bind=&quot;value: newCountry, returnKey: addCountry&quot; placeholder=&quot;New Country...&quot;/&gt;
-              &lt;button data-bind=&quot;click: addCountry&quot; class=&quot;btn btn-primary&quot;&gt;Add Country&lt;/button&gt;
-            &lt;/p&gt;
-            &lt;p&gt;
-              &lt;input type=&quot;text&quot; data-bind=&quot;value: countryToSelect, returnKey: selectCountry&quot; placeholder=&quot;Country To Select...&quot;/&gt;
-              &lt;button data-bind=&quot;click: selectCountry&quot; class=&quot;btn btn-primary&quot;&gt;Select Country&lt;/button&gt;
-            &lt;/p&gt;
+            &lt;p&gt;Selected id:&lt;span data-bind="text: selectedId"&gt;&lt;/span&gt;&lt;/p&gt;
+            &lt;p&gt;Selected name:&lt;span data-bind="text: selectedName"&gt;&lt;/span&gt;&lt;/p&gt;
           &lt;/template&gt;
     ul.nav.nav-pills
       li
-        a(href="#stringArraySingle-coffee", data-toggle="tab") Coffeescript
+        a(href="#objectArraySingle-coffee", data-toggle="tab") Coffeescript
       li.active
-        a(href="#stringArraySingle-js", data-toggle="tab") Javascript
+        a(href="#objectArraySingle-js", data-toggle="tab") Javascript
     div.tab-content
-      div#stringArraySingle-coffee.tab-pane.fade
+      div#objectArraySingle-coffee.tab-pane.fade
         pre.
-          Template.stringArraySingle.viewmodel
-            <b>countries: ['France', 'Germany', 'Spain']</b>
-            <b>selectedCountry: 'Germany'</b>
-            newCountry: ''
-            addCountry: ->
-              @countries().push @newCountry()
-              @newCountry ''
-            countryToSelect: ''
-            selectCountry: -> @selectedCountry @countryToSelect()
+          Template.objectArraySingle.viewmodel
+            countries: [{ id: 1, name: 'France' }, { id: 2, name: 'Germany' }, { id: 3, name: 'Spain' }]
+            selectedId: 2
+            selectedName: -> _.findWhere(this.countries(), { id: Number(this.selectedId()) })?.name
 
-      div#stringArraySingle-js.tab-pane.fade.active.in
+      div#objectArraySingle-js.tab-pane.fade.active.in
         pre.
-          Template.stringArraySingle.viewmodel({
-            countries: ['France', 'Germany', 'Spain'],
-            selectedCountry: 'Germany',
-            newCountry: '',
-            addCountry: function() {
-              this.countries().push(this.newCountry());
-              return this.newCountry('');
-            },
-            countryToSelect: '',
-            selectCountry: function() {
-              return this.selectedCountry(this.countryToSelect());
+          Template.objectArraySingle.viewmodel({
+            countries: [
+              { id: 1, name: 'France' },
+              { id: 2, name: 'Germany' },
+              { id: 3, name: 'Spain' }
+            ],
+            selectedId: 2,
+            selectedName: function() {
+              var ref;
+              return (ref = _.findWhere(this.countries(), {
+                id: Number(this.selectedId())
+              })) != null ? ref.name : void 0;
             }
           });
