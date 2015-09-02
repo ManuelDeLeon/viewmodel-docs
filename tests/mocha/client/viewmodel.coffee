@@ -783,7 +783,7 @@ if typeof MochaWeb isnt 'undefined'
           e.which = 13
           e.keyCode = 13
           input.trigger(e)
-          Global.delay 1, ->
+          Global.delay 10, ->
             chai.assert.isTrue vm.enterPressed()
             done()
 
