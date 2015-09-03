@@ -56,3 +56,73 @@ Template.wife.viewmodel(
 
 
 ```
+
+```js
+bc = { 
+  vm, 
+  getVmValue, // uses converters 
+  setVmValue, // uses converters
+  element, 
+  elementBind, 
+  templateInstance, 
+  bindName,
+  bindObject,
+  converters, 
+  autorun, 
+  
+}
+
+ViewModel.addBind({
+  bindName: 'value',
+  elementSelector: 'input[type=text]',
+  domEvents: {
+    'input change': function() {
+      
+    },
+    'keypress': function() {
+      
+    }
+  },
+  bindIf: function(bc) {
+    return true;
+  },
+  bind: function() {
+    
+  }
+  }
+})
+
+--
+
+ViewModel.addBind({
+  bindName: 'toggle',
+  domEvents: {
+    'click': function(bc) {
+      var vmValue = bc.getVmValue();
+      bc.setVmValue(!vmValue);
+    }
+  }
+  }
+})
+
+--
+
+ViewModel.addBind
+  bindName: 'class'
+  bindIf: (bc) -> _.isString(bc.bindObject)
+  bind: (bc) ->
+    
+    
+ViewModel.addBind
+  bindName: 'class'
+  bindIf: (bc) -> not _.isString(bc.bindObject)
+  bind: (bc) ->
+    for cssClass of bc.bindObject
+      do(cssClass) ->
+        bc.autorun ->
+		  if bc.getVmValue(bc.bindObject[cssClass])
+            p.element.addClass cssClass
+          else
+            p.element.removeClass cssClass
+
+```
