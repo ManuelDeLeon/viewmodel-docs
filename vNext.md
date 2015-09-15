@@ -1,4 +1,5 @@
 ```js
+
 ViewModel.Shared({
   car: {
     color: 'red',
@@ -54,6 +55,14 @@ Template.wife.viewmodel(
   }
 )
 
+Template.person.viewmodel({
+  vmSharedTemplate: {
+    name: ''
+  },
+  vmSharedChildren: {
+    opportunities: []
+  }
+ })
 
 ```
 
