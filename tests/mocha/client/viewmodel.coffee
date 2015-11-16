@@ -643,8 +643,9 @@ if typeof MochaWeb isnt 'undefined'
         beforeEach ->
           vm.extend
             href: '1'
-            title: '2'
-          anchor = $("<a data-bind='attr: { href: href, title: title }'></a>")
+            title:
+              name: '2'
+          anchor = $("<a data-bind='attr: { href: href, title: title.name }'></a>")
           template = $("<div></div>").append(anchor)
           vm.bind template
         it "should set anchor's default attr", ->
@@ -652,10 +653,27 @@ if typeof MochaWeb isnt 'undefined'
           chai.assert.equal '2', anchor.attr('title')
         it "should change anchor's attr when vm changes", (done) ->
           vm.href '11'
-          vm.title '22'
+          vm.title
+            name: '22'
           Global.delay 1, ->
             chai.assert.equal '11', anchor.attr('href')
             chai.assert.equal '22', anchor.attr('title')
+            done()
+
+      describe "href", ->
+        anchor = {}
+        beforeEach ->
+          vm.extend
+            val: '1'
+          anchor = $("<a data-bind='href: val'></a>")
+          template = $("<div></div>").append(anchor)
+          vm.bind template
+        it "should set anchor's default attr", ->
+          chai.assert.equal '1', anchor.attr('href')
+        it "should change anchor's attr when vm changes", (done) ->
+          vm.val '11'
+          Global.delay 1, ->
+            chai.assert.equal '11', anchor.attr('href')
             done()
 
       describe "checked binding", ->
